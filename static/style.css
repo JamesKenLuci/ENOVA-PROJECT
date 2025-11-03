@@ -1,121 +1,187 @@
-/* GLOBAL */
+/* ------------------------------
+   Global Theme
+------------------------------ */
+
 body {
-    font-family: Arial, sans-serif;
     margin: 0;
-    background: linear-gradient(to bottom right, #4a90e2, #004aad);
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: linear-gradient(to bottom, #1e4ed8, #3b82f6);
     color: #fff;
+    min-height: 100vh;
 }
 
-/* NAVBAR */
+h1, h2, h3 {
+    margin: 0;
+    padding: 0;
+    font-weight: 600;
+}
+
+/* ------------------------------
+   Navigation Bar
+------------------------------ */
+
 .navbar {
-    text-align: center;
-    padding: 20px;
-}
-
-/* GRID */
-.dashboard-grid {
-    display: grid;
-    grid-template-columns: 1fr 1.2fr 1fr;
-    gap: 20px;
-    padding: 20px 40px;
-}
-
-/* COLUMNS */
-.column {
+    background: rgba(255, 255, 255, 0.95);
     display: flex;
-    flex-direction: column;
-    gap: 20px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 40px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 
-/* CARDS */
-.card {
-    background: #ffffff;
-    color: #000;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-}
-
-/* FORMS */
-input, select {
-    width: 100%;
-    margin-bottom: 10px;
-    padding: 8px;
-    border-radius: 6px;
-    border: 1px solid #aaa;
-}
-
-.btn {
-    width: 100%;
-    padding: 10px;
-    background: #4a90e2;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-.small {
-    width: auto;
-    padding: 5px 15px;
-}
-
-/* QUICK ADD */
-.quick-container {
+.navbar .logo {
+    font-size: 26px;
+    font-weight: bold;
+    color: #1e3a8a;
     display: flex;
+    align-items: center;
     gap: 10px;
 }
 
-.quick-btn {
-    padding: 10px;
-    background: #4a90e2;
-    border: none;
-    color: #fff;
-    border-radius: 6px;
-    cursor: pointer;
+.navbar ul {
+    list-style: none;
+    display: flex;
+    gap: 30px;
 }
 
-/* TABLE */
-table {
+.navbar ul li a {
+    text-decoration: none;
+    color: #1e3a8a;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.navbar ul li a:hover {
+    color: #3b82f6;
+}
+
+/* ------------------------------
+   Centered Main Container
+------------------------------ */
+
+.container {
+    width: 85%;
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 40px;
+    background: white;
+    color: #1e293b;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+/* ------------------------------
+   Forms
+------------------------------ */
+
+input, textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+    font-size: 15px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background: #1e40af;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    margin-top: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #3b82f6;
+}
+
+/* ------------------------------
+   Section Headers
+------------------------------ */
+
+.section-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #1e40af;
+    text-align: center;
+}
+
+/* ------------------------------
+   Contact form layout
+------------------------------ */
+
+textarea {
+    height: 120px;
+}
+/* Card Boxes */
+.card {
+    background: white;
+    color: #1e293b;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    margin-bottom: 20px;
+}
+
+/* Task Table */
+.task-table {
     width: 100%;
     border-collapse: collapse;
+    margin-top: 15px;
 }
 
-th, td {
-    padding: 8px;
-    border-bottom: 1px solid #ccc;
+.task-table th, .task-table td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
 }
 
-.delete {
-    color: red;
+.delete-btn {
+    color: #dc2626;
+    font-weight: 600;
     text-decoration: none;
 }
 
-/* PROGRESS BAR */
-.progress-bar {
-    width: 100%;
-    height: 10px;
-    background: #ddd;
-    border-radius: 5px;
+.delete-btn:hover {
+    color: #ef4444;
 }
-.progress {
-    height: 10px;
-    background: #4caf50;
-    border-radius: 5px;
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
 }
 
-.urgent {
-    color: red;
-    font-weight: bold;
+.subject-list {
+    list-style: none;
+    padding-left: 0;
 }
 
-/* FOOTER */
-.logout-box {
-    text-align: center;
-    padding: 20px;
+.subject-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 15px;
 }
-.logout-link {
-    color: yellow;
-    font-weight: bold;
-    text-decoration: none;
+
+.badge {
+    background: #2563eb;
+    color: white;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+.full-width {
+    grid-column: 1 / -1;
+}
+
+.exam-form input {
+    margin: 5px 0;
 }

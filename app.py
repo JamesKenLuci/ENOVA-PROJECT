@@ -4,20 +4,33 @@ app = Flask(__name__)
 app.secret_key = "minddue_secret"
 
 # ✅ In-memory storage (NO DATABASE)
-users = {}       # { user_id: {"username": "...", "password": "..."} }
-tasks = []       # [ {"user_id": 1, "subject": "...", "title": "...", "deadline": "..."} ]
+users = {}
+tasks = []
+exams = []       # ✅ New: Stores upcoming exams
 next_user_id = 1
 next_task_id = 1
+next_exam_id = 1
 
 
+# ✅ HOME PAGE (Landing Page)
 @app.route("/")
 def home():
-    if "user_id" in session:
-        return redirect("/dashboard")
-    return redirect("/register")
+    return render_template("home.html")
 
 
-# ✅ REGISTER ONLY (no login)
+# ✅ ABOUT PAGE
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
+
+# ✅ CONTACT PAGE
+@app.route("/contact")
+def contact():
+    return render_template("contact.html")
+
+
+# ✅ REGISTER PAGE (auto-login)
 @app.route("/register", methods=["GET", "POST"])
 def register():
     global next_user_id
@@ -26,27 +39,43 @@ def register():
         username = request.form["username"]
         password = request.form["password"]
 
-        # Create user
-        users[next_user_id] = {"username": username, "password": password}
+        users[next_user_id] = {
+            "username": username,
+            "password": password
+        }
 
-        # Auto login
         session["user_id"] = next_user_id
-
         next_user_id += 1
+
         return redirect("/dashboard")
 
     return render_template("register.html")
 
 
-# ✅ DASHBOARD
+# ✅ DASHBOARD PAGE
 @app.route("/dashboard")
 def dashboard():
     if "user_id" not in session:
         return redirect("/register")
 
+    # Tasks for logged-in user
     user_tasks = [t for t in tasks if t["user_id"] == session["user_id"]]
 
-    return render_template("dashboard.html", tasks=user_tasks)
+    # Exams for logged-in user
+    user_exams = [e for e in exams if e["user_id"] == session["user_id"]]
+
+    # ✅ Count tasks per subject
+    subject_counts = {}
+    for t in user_tasks:
+        subject = t["subject"]
+        subject_counts[subject] = subject_counts.get(subject, 0) + 1
+
+    return render_template(
+        "dashboard.html",
+        tasks=user_tasks,
+        exams=user_exams,
+        subject_counts=subject_counts
+    )
 
 
 # ✅ ADD TASK
@@ -70,7 +99,6 @@ def add():
     })
 
     next_task_id += 1
-
     return redirect("/dashboard")
 
 
@@ -78,7 +106,35 @@ def add():
 @app.route("/delete/<int:task_id>")
 def delete(task_id):
     global tasks
-    tasks = [t for t in tasks if not (t["id"] == task_id and t["user_id"] == session["user_id"])]
+
+    tasks = [
+        t for t in tasks
+        if not (t["id"] == task_id and t["user_id"] == session["user_id"])
+    ]
+    return redirect("/dashboard")
+
+
+# ✅ ✅ ADD EXAM (NEW)
+@app.route("/add_exam", methods=["POST"])
+def add_exam():
+    global next_exam_id
+
+    if "user_id" not in session:
+        return redirect("/register")
+
+    subject = request.form["subject"]
+    exam_title = request.form["exam"]
+    date = request.form["date"]
+
+    exams.append({
+        "id": next_exam_id,
+        "user_id": session["user_id"],
+        "subject": subject,
+        "exam": exam_title,
+        "date": date
+    })
+
+    next_exam_id += 1
     return redirect("/dashboard")
 
 
@@ -89,5 +145,6 @@ def logout():
     return redirect("/register")
 
 
+# ✅ RUN APP
 if __name__ == "__main__":
     app.run(debug=True)

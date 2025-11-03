@@ -1,164 +1,105 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>MindDue Dashboard</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
+{% extends "base.html" %}
+{% block content %}
 
-<body>
+<div class="container">
 
-<!-- NAVBAR -->
-<header class="navbar">
-    <h1>🧠 MindDue Dashboard</h1>
-    <p>Welcome! Manage your tasks easily.</p>
-</header>
+    <h1 class="section-title">Dashboard</h1>
+    <p class="section-sub">Your tasks, subjects, and exam schedule in one place.</p>
 
-<!-- GRID LAYOUT -->
-<div class="dashboard-grid">
+    <div class="grid">
 
-    <!-- LEFT COLUMN -->
-    <section class="column left">
-
+        <!-- ✅ Subject Overview -->
         <div class="card">
+            <h2>Subjects Overview</h2>
+
+            {% if subject_counts %}
+                <ul class="subject-list">
+                    {% for subject, count in subject_counts.items() %}
+                    <li>
+                        <strong>{{ subject }}</strong>
+                        <span class="badge">{{ count }} tasks</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No subjects yet. Add a task to begin.</p>
+            {% endif %}
+        </div>
+
+        <!-- ✅ Upcoming Exams -->
+        <div class="card">
+            <h2>Upcoming Exams</h2>
+
+            <form action="/add_exam" method="POST" class="exam-form">
+                <input type="text" name="subject" placeholder="Subject" required>
+                <input type="text" name="exam" placeholder="Exam Title (e.g., Midterm)" required>
+                <input type="date" name="date" required>
+                <button type="submit">Add Exam</button>
+            </form>
+
+            {% if exams|length == 0 %}
+                <p>No exams added yet.</p>
+            {% else %}
+            <table class="task-table">
+                <tr>
+                    <th>Subject</th>
+                    <th>Exam</th>
+                    <th>Date</th>
+                </tr>
+
+                {% for ex in exams %}
+                <tr>
+                    <td>{{ ex.subject }}</td>
+                    <td>{{ ex.exam }}</td>
+                    <td style="color:{% if ex.date <= '2025-02-01' %}red{% endif %};">
+                        {{ ex.date }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% endif %}
+        </div>
+
+        <!-- ✅ Add Task -->
+        <div class="card full-width">
             <h2>Add Task</h2>
+
             <form action="/add" method="POST">
                 <input type="text" name="subject" placeholder="Subject" required>
                 <input type="text" name="title" placeholder="Task Title" required>
                 <input type="date" name="deadline" required>
-                <button type="submit" class="btn">Add Task</button>
+                <button type="submit">Add Task</button>
             </form>
         </div>
 
-        <div class="card">
-            <h3>Quick Add</h3>
-            <div class="quick-container">
-                <input type="text" placeholder="Fast task...">
-                <button class="quick-btn">+</button>
-            </div>
-        </div>
-
-        <div class="card">
-            <h3>Pomodoro Timer</h3>
-            <p id="timer">25:00</p>
-            <button onclick="startPomodoro()" class="btn small">Start</button>
-        </div>
-
-    </section>
-
-
-
-    <!-- MIDDLE COLUMN -->
-    <section class="column middle">
-
-        <div class="card">
-            <h3>📅 Today’s Summary</h3>
-            <p>✅ Due today: <strong>{{ today_count }}</strong></p>
-            <p>⏳ Overdue: <strong>{{ overdue_count }}</strong></p>
-            <p>📝 This week: <strong>{{ week_count }}</strong></p>
-        </div>
-
-        <div class="card">
-            <h3>⏰ Upcoming Deadlines</h3>
-            <ul>
-                {% for task in upcoming %}
-                <li>{{ task.title }} <span class="urgent">({{ task.deadline }})</span></li>
-                {% endfor %}
-            </ul>
-        </div>
-
-        <div class="card">
-            <h3>📊 Productivity Stats</h3>
-            <p>Completed today: <strong>{{ completed_today }}</strong></p>
-            <p>Completion rate: <strong>{{ completion_rate }}%</strong></p>
-
-            <div class="progress-bar">
-                <div class="progress" style="width: {{ completion_rate }}%"></div>
-            </div>
-        </div>
-
-        <div class="card">
-            <h3>💡 Smart Suggestion</h3>
-            <p>{{ suggestion }}</p>
-        </div>
-
-        <div class="card">
-            <h3>🕒 Recent Activity</h3>
-            <ul>
-                {% for act in recent %}
-                <li>{{ act }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-
-    </section>
-
-
-
-    <!-- RIGHT COLUMN -->
-    <section class="column right">
-
-        <div class="card">
-            <h3>📂 Categories</h3>
-            <p>📚 School: {{ school_count }}</p>
-            <p>💼 Work: {{ work_count }}</p>
-            <p>📝 Personal: {{ personal_count }}</p>
-            <p>🧪 Exams: {{ exam_count }}</p>
-            <p>📘 Projects: {{ project_count }}</p>
-        </div>
-
-        <div class="card">
+        <!-- ✅ Your Tasks -->
+        <div class="card full-width">
             <h2>Your Tasks</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Subject</th>
-                        <th>Title</th>
-                        <th>Deadline</th>
-                        <th>Del</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for task in tasks %}
-                    <tr>
-                        <td>{{ task.subject }}</td>
-                        <td>{{ task.title }}</td>
-                        <td>{{ task.deadline }}</td>
-                        <td><a href="/delete/{{ task.id }}" class="delete">✖</a></td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
 
-        <div class="card">
-            <h3>🔥 Top Priority Tasks</h3>
-            <ul>
-                {% for task in priority %}
-                <li>{{ task.title }} — <span class="urgent">{{ task.deadline }}</span></li>
+            {% if tasks|length == 0 %}
+                <p>No tasks added yet.</p>
+            {% else %}
+            <table class="task-table">
+                <tr>
+                    <th>Subject</th>
+                    <th>Task</th>
+                    <th>Deadline</th>
+                    <th>Delete</th>
+                </tr>
+
+                {% for task in tasks %}
+                <tr>
+                    <td>{{ task.subject }}</td>
+                    <td>{{ task.title }}</td>
+                    <td>{{ task.deadline }}</td>
+                    <td><a class="delete-btn" href="/delete/{{ task.id }}">Delete</a></td>
+                </tr>
                 {% endfor %}
-            </ul>
+            </table>
+            {% endif %}
         </div>
 
-        <div class="card">
-            <h3>⏱ Estimated Time Needed</h3>
-            <p>Total workload: <strong>{{ time_needed }} hours</strong></p>
-        </div>
-
-    </section>
-
+    </div>
 </div>
 
-<!-- FOOTER -->
-<div class="logout-box">
-    <a href="/logout" class="logout-link">Logout</a>
-</div>
-
-<script>
-function startPomodoro() {
-    alert("Pomodoro Started (Demo)");
-}
-</script>
-
-</body>
-</html>
+{% endblock %}

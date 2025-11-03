@@ -1,18 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>MindDue | Register</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
+{% extends "base.html" %}
+{% block content %}
 
-<div class="hero">
-    <h1>🧠 MindDue</h1>
-    <p>Create your account</p>
-</div>
-
-<div class="card">
-    <h2>Register</h2>
+<div class="container">
+    <h1 class="section-title">Create Your Account</h1>
 
     <form method="POST">
         <input type="text" name="username" placeholder="Create username" required>
@@ -21,5 +11,4 @@
     </form>
 </div>
 
-</body>
-</html>
+{% endblock %}
