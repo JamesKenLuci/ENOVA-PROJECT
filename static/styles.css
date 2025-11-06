@@ -409,3 +409,57 @@ li {
 .delete-btn:hover {
     background: #ef4444;
 }
+
+/* ------------------------------
+   Profile Section (Single Developer)
+------------------------------ */
+.profile-container {
+    display: flex;
+    justify-content: center; /* center the card horizontally */
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.profile-card {
+    background: rgba(255, 255, 255, 0.18); /* glass effect */
+    backdrop-filter: blur(8px);
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    width: 200px; /* slightly wider for single card */
+    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(255,255,255,0.25);
+    margin: 0 auto; /* center vertically if needed */
+}
+
+.profile-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.35);
+}
+
+.profile-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+/* Full-page background image */
+.bg-body {
+    background: url('{{ url_for("static", filename="img/bg.jpg") }}') no-repeat center center fixed;
+    background-size: cover;
+    min-height: 100vh;
+}
+
+/* Optional overlay for better readability */
+.bg-body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.35);  /* adjust opacity */
+    backdrop-filter: blur(2px);
+    z-index: -1;
+}

@@ -5,11 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>MIND-DUE — {{ title or 'Home' }}</title>
 
-    <!-- ✅ Correct way to load CSS in Flask -->
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 
-<body>
+<body class="bg-body">
 
 <nav class="navbar">
     <div class="logo">MIND-DUE</div>
@@ -22,7 +21,7 @@
     </ul>
 </nav>
 
-<div class="container">
+<div class="container page-content">
     {% block content %}{% endblock %}
 </div>
 
