@@ -1,14 +1,20 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="container">
-    <h1 class="section-title">Contact Us</h1>
+<h1 class="page-title">Contact Us</h1>
 
-    <form>
-        <input type="text" placeholder="Your Name">
-        <input type="email" placeholder="Email Address">
-        <textarea placeholder="Message"></textarea>
-        <button type="submit">Send</button>
+<div class="glass contact-box">
+    <form action="" method="POST">
+        <label>Your Name</label>
+        <input type="text" required>
+
+        <label>Email</label>
+        <input type="email" required>
+
+        <label>Message</label>
+        <textarea required></textarea>
+
+        <button>Send Message</button>
     </form>
 </div>
 

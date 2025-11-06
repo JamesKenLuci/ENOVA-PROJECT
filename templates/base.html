@@ -1,26 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>MindDue</title>
-    <link rel="stylesheet" href="/static/style.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MIND-DUE — {{ title or 'Home' }}</title>
+
+    <!-- ✅ Correct way to load CSS in Flask -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
+
 <body>
 
-    <!-- Navigation -->
-    <div class="navbar">
-        <div class="logo">🧠 MindDue</div>
+<nav class="navbar">
+    <div class="logo">MIND-DUE</div>
+    <ul>
+        <li><a href="{{ url_for('index') }}">Dashboard</a></li>
+        <li><a href="{{ url_for('tasks') }}">Tasks</a></li>
+        <li><a href="{{ url_for('calendar_view') }}">Calendar</a></li>
+        <li><a href="{{ url_for('about') }}">About MindDue</a></li>
+        <li><a href="{{ url_for('contact') }}">Contact Us</a></li>
+    </ul>
+</nav>
 
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="/dashboard">Dashboard</a></li>
-            <li><a href="/contact">Contact</a></li>
-        </ul>
-    </div>
-
-    <!-- Page Content -->
+<div class="container">
     {% block content %}{% endblock %}
+</div>
 
 </body>
 </html>

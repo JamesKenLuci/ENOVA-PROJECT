@@ -1,0 +1,411 @@
+/* ------------------------------
+   Global Theme
+------------------------------ */
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: linear-gradient(to bottom, #1e4ed8, #3b82f6);
+    color: #fff;
+    min-height: 100vh;
+}
+
+h1, h2, h3 {
+    margin: 0;
+    padding: 0;
+    font-weight: 600;
+}
+
+/* ------------------------------
+   Navigation Bar
+------------------------------ */
+
+.navbar {
+    background: rgba(255, 255, 255, 0.95);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 40px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.navbar .logo {
+    font-size: 26px;
+    font-weight: bold;
+    color: #1e3a8a;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+}
+
+.navbar ul li a {
+    text-decoration: none;
+    color: #1e3a8a;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.navbar ul li a:hover {
+    color: #3b82f6;
+}
+
+/* ------------------------------
+   Centered Main Container
+------------------------------ */
+
+.container {
+    width: 85%;
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 40px;
+    background: white;
+    color: #1e293b;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+/* ------------------------------
+   Forms
+------------------------------ */
+
+input, textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+    font-size: 15px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background: #1e40af;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    margin-top: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #3b82f6;
+}
+
+/* ------------------------------
+   Section Headers
+------------------------------ */
+
+.section-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #1e40af;
+    text-align: center;
+}
+
+/* ------------------------------
+   Contact form layout
+------------------------------ */
+
+textarea {
+    height: 120px;
+}
+
+/* Card Boxes */
+.card {
+    background: white;
+    color: #1e293b;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    margin-bottom: 20px;
+}
+
+/* Task Table */
+.task-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.task-table th, .task-table td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+.delete-btn {
+    color: #dc2626;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.delete-btn:hover {
+    color: #ef4444;
+}
+
+.task-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.edit-btn {
+    background: #2563eb;
+    padding: 8px 14px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #fff;
+    font-weight: 600;
+    transition: 0.3s;
+}
+.edit-btn:hover {
+    background: #3b82f6;
+}
+
+.delete-btn {
+    background: #dc2626;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.delete-btn:hover {
+    background: #ef4444;
+}
+
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
+}
+
+.subject-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.subject-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 15px;
+}
+
+.badge {
+    background: #2563eb;
+    color: white;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+.full-width {
+    grid-column: 1 / -1;
+}
+
+.exam-form input {
+    margin: 5px 0;
+}
+
+.hero-section {
+    background: url('{{ url_for('static', filename="img/homepage_bg.jpg") }}');
+    background-size: cover;
+    background-position: center;
+    padding: 120px 20px;
+    color: white;
+    text-align: center;
+}
+/* ----------------------------------------------------
+   AI TECH BACKGROUND
+---------------------------------------------------- */
+.bg-image {
+    background: url('../img/bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -3;
+}
+
+.bg-overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0, 8, 25, 0.55);
+    backdrop-filter: blur(5px);
+    z-index: -2;
+}
+
+/* ----------------------------------------------------
+   GLOBAL TEXT + TYPOGRAPHY
+---------------------------------------------------- */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: #e9f2ff;
+}
+
+h1 {
+    font-size: 38px;
+    margin-bottom: 15px;
+    font-weight: 700;
+    text-shadow: 0 0 10px rgba(0,150,255,0.4);
+}
+
+h2 {
+    font-size: 22px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #8cd3ff;
+}
+
+/* ----------------------------------------------------
+   NAVBAR — FIXED AT TOP ✅
+---------------------------------------------------- */
+.navbar {
+    position: fixed;
+    top: 15px;          /* fixed */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    padding: 12px 25px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.93);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+    z-index: 20;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: 800;
+    color: #0a1e3f;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 22px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #0a1e3f;
+    font-weight: 600;
+    transition: 0.25s;
+}
+
+.nav-links a:hover {
+    color: #007bff;
+    text-shadow: 0 0 6px rgba(0,150,255,0.7);
+}
+
+/* ----------------------------------------------------
+   PAGE CONTENT — FIXED SPACING ✅
+---------------------------------------------------- */
+.page-content {
+    width: 92%;
+    max-width: 1000px;
+    margin: 110px auto 40px auto;   /* pushed up */
+}
+
+/* ----------------------------------------------------
+   GLASS CARDS — NORMAL SIZE ✅
+---------------------------------------------------- */
+.card {
+    background: rgba(255,255,255,0.18);
+    padding: 20px 25px;
+    border-radius: 15px;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.25);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.25);
+    margin-bottom: 18px;
+    animation: fadeIn 0.5s ease;
+}
+
+/* ----------------------------------------------------
+   DASHBOARD GRID — NORMAL SIZE ✅
+---------------------------------------------------- */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+/* ----------------------------------------------------
+   LISTS
+---------------------------------------------------- */
+ul {
+    padding-left: 20px;
+    margin: 8px 0;
+}
+
+li {
+    padding: 4px 0;
+    opacity: 0.9;
+}
+
+/* ----------------------------------------------------
+   ANIMATIONS
+---------------------------------------------------- */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+.task-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.edit-btn {
+    background: #2563eb;
+    padding: 8px 14px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #fff;
+    font-weight: 600;
+    transition: 0.3s;
+}
+.edit-btn:hover {
+    background: #3b82f6;
+}
+
+.delete-btn {
+    background: #dc2626;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.delete-btn:hover {
+    background: #ef4444;
+}

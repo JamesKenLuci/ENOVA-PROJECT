@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1 class="page-title">Dashboard Overview</h1>
+
+<div class="dashboard-grid">
+
+    <div class="dash-card glass">
+        <h2>Total Tasks</h2>
+        <p class="dash-number">{{ total }}</p>
+    </div>
+
+    <div class="dash-card glass">
+        <h2>Completed</h2>
+        <p class="dash-number">{{ done }}</p>
+    </div>
+
+    <div class="dash-card glass">
+        <h2>Overdue</h2>
+        <p class="dash-number red">{{ overdue }}</p>
+    </div>
+
+</div>
+
+<h2 class="section-title">Upcoming Deadlines</h2>
+
+<div class="task-list">
+    {% for t in upcoming %}
+    <div class="task-card glass">
+        <h3>{{ t.title }}</h3>
+        <p><strong>Due:</strong> {{ t.due_date.strftime("%b %d, %Y") }}</p>
+    </div>
+    {% else %}
+    <p>No upcoming tasks.</p>
+    {% endfor %}
+</div>
+
+{% endblock %}

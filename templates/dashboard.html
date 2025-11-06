@@ -1,105 +1,33 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% block content %}
+<h1>Dashboard</h1>
 
-<div class="container">
+<section class="stats">
+  <div class="card">Total Tasks<br><strong>{{ total }}</strong></div>
+  <div class="card">Done Tasks<br><strong>{{ done }}</strong></div>
+  <div class="card">Overdue<br><strong>{{ overdue }}</strong></div>
+</section>
 
-    <h1 class="section-title">Dashboard</h1>
-    <p class="section-sub">Your tasks, subjects, and exam schedule in one place.</p>
+<section class="pane">
+  <h2>Upcoming Deadlines</h2>
+  <ul>
+    {% for t in upcoming %}
+      <li>{{ t.due_date.strftime('%Y-%m-%d %H:%M') if t.due_date else 'No date' }} — {{ t.title }}</li>
+    {% else %}
+      <li>No upcoming deadlines.</li>
+    {% endfor %}
+  </ul>
+</section>
 
-    <div class="grid">
-
-        <!-- ✅ Subject Overview -->
-        <div class="card">
-            <h2>Subjects Overview</h2>
-
-            {% if subject_counts %}
-                <ul class="subject-list">
-                    {% for subject, count in subject_counts.items() %}
-                    <li>
-                        <strong>{{ subject }}</strong>
-                        <span class="badge">{{ count }} tasks</span>
-                    </li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p>No subjects yet. Add a task to begin.</p>
-            {% endif %}
-        </div>
-
-        <!-- ✅ Upcoming Exams -->
-        <div class="card">
-            <h2>Upcoming Exams</h2>
-
-            <form action="/add_exam" method="POST" class="exam-form">
-                <input type="text" name="subject" placeholder="Subject" required>
-                <input type="text" name="exam" placeholder="Exam Title (e.g., Midterm)" required>
-                <input type="date" name="date" required>
-                <button type="submit">Add Exam</button>
-            </form>
-
-            {% if exams|length == 0 %}
-                <p>No exams added yet.</p>
-            {% else %}
-            <table class="task-table">
-                <tr>
-                    <th>Subject</th>
-                    <th>Exam</th>
-                    <th>Date</th>
-                </tr>
-
-                {% for ex in exams %}
-                <tr>
-                    <td>{{ ex.subject }}</td>
-                    <td>{{ ex.exam }}</td>
-                    <td style="color:{% if ex.date <= '2025-02-01' %}red{% endif %};">
-                        {{ ex.date }}
-                    </td>
-                </tr>
-                {% endfor %}
-            </table>
-            {% endif %}
-        </div>
-
-        <!-- ✅ Add Task -->
-        <div class="card full-width">
-            <h2>Add Task</h2>
-
-            <form action="/add" method="POST">
-                <input type="text" name="subject" placeholder="Subject" required>
-                <input type="text" name="title" placeholder="Task Title" required>
-                <input type="date" name="deadline" required>
-                <button type="submit">Add Task</button>
-            </form>
-        </div>
-
-        <!-- ✅ Your Tasks -->
-        <div class="card full-width">
-            <h2>Your Tasks</h2>
-
-            {% if tasks|length == 0 %}
-                <p>No tasks added yet.</p>
-            {% else %}
-            <table class="task-table">
-                <tr>
-                    <th>Subject</th>
-                    <th>Task</th>
-                    <th>Deadline</th>
-                    <th>Delete</th>
-                </tr>
-
-                {% for task in tasks %}
-                <tr>
-                    <td>{{ task.subject }}</td>
-                    <td>{{ task.title }}</td>
-                    <td>{{ task.deadline }}</td>
-                    <td><a class="delete-btn" href="/delete/{{ task.id }}">Delete</a></td>
-                </tr>
-                {% endfor %}
-            </table>
-            {% endif %}
-        </div>
-
-    </div>
-</div>
+<section class="pane">
+  <h2>Not Yet Done Tasks</h2>
+  <ul>
+    {% for t in not_done %}
+      <li>{{ t.title }} — {{ t.subject or 'General' }} — {{ t.priority }}</li>
+    {% else %}
+      <li>No pending tasks.</li>
+    {% endfor %}
+  </ul>
+</section>
 
 {% endblock %}
