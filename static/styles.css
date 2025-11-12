@@ -463,3 +463,45 @@ li {
     backdrop-filter: blur(2px);
     z-index: -1;
 }
+
+.form-box {
+  width: 400px;
+  margin: 30px auto;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  backdrop-filter: blur(8px);
+}
+
+.form-box form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-box label {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.form-box input {
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  margin-top: 5px;
+}
+
+.form-box button {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #3b82f6;
+  border: none;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.form-box button:hover {
+  background-color: #2563eb;
+}
+

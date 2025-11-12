@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>MIND-DUE — {{ title or 'Home' }}</title>
+    <title>REMIND-DUE — {{ title or 'Home' }}</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
@@ -11,15 +11,23 @@
 <body class="bg-body">
 
 <nav class="navbar">
-    <div class="logo">MIND-DUE</div>
+    <div class="logo">REMIND-DUE</div>
     <ul>
         <li><a href="{{ url_for('index') }}">Dashboard</a></li>
         <li><a href="{{ url_for('tasks') }}">Tasks</a></li>
         <li><a href="{{ url_for('calendar_view') }}">Calendar</a></li>
-        <li><a href="{{ url_for('about') }}">About MindDue</a></li>
+        <li><a href="{{ url_for('about') }}">About RemindDue</a></li>
         <li><a href="{{ url_for('contact') }}">Contact Us</a></li>
+
+        {% if 'user_id' in session %}
+            <li><a href="{{ url_for('logout') }}">Logout ({{ session['username'] }})</a></li>
+        {% else %}
+            <li><a href="{{ url_for('login') }}">Login</a></li>
+            <li><a href="{{ url_for('register') }}">Register</a></li>
+        {% endif %}
     </ul>
 </nav>
+
 
 <div class="container page-content">
     {% block content %}{% endblock %}
