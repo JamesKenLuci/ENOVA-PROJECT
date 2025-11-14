@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Removed inline <style> block -->
+</head>
+<body>
+    <div class="container">
+
+        <!-- HEADER BLOCK: Logo and Navigation -->
+        <header class="main-header">
+            <div class="header-content">
+                <!-- Left: Logo/Title -->
+                <h1 class="logo-title">
+                    <span class="icon">📅</span> Professional Event Manager
+                </h1>
+
+                <!-- Center: Primary Navigation Menu -->
+                <nav class="nav-menu">
+                    <a href="{{ url_for('index') }}">Home</a>
+                    <a href="{{ url_for('services_placeholder') }}">Services</a>
+                    <a href="{{ url_for('gallery_placeholder') }}">Gallery</a>
+                    <a href="{{ url_for('packages_placeholder') }}">Packages</a>
+                    <a href="{{ url_for('contact_placeholder') }}">Contact</a>
+                </nav>
+
+                <!-- Right: User Status and Logout -->
+                <div class="user-status">
+                    <p class="welcome-message">
+                        Welcome, **{{ current_user.username }}** (Role: **{{ current_user.role.upper() }}**)
+                    </p>
+                    <a href="{{ url_for('logout') }}" class="logout-link">Log Out</a>
+                </div>
+            </div>
+        </header>
+
+        <main class="content-area">
+            <div class="detail-content">
+
+                <!-- === CONTENT SWITCHING LOGIC === -->
+
+                {% if title == 'Services' %}
+                    <!-- SERVICES CONTENT -->
+                    <h1>🛠️ {{ title }}</h1>
+                    <p style="margin-bottom: 30px; font-size: 1.1rem; color: #555;">
+                        We offer a comprehensive suite of planning and execution services to ensure your event is seamless, beautiful, and stress-free.
+                    </p>
+
+                    <div class="service-list">
+                        <!-- Classes applied for clean, external styling -->
+                        <div class="detail-item">
+                            <strong class="service-title">&#x2022; Event Planning</strong>
+                            <p>
+                                From concept development and budget management to vendor sourcing and contract negotiation, we handle all foundational logistics.
+                            </p>
+                        </div>
+                        <div class="detail-item">
+                            <strong class="service-title">&#x2022; Coordination</strong>
+                            <p>
+                                Day-of and month-of coordination to ensure every schedule, setup, and teardown detail is executed perfectly, allowing you to relax and enjoy your day.
+                            </p>
+                        </div>
+                        <div class="detail-item">
+                            <strong class="service-title">&#x2022; Styling</strong>
+                            <p>
+                                Creative direction, thematic design, and decor execution, including floral arrangements, lighting, and custom installations for a stunning visual experience.
+                            </p>
+                        </div>
+                        <div class="detail-item">
+                            <strong class="service-title">&#x2022; Full Management</strong>
+                            <p>
+                                The all-inclusive package, covering every aspect from the initial idea to the final guest departure. This is a truly hands-off experience for the client.
+                            </p>
+                        </div>
+                    </div>
+
+                {% elif title == 'Gallery' %}
+                    <!-- GALLERY CONTENT -->
+                    <h1>📸 {{ title }}</h1>
+                    <p style="margin-bottom: 30px; font-size: 1.1rem; color: #555; text-align: center;">
+                        A peek into the beautiful events we have planned and managed.
+                    </p>
+
+                    <div class="grid-container gallery-grid">
+                        <div class="gallery-item">
+                            <img src="https://placehold.co/400x250/C9AD8D/ffffff?text=Elegant+Wedding" alt="Wedding" onerror="this.onerror=null; this.src='https://placehold.co/400x250/C9AD8D/ffffff?text=Image+Load+Error';">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://placehold.co/400x250/3E8EDE/ffffff?text=Corporate+Dinner" alt="Corporate Dinner" onerror="this.onerror=null; this.src='https://placehold.co/400x250/3E8EDE/ffffff?text=Image+Load+Error';">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://placehold.co/400x250/A88F72/ffffff?text=Birthday+Party" alt="Birthday Party" onerror="this.onerror=null; this.src='https://placehold.co/400x250/A88F72/ffffff?text=Image+Load+Error';">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://placehold.co/400x250/F2E9E4/333333?text=Grand+Gala" alt="Grand Gala" onerror="this.onerror=null; this.src='https://placehold.co/400x250/F2E9E4/333333?text=Image+Load+Error';">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://placehold.co/400x250/D7C4BB/333333?text=Outdoor+Event" alt="Outdoor Event" onerror="this.onerror=null; this.src='https://placehold.co/400x250/D7C4BB/333333?text=Image+Load+Error';">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://placehold.co/400x250/C9AD8D/ffffff?text=Product+Launch" alt="Product Launch" onerror="this.onerror=null; this.src='https://placehold.co/400x250/C9AD8D/ffffff?text=Image+Load+Error';">
+                        </div>
+                    </div>
+
+                {% elif title == 'Packages' %}
+                    <!-- PACKAGES CONTENT -->
+                    <h1>💰 {{ title }}</h1>
+                    <p style="margin-bottom: 30px; font-size: 1.1rem; color: #555; text-align: center;">
+                        Choose the event management tier that best suits your needs and budget.
+                    </p>
+
+                    <div class="grid-container packages-grid">
+                        <!-- Package 1: Bronze -->
+                        <div class="package-card">
+                            <h2 class="package-title">Bronze Tier</h2>
+                            <p class="package-price">$1,500<small>/event</small></p>
+                            <ul class="package-features">
+                                <li>Initial consultation and theme development</li>
+                                <li>Venue research and shortlist (up to 3)</li>
+                                <li>Vendor recommendation list</li>
+                                <li>Detailed event checklist</li>
+                            </ul>
+                            <a href="{{ url_for('contact_placeholder') }}" class="button package-button">Select Bronze</a>
+                        </div>
+
+                        <!-- Package 2: Gold (Highlight) -->
+                        <div class="package-card highlight">
+                            <h2 class="package-title">✨ Gold Tier</h2>
+                            <p class="package-price">$4,900<small>/event</small></p>
+                            <ul class="package-features">
+                                <li>**Full Management** and execution</li>
+                                <li>Custom budgeting and payment tracking</li>
+                                <li>**Day-of Coordination** (2 staff members)</li>
+                                <li>Design and decor sourcing</li>
+                                <li>Unlimited calls and meetings</li>
+                            </ul>
+                            <a href="{{ url_for('contact_placeholder') }}" class="button package-button">Select Gold</a>
+                        </div>
+
+                        <!-- Package 3: Silver -->
+                        <div class="package-card">
+                            <h2 class="package-title">Silver Tier</h2>
+                            <p class="package-price">$2,800<small>/event</small></p>
+                            <ul class="package-features">
+                                <li>All Bronze features included</li>
+                                <li>Contract review and negotiation</li>
+                                <li>Timeline creation and management</li>
+                                <li>Month-of check-in and finalization</li>
+                            </ul>
+                            <a href="{{ url_for('contact_placeholder') }}" class="button package-button">Select Silver</a>
+                        </div>
+                    </div>
+
+                {% elif title == 'Contact' %}
+                    <!-- CONTACT CONTENT -->
+                    <h1>📞 {{ title }}</h1>
+                    <p style="margin-bottom: 30px; font-size: 1.1rem; color: #555; text-align: center;">
+                        We'd love to hear about your event. Please fill out the form below and we'll be in touch within 24 hours.
+                    </p>
+
+                    <form class="contact-form" action="#" method="POST">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" name="name" placeholder="John Doe" required>
+
+                        <label for="email">Your Email</label>
+                        <input type="email" id="email" name="email" placeholder="john.doe@example.com" required>
+
+                        <label for="event_type">Type of Event</label>
+                        <input type="text" id="event_type" name="event_type" placeholder="e.g., Wedding, Corporate Gala, Birthday" required>
+
+                        <label for="message">Your Message / Event Details</label>
+                        <textarea id="message" name="message" rows="5" placeholder="Tell us about your event vision, date, and estimated guest count..." required></textarea>
+
+                        <button type="submit" class="button">Submit Inquiry</button>
+                        <p style="text-align: center; margin-top: 15px; font-size: 0.9rem; color: #777;">
+                            (Note: This is a placeholder form and does not currently send email.)
+                        </p>
+                    </form>
+
+                {% else %}
+                    <!-- DEFAULT / ERROR CONTENT -->
+                    <h1>{{ title }} (Content Coming Soon)</h1>
+                    <p>This page is currently under development. Please check back later!</p>
+                {% endif %}
+
+                <div style="margin-top: 40px; text-align: center;">
+                    <a href="{{ url_for('index') }}" class="back-btn button">Back to Dashboard</a>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

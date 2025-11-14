@@ -162,6 +162,25 @@ def logout():
 
 # --- 6. Event Management Routes ---
 
+def get_event_by_id(event_id):
+    """Fetches a single event by ID."""
+    conn = get_db_connection()
+    event = conn.execute('SELECT * FROM events WHERE id = ?', (event_id,)).fetchone()
+    conn.close()
+    return event
+
+
+@app.route('/event/<int:event_id>')
+@login_required
+def event_detail(event_id):
+    """Displays the detail page for a single event."""
+    event = get_event_by_id(event_id)
+    if event is None:
+        flash('Event not found.', 'danger')
+        return redirect(url_for('index'))
+    return render_template('event_detail.html', event=event)
+
+
 @app.route('/')
 @login_required
 def index():
@@ -199,6 +218,42 @@ def add_event():
     return redirect(url_for('index'))
 
 
+@app.route('/edit_event/<int:event_id>', methods=('GET', 'POST'))
+@login_required
+def edit_event(event_id):
+    event = get_event_by_id(event_id)
+    if event is None:
+        flash('Event not found.', 'danger')
+        return redirect(url_for('index'))
+
+    if current_user.role != 'admin':
+        flash('Permission denied. Only admins can edit events.', 'warning')
+        return redirect(url_for('index'))
+
+    if request.method == 'POST':
+        title = request.form['title']
+        date = request.form['date']
+        time = request.form['time']
+        location = request.form['location']
+        description = request.form['description']
+
+        if not title or not date or not location:
+            flash('Missing required fields.', 'danger')
+            return redirect(url_for('edit_event', event_id=event_id))
+
+        conn = get_db_connection()
+        conn.execute(
+            'UPDATE events SET title = ?, date = ?, time = ?, location = ?, description = ? WHERE id = ?',
+            (title, date, time, location, description, event_id)
+        )
+        conn.commit()
+        conn.close()
+        flash('Event updated successfully!', 'success')
+        return redirect(url_for('index'))
+
+    return render_template('edit_event.html', event=event)
+
+
 @app.route('/delete_event/<int:event_id>', methods=('POST',))
 @login_required
 def delete_event(event_id):
@@ -214,6 +269,32 @@ def delete_event(event_id):
     return redirect(url_for('index'))
 
 
-# --- 7. Run Server ---
+# --- 7. Navigation Placeholder Routes ---
+
+@app.route('/services')
+@login_required
+def services_placeholder():
+    return render_template('placeholder.html', title="Our Services")
+
+
+@app.route('/gallery')
+@login_required
+def gallery_placeholder():
+    return render_template('placeholder.html', title="Gallery")
+
+
+@app.route('/packages')
+@login_required
+def packages_placeholder():
+    return render_template('placeholder.html', title="Packages")
+
+
+@app.route('/contact')
+@login_required
+def contact_placeholder():
+    return render_template('placeholder.html', title="Contact")
+
+
+# --- 8. Run Server ---
 if __name__ == '__main__':
     app.run(debug=True)

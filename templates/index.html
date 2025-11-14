@@ -5,15 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Event Planner Dashboard</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- The main container now starts here -->
     <div class="container">
-        <h1>🗓️ Professional Event Manager</h1>
 
-        <div class="header-nav">
-            <p>Welcome, **{{ current_user.username }}** (Role: **{{ current_user.role.upper() }}**)</p>
-            <a href="{{ url_for('logout') }}" class="logout-link">Log Out</a>
-        </div>
+        <!-- HEADER BLOCK: Logo and Navigation -->
+        <header class="main-header">
+            <div class="header-content">
+                <!-- Left: Logo/Title -->
+                <h1 class="logo-title">
+                    <span class="icon">📅</span> Professional Event Manager
+                </h1>
+
+                <!-- Center: Primary Navigation Menu -->
+                <nav class="nav-menu">
+                    <a href="{{ url_for('index') }}">Home</a>
+                    <a href="{{ url_for('services_placeholder') }}">Services</a>
+                    <a href="{{ url_for('gallery_placeholder') }}">Gallery</a>
+                    <a href="{{ url_for('packages_placeholder') }}">Packages</a>
+                    <a href="{{ url_for('contact_placeholder') }}">Contact</a>
+                </nav>
+
+                <!-- Right: User Status and Logout -->
+                <div class="user-status">
+                    <p class="welcome-message">
+                        Welcome, **{{ current_user.username }}** (Role: **{{ current_user.role.upper() }}**)
+                    </p>
+                    <a href="{{ url_for('logout') }}" class="logout-link">Log Out</a>
+                </div>
+            </div>
+        </header>
 
         <!-- Flash messages display here -->
         {% with messages = get_flashed_messages(with_categories=true) %}
@@ -24,54 +47,87 @@
         {% endif %}
         {% endwith %}
 
-        <!-- ADMIN ONLY: Event Creation Form -->
-        {% if current_user.role == 'admin' %}
-        <div class="form-section">
-            <h2>Create a New Event</h2>
-            <p>Use this form to schedule new events, set dates, and specify locations.</p>
-            <form id="add-event-form" method="POST" action="{{ url_for('add_event') }}">
-                <input type="text" name="title" placeholder="Event Title (e.g., Annual Sales Kickoff)" required>
-                <div style="display: flex; gap: 15px;">
-                    <input type="date" name="date" required style="flex: 1;">
-                    <input type="time" name="time" style="flex: 1;">
+        <!-- Content Area -->
+        <main class="content-area">
+
+            <!-- NEW HOME PAGE HERO SECTION -->
+            <section class="hero-section">
+                <div class="hero-text">
+                    <h1 class="hero-welcome">🏠 Welcome to Event Pro!</h1>
+                    <p class="hero-tagline">
+                        **Your vision, flawlessly executed.** We craft unforgettable moments with elegance and precision,
+                        turning complex planning into simple celebration.
+                    </p>
+                    <a href="{{ url_for('contact_placeholder') }}" class="button hero-button">
+                        Book Now & Start Planning!
+                    </a>
                 </div>
-                <input type="text" name="location" placeholder="Location (e.g., Grand Ballroom, Online Webinar)" required>
-                <textarea name="description" placeholder="Detailed Agenda or Key Notes (Optional)"></textarea>
-                <button type="submit">Schedule Event</button>
-            </form>
-        </div>
-        {% endif %}
 
-        <!-- Event List (Visible to all logged-in users) -->
-        <div class="events-section">
-            <h2>Upcoming Scheduled Events</h2>
-            <ul id="event-list">
-                {% for event in events %}
-                <li class="event-card">
-                    <div class="event-details">
-                        <p class="event-title">{{ event['title'] }}</p>
-                        <p class="event-info">
-                            <span style="font-weight: 600;">Date:</span> {{ event['date'] }} |
-                            <span style="font-weight: 600;">Time:</span> {{ event['time'] or 'All Day' }}
-                            <br><span style="font-weight: 600;">Location:</span> {{ event['location'] }}
-                        </p>
-                        {% if event['description'] %}
-                            <p class="event-description">{{ event['description'] }}</p>
-                        {% endif %}
+                <div class="hero-images">
+                    <img src="https://placehold.co/300x200/C9AD8D/ffffff?text=Elegant+Wedding" alt="Featured Image 1" class="featured-image">
+                    <img src="https://placehold.co/300x200/C9AD8D/ffffff?text=Corporate+Gala" alt="Featured Image 2" class="featured-image hidden-sm">
+                </div>
+            </section>
+
+            <hr class="separator">
+
+            <!-- ADMIN ONLY: Event Creation Form -->
+            {% if current_user.role == 'admin' %}
+            <div class="form-section">
+                <h2>Create a New Event</h2>
+                <p>Use this form to schedule new events, set dates, and specify locations.</p>
+                <form id="add-event-form" method="POST" action="{{ url_for('add_event') }}">
+                    <input type="text" name="title" placeholder="Event Title (e.g., Annual Sales Kickoff)" required>
+                    <!-- UPDATED: Using the new CSS class .form-date-time-group for input layout -->
+                    <div class="form-date-time-group">
+                        <input type="date" name="date" required>
+                        <input type="time" name="time">
                     </div>
+                    <input type="text" name="location" placeholder="Location (e.g., Grand Ballroom, Online Webinar)" required>
+                    <textarea name="description" placeholder="Detailed Agenda or Key Notes (Optional)"></textarea>
+                    <button type="submit">Schedule Event</button>
+                </form>
+            </div>
+            {% endif %}
 
-                    <!-- ADMIN ONLY: Delete button -->
+            <!-- Event List (Visible to all logged-in users) -->
+            <div class="events-section">
+                <h2>Upcoming Scheduled Events</h2>
+                <ul id="event-list">
+                    {% for event in events %}
+                    <li class="event-card">
+                        <div class="event-details">
+                            <a href="{{ url_for('event_detail', event_id=event['id']) }}" class="event-title">{{ event['title'] }}</a>
+                            <p class="event-info">
+                                <span style="font-weight: 600;">Date:</span> {{ event['date'] }} |
+                                <span style="font-weight: 600;">Time:</span> {{ event['time'] or 'All Day' }}
+                                <br><span style="font-weight: 600;">Location:</span> {{ event['location'] }}
+                            </p>
+                            {% if event['description'] %}
+                                <p class="event-description">{{ event['description'] }}</p>
+                            {% endif %}
+                        </div>
+
+                        <!-- ADMIN ONLY: Edit and Delete buttons -->
+                        {% if current_user.role == 'admin' %}
+                        <div class="admin-actions">
+                            <a href="{{ url_for('edit_event', event_id=event['id']) }}" class="edit-btn">Edit</a>
+                            <form method="POST" action="{{ url_for('delete_event', event_id=event['id']) }}" style="display:inline;">
+                                <button type="submit" class="delete-btn">Delete</button>
+                            </form>
+                        </div>
+                        {% endif %}
+                    </li>
+                    {% else %}
                     {% if current_user.role == 'admin' %}
-                    <form method="POST" action="{{ url_for('delete_event', event_id=event['id']) }}" style="display:inline;">
-                        <button type="submit" class="delete-btn">Delete</button>
-                    </form>
+                    <p class="no-events-message">No events are currently scheduled. Use the form above to add new events.</p>
+                    {% else %}
+                    <p class="no-events-message">No events are currently scheduled. Please check back later for updates from the administrators.</p>
                     {% endif %}
-                </li>
-                {% else %}
-                <p>No events are currently scheduled. Administrators may add new events.</p>
-                {% endfor %}
-            </ul>
-        </div>
+                    {% endfor %}
+                </ul>
+            </div>
+        </main>
     </div>
 </body>
 </html>
