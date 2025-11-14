@@ -1,23 +1,37 @@
-{% extends "base.html" %}
-{% block content %}
-<h1 class="page-title">Register</h1>
-<div class="glass form-box">
-    <form method="POST">
-        <label>Username</label>
-        <input type="text" name="username" required>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Event Planner</title>
+    <!-- Links to the shared CSS file -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container small-container">
+        <h1>Event Planner</h1>
+        <h2>Create Account</h2>
+        <p style="text-align: center; margin-bottom: 20px;">Join to start viewing and planning events.</p>
 
-        <label>Email</label>
-        <input type="email" name="email" required>
+        <!-- Flash messages display here (e.g., success or username taken) -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
 
-        <label>Password</label>
-        <input type="password" name="password" required>
+        <!-- Form submits to the /register route in app.py -->
+        <form method="POST" action="{{ url_for('register') }}">
+            <input type="text" name="username" placeholder="Choose a Username" required>
+            <input type="password" name="password" placeholder="Choose a Password" required>
+            <button type="submit" class="primary-btn">Register</button>
+        </form>
 
-        <button type="submit">Register</button>
-    </form>
-
-    <p style="text-align:center; margin-top:15px;">
-        Already have an account? <a href="{{ url_for('login') }}">Login here</a>.
-    </p>
-</div>
-{% endblock %}
-
+        <p style="text-align: center; margin-top: 20px; font-size: 0.9em; color: #6c757d;">
+            Already have an account? <a href="{{ url_for('login') }}" style="color: var(--primary-color); font-weight: bold;">Log In Here</a>
+        </p>
+    </div>
+</body>
+</html>
