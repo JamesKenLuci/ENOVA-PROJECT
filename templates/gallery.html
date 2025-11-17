@@ -1,82 +1,58 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gallery</title>
-    <!-- CSS Link Updated with ?v=1.3 to break cache and load the clean card styles -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=1.3">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
-    <div class="container">
-        <!-- HEADER BLOCK: Logo and Navigation -->
-        <header class="main-header">
-            <div class="header-content">
-                <h1 class="logo-title">
-                    <span class="icon">📅</span> Professional Event Manager
-                </h1>
-                <nav class="nav-menu">
-                    <a href="{{ url_for('index') }}">Home</a>
-                    <a href="{{ url_for('services_placeholder') }}">Services</a>
-                    <a href="{{ url_for('gallery_placeholder') }}" class="active">Gallery</a>
-                    <a href="{{ url_for('packages_placeholder') }}">Packages</a>
-                    <a href="{{ url_for('contact_placeholder') }}">Contact</a>
-                </nav>
-                <div class="user-status">
-                    <p class="welcome-message">
-                        Welcome, **{{ current_user.username }}** (Role: **{{ current_user.role.upper() }}**)
-                    </p>
-                    <a href="{{ url_for('logout') }}" class="logout-link">Log Out</a>
-                </div>
-            </div>
-        </header>
+{% extends 'base.html' %}
 
-        <main class="content-area" style="padding-top: 20px;">
-            <div class="detail-content">
-                <h1>
-                    <span class="header-icon">📸</span> Gallery
-                </h1>
-                <p class="hero-tagline" style="text-align: center; margin-bottom: 30px; color: var(--text-color-light);">
-                    A peek into the beautiful events we have planned and managed. Click a category to view examples!
-                </p>
+{% block title %}Our Portfolio Gallery{% endblock %}
 
-                <!-- Updated Gallery Grid with cleaner cards -->
-                <div class="gallery-grid">
+{% block content %}
+    <main class="content-area">
+        <div class="hero-section small-hero">
+            <h1>
+                <span class="header-icon">📸</span> Event Portfolio Gallery
+            </h1>
+            <p class="section-description">
+                A peek into the beautiful events we have planned and managed. Click a category to view examples!
+            </p>
+        </div>
 
-                    <a href="#" class="gallery-category-card">
-                        Elegant Wedding
-                    </a>
+        <!-- Updated Gallery Grid with cleaner cards -->
+        <div class="gallery-grid event-list">
+            
+            <a href="#" class="event-card text-center" style="border-left: 5px solid #FFD700;">
+                <h3 style="color: #FFD700;">Elegant Weddings</h3>
+                <p>View our most romantic and detailed wedding setups.</p>
+            </a>
 
-                    <a href="#" class="gallery-category-card">
-                        Corporate Dinner
-                    </a>
+            <a href="#" class="event-card text-center" style="border-left: 5px solid #4CAF50;">
+                <h3 style="color: #4CAF50;">Corporate Dinners</h3>
+                <p>Showcasing professional and impactful corporate events.</p>
+            </a>
 
-                    <a href="#" class="gallery-category-card">
-                        Birthday Celebrations
-                    </a>
+            <a href="#" class="event-card text-center" style="border-left: 5px solid #FF69B4;">
+                <h3 style="color: #FF69B4;">Birthday Celebrations</h3>
+                <p>From milestone birthdays to thematic parties.</p>
+            </a>
 
-                    <a href="#" class="gallery-category-card">
-                        Product Launches
-                    </a>
+            <a href="#" class="event-card text-center" style="border-left: 5px solid #00BFFF;">
+                <h3 style="color: #00BFFF;">Product Launches</h3>
+                <p>High-energy events designed for maximum media impact.</p>
+            </a>
 
-                    <a href="#" class="gallery-category-card">
-                        Outdoor Festivals
-                    </a>
+            <a href="#" class="event-card text-center" style="border-left: 5px solid #FFA500;">
+                <h3 style="color: #FFA500;">Outdoor Festivals</h3>
+                <p>Large-scale organization and logistical mastery.</p>
+            </a>
 
-                    <a href="#" class="gallery-category-card">
-                        Non-Profit Galas
-                    </a>
+            <a href="#" class="event-card text-center" style="border-left: 5px solid #9370DB;">
+                <h3 style="color: #9370DB;">Non-Profit Galas</h3>
+                <p>Elegant fundraising events and sophisticated ceremonies.</p>
+            </a>
 
-                </div>
+        </div>
 
-                <!-- Centralized Back Button -->
-                <a href="{{ url_for('index') }}" class="button back-btn dashboard-link">
-                    ← Back to Dashboard
-                </a>
-        
-            </div>
-        </main>
-    </div>
-</body>
-</html>
+        <!-- Centralized Back Button -->
+        <div class="text-center" style="margin-top: 40px;">
+            <a href="{{ url_for('index') }}" class="button primary-btn">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </a>
+        </div>
+    </main>
+{% endblock %}

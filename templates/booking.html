@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Book Your Event{% endblock %}
+
+{% block content %}
+
+<main class="page-content container">
+<div class="form-card">
+<h1 style="text-align: center;">Book Your Event Planning Session</h1>
+<p style="text-align: center; color: var(--color-text-dim); margin-bottom: 2rem;">
+Let's start turning your vision into a reality. Fill out the form below and we'll be in touch!
+</p>
+
+    <form method="POST" action="#">
+        
+        <div class="form-group">
+            <label for="event_type">Type of Event</label>
+            <select id="event_type" name="event_type" class="form-control" required>
+                <option value="" disabled selected>Select an Event Type</option>
+                <option value="wedding">Wedding</option>
+                <option value="corporate">Corporate Gala / Event</option>
+                <option value="private_party">Private Party (Birthday, Anniversary, etc.)</option>
+                <option value="launch">Product Launch / Media Event</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="date_preference">Preferred Date(s)</label>
+            <input type="text" id="date_preference" name="date_preference" class="form-control" placeholder="e.g., June 15th, 2026 or Q3 2027" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="guest_count">Estimated Guest Count</label>
+            <input type="number" id="guest_count" name="guest_count" class="form-control" placeholder="Minimum 50" min="1" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="budget">Approximate Budget (Optional)</label>
+            <input type="text" id="budget" name="budget" class="form-control" placeholder="e.g., $10k - $20k">
+        </div>
+
+        <div class="form-group">
+            <label for="details">Tell Us More About Your Vision</label>
+            <textarea id="details" name="details" class="form-control" rows="4" placeholder="Describe the style, colors, or mood you envision..." required></textarea>
+        </div>
+        
+        <button type="submit" class="button primary-btn" style="width: 100%;">Submit Booking Request</button>
+    </form>
+</div>
+
+
+</main>
+{% endblock %}

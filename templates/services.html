@@ -1,0 +1,133 @@
+<!-- 
+    Professional Event Manager Landing Page
+    Theme: Modern Dark with Green Accents
+    Icons: Font Awesome (via CDN)
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services | Event Pro Manager</title>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- CRITICAL FIX: Ensure style.css is linked correctly -->
+    <!-- Changed path to assume server setup (e.g., Flask/Jinja) is serving static files from /static/ -->
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+    <!-- Header & Navigation -->
+    <header>
+        <!-- Re-using the container class for consistent padding -->
+        <div class="container nav-container">
+            <div class="logo">
+                <i class="fas fa-calendar-check"></i> Event Pro
+            </div>
+
+            <nav class="main-nav">
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <!-- FIX: Set 'href' to '#' to keep the user on the Services page and apply the 'active' class -->
+                    <li><a href="#" class="active">Services</a></li>
+                    <li><a href="#">Gallery</a></li>
+                    <li><a href="#">Packages</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+
+            <div class="user-info">
+                <span class="welcome-message">Welcome,</span>
+                <span class="user-role">Guest</span>
+                <button class="button primary-btn small-btn">Sign In</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="page-content">
+        <div class="container">
+            
+            <!-- Hero Section for Services -->
+            <section class="hero-section small-hero">
+                <div class="hero-content">
+                    <h1>Our Specialized Event Services</h1>
+                    <p>From corporate gatherings to grand weddings, we provide end-to-end management solutions tailored to your unique vision.</p>
+                </div>
+            </section>
+            
+            <!-- Services Grid Section -->
+            <section class="content-card services-showcase">
+                <h2>Comprehensive Planning & Execution</h2>
+                <p class="section-description">Explore our core service offerings designed to take the stress out of your next event.</p>
+
+                <div class="service-grid">
+
+                    <!-- Service Card 1: Corporate Events -->
+                    <div class="service-card">
+                        <div class="image-wrapper">
+                            <!-- Placeholder: Replace with image URL like 'uploaded:image_28ed67.jpg' -->
+                            <img src="C:\Users\james\Desktop\Final Project\static\image\Corporate_Wedding" alt="A professional corporate conference setup" onerror="this.src='https://placehold.co/600x400/30304D/F0F0F5?text=Corporate+Events'" loading="lazy">
+                        </div>
+                        <div class="details">
+                            <h3><i class="fas fa-building service-icon"></i> Corporate Planning</h3>
+                            <p>We manage everything from large-scale conferences and product launches to intimate executive retreats. Includes venue sourcing, speaker coordination, and full technical setup.</p>
+                        </div>
+                    </div>
+
+                    <!-- Service Card 2: Wedding Planning -->
+                    <div class="service-card">
+                        <div class="image-wrapper">
+                            <!-- Placeholder: Replace with image URL like 'uploaded:image_294708.jpg' -->
+                            <img src="https://placehold.co/600x400/30304D/F0F0F5?text=Wedding+Planning" alt="A beautiful wedding reception hall decorated with lights" onerror="this.src='https://placehold.co/600x400/30304D/F0F0F5?text=Wedding+Planning'" loading="lazy">
+                        </div>
+                        <div class="details">
+                            <h3><i class="fas fa-ring service-icon"></i> Dream Weddings</h3>
+                            <p>Full-service wedding management, including theme development, vendor negotiation, budgeting, RSVP tracking, and on-site coordination to ensure a flawless special day.</p>
+                        </div>
+                    </div>
+
+                    <!-- Service Card 3: Social Gatherings & Parties -->
+                    <div class="service-card">
+                        <div class="image-wrapper">
+                            <!-- Placeholder: Replace with another relevant image URL -->
+                            <img src="https://placehold.co/600x400/30304D/F0F0F5?text=Social+Events" alt="A vibrant social event with food and music" onerror="this.src='https://placehold.co/600x400/30304D/F0F0F5?text=Social+Events'" loading="lazy">
+                        </div>
+                        <div class="details">
+                            <h3><i class="fas fa-champagne-glasses service-icon"></i> Social Events</h3>
+                            <p>Birthdays, anniversaries, holiday parties, and graduations. We handle décor, catering, entertainment bookings, and permits for any size of private celebration.</p>
+                        </div>
+                    </div>
+
+                    <!-- Service Card 4: Logistics & Vendor Management -->
+                    <div class="service-card">
+                        <div class="image-wrapper">
+                            <!-- Placeholder: Replace with another relevant image URL -->
+                            <img src="https://placehold.co/600x400/30304D/F0F0F5?text=Logistics+Management" alt="A team setting up event logistics" onerror="this.src='https://placehold.co/600x400/30304D/F0F0F5?text=Logistics+Management'" loading="lazy">
+                        </div>
+                        <div class="details">
+                            <h3><i class="fas fa-truck-moving service-icon"></i> Logistics & Tech</h3>
+                            <p>Expert management of all technical and operational details, including sound, lighting, stage design, transportation schedules, and vendor contracts from start to finish.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <a href="#" class="cta-link"><i class="fas fa-chevron-circle-right"></i> Request A Custom Quote</a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Event Pro Manager. All rights reserved. | Privacy Policy | Terms of Service</p>
+        </div>
+    </footer>
+
+</body>
+</html>

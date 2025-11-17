@@ -1,5 +1,3 @@
-# app.py (Fixed and Updated with Registration)
-
 # --- 0. Imports ---
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_login import LoginManager, UserMixin, login_user, logout_user, current_user, login_required
@@ -8,13 +6,15 @@ import sqlite3
 
 # --- 1. Setup ---
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'your_super_secret_key_here'  # CRUCIAL: Change this secret key!
+# CRUCIAL: Change this secret key!
+app.config['SECRET_KEY'] = 'your_super_secret_key_here'
 DATABASE = 'database.db'
 
 # FLASK-LOGIN SETUP
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
+login_manager.login_message_category = 'warning'
 
 
 # --- 2. Database Functions ---
@@ -52,6 +52,7 @@ def init_db():
     ''')
 
     # Seed an Admin user (username: 'admin', password: 'adminpass')
+    # This block ensures an admin user exists for testing CRUD operations
     if not conn.execute("SELECT * FROM users WHERE role='admin'").fetchone():
         hashed_password = generate_password_hash('adminpass', method='pbkdf2:sha256')
         conn.execute(
@@ -70,6 +71,8 @@ init_db()
 # --- 4. User Model and Loader ---
 
 class User(UserMixin):
+    """User model for Flask-Login."""
+
     def __init__(self, id, username, role, password_hash):
         self.id = id
         self.username = username
@@ -79,10 +82,12 @@ class User(UserMixin):
 
 @login_manager.user_loader
 def load_user(user_id):
+    """Callback to reload the user object from the user ID stored in the session."""
     conn = get_db_connection()
     user_data = conn.execute('SELECT * FROM users WHERE id = ?', (user_id,)).fetchone()
     conn.close()
     if user_data:
+        # Pass all necessary data to the User model
         return User(user_data['id'], user_data['username'], user_data['role'], user_data['password_hash'])
     return None
 
@@ -104,7 +109,6 @@ def register():
             return redirect(url_for('register'))
 
         conn = get_db_connection()
-        # Check if the username already exists
         existing_user = conn.execute('SELECT id FROM users WHERE username = ?', (username,)).fetchone()
 
         if existing_user:
@@ -130,6 +134,7 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    """Handles user login."""
     if current_user.is_authenticated:
         return redirect(url_for('index'))
 
@@ -144,8 +149,10 @@ def login():
         if user_data and check_password_hash(user_data['password_hash'], password):
             user = load_user(user_data['id'])
             login_user(user)
+            # Redirect to the page the user was trying to access, or index
+            next_page = request.args.get('next')
             flash('Login successful!', 'success')
-            return redirect(url_for('index'))
+            return redirect(next_page or url_for('index'))
         else:
             flash('Invalid username or password.', 'danger')
 
@@ -155,12 +162,14 @@ def login():
 @app.route('/logout')
 @login_required
 def logout():
+    """Handles user logout."""
     logout_user()
     flash('You have been logged out.', 'info')
-    return redirect(url_for('index'))
+    # Redirecting to login after logout
+    return redirect(url_for('login'))
 
 
-# --- 6. Event Management Routes ---
+# --- 6. Event Management Routes (Index is now here) ---
 
 def get_event_by_id(event_id):
     """Fetches a single event by ID."""
@@ -168,6 +177,16 @@ def get_event_by_id(event_id):
     event = conn.execute('SELECT * FROM events WHERE id = ?', (event_id,)).fetchone()
     conn.close()
     return event
+
+
+@app.route('/')
+@login_required
+def index():
+    """Main dashboard showing the list of scheduled events."""
+    conn = get_db_connection()
+    events = conn.execute('SELECT * FROM events ORDER BY date, time').fetchall()
+    conn.close()
+    return render_template('index.html', events=events)
 
 
 @app.route('/event/<int:event_id>')
@@ -181,18 +200,10 @@ def event_detail(event_id):
     return render_template('event_detail.html', event=event)
 
 
-@app.route('/')
-@login_required
-def index():
-    conn = get_db_connection()
-    events = conn.execute('SELECT * FROM events ORDER BY date, time').fetchall()
-    conn.close()
-    return render_template('index.html', events=events)
-
-
 @app.route('/add_event', methods=('POST',))
 @login_required
 def add_event():
+    """Handles adding a new event (Admin only)."""
     if current_user.role != 'admin':
         flash('Permission denied. Only admins can add events.', 'warning')
         return redirect(url_for('index'))
@@ -201,7 +212,7 @@ def add_event():
     date = request.form['date']
     time = request.form['time']
     location = request.form['location']
-    description = request.form['description']
+    description = request.form.get('description', '')
 
     if not title or not date or not location:
         flash('Missing required fields', 'danger')
@@ -221,6 +232,7 @@ def add_event():
 @app.route('/edit_event/<int:event_id>', methods=('GET', 'POST'))
 @login_required
 def edit_event(event_id):
+    """Handles editing an existing event (Admin only)."""
     event = get_event_by_id(event_id)
     if event is None:
         flash('Event not found.', 'danger')
@@ -235,7 +247,7 @@ def edit_event(event_id):
         date = request.form['date']
         time = request.form['time']
         location = request.form['location']
-        description = request.form['description']
+        description = request.form.get('description', '')
 
         if not title or not date or not location:
             flash('Missing required fields.', 'danger')
@@ -257,6 +269,7 @@ def edit_event(event_id):
 @app.route('/delete_event/<int:event_id>', methods=('POST',))
 @login_required
 def delete_event(event_id):
+    """Handles deleting an event (Admin only)."""
     if current_user.role != 'admin':
         flash('Permission denied. Only admins can delete events.', 'warning')
         return redirect(url_for('index'))
@@ -269,30 +282,46 @@ def delete_event(event_id):
     return redirect(url_for('index'))
 
 
-# --- 7. Navigation Placeholder Routes ---
+# --- 7. Navigation Routes (Fixes BuildError from navigation bar) ---
 
 @app.route('/services')
 @login_required
-def services_placeholder():
-    return render_template('placeholder.html', title="Our Services")
+def services():
+    """Renders the Services page."""
+    return render_template('services.html')
 
 
 @app.route('/gallery')
 @login_required
-def gallery_placeholder():
-    return render_template('placeholder.html', title="Gallery")
+def gallery():
+    """Renders the Gallery page."""
+    return render_template('gallery.html')
 
 
 @app.route('/packages')
 @login_required
-def packages_placeholder():
-    return render_template('placeholder.html', title="Packages")
+def packages():
+    """Renders the Packages page."""
+    return render_template('packages.html')
 
 
-@app.route('/contact')
+@app.route('/contact', methods=['GET', 'POST'])
 @login_required
-def contact_placeholder():
-    return render_template('placeholder.html', title="Contact")
+def contact():
+    """Renders the Contact page and handles form submissions."""
+    if request.method == 'POST':
+        # Add actual contact form logic (e.g., save to DB, send email) here
+        flash('Message received! We will be in touch shortly.', 'success')
+        return redirect(url_for('contact'))
+
+    return render_template('contact.html')
+
+
+@app.route('/booking')
+@login_required
+def booking():
+    """Renders the Booking page."""
+    return render_template('booking.html')
 
 
 # --- 8. Run Server ---

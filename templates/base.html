@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Event Pro Manager{% endblock %}</title>
+    <!-- Load Google Font: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <!-- Load the stylesheet from the static folder -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- Load Font Awesome for icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header>
+        <div class="nav-container">
+            <div class="logo">Event Pro</div>
+
+            <!-- Main Navigation Links -->
+            <nav class="main-nav">
+                <ul class="nav-links">
+                    <li><a href="{{ url_for('index') }}">Home</a></li>
+                    <li><a href="{{ url_for('services') }}">Services</a></li>
+                    <li><a href="{{ url_for('gallery') }}">Gallery</a></li>
+                    <li><a href="{{ url_for('packages') }}">Packages</a></li>
+                    <li><a href="{{ url_for('contact') }}">Contact</a></li>
+                </ul>
+            </nav>
+
+            <!-- User Info and Auth Links (Moved inside nav-container for single-row display) -->
+            <div class="user-info">
+                {% if current_user.is_authenticated %}
+                    Welcome, **James Ken** (Role: **USER**)
+                    <a href="{{ url_for('logout') }}" class="btn-link">LOGOUT</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}">Login</a> | <a href="{{ url_for('register') }}">Register</a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    <!-- Top Green Separator Line -->
+    <div class="green-border-row"></div>
+
+    <main class="main-content">
+        <div class="nav-container">
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <ul class="flashes">
+                        {% for category, message in messages %}
+                            <li class="{{ category }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+
+            <!-- Content Block -->
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <!-- Bottom Green Separator Line -->
+    <div class="green-border-row"></div>
+
+    <!-- Basic Footer -->
+    <footer>
+        <div class="nav-container" style="text-align: center; font-size: 0.8rem; padding: 10px 0;">
+            Our Specialized Services
+        </div>
+    </footer>
+</body>
+</html>

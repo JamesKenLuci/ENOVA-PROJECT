@@ -1,133 +1,82 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Planner Dashboard</title>
+{% extends "base.html" %}
+
+{% block head %}
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
-    <!-- The main container now starts here -->
-    <div class="container">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+{% endblock %}
 
-        <!-- HEADER BLOCK: Logo and Navigation -->
-        <header class="main-header">
-            <div class="header-content">
-                <!-- Left: Logo/Title -->
-                <h1 class="logo-title">
-                    <span class="icon">📅</span> Professional Event Manager
-                </h1>
+{% block title %}Event Planner Dashboard{% endblock %}
 
-                <!-- Center: Primary Navigation Menu -->
-                <nav class="nav-menu">
-                    <a href="{{ url_for('index') }}">Home</a>
-                    <a href="{{ url_for('services_placeholder') }}">Services</a>
-                    <a href="{{ url_for('gallery_placeholder') }}">Gallery</a>
-                    <a href="{{ url_for('packages_placeholder') }}">Packages</a>
-                    <a href="{{ url_for('contact_placeholder') }}">Contact</a>
-                </nav>
+{% block content %}
+<main class="page-content">
+    
+    <!-- Hero Section: Welcome & Call to Action -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <!-- Main Welcome Title -->
+                <h1>🏠 Welcome to Event Pro!</h1>
 
-                <!-- Right: User Status and Logout -->
-                <div class="user-status">
-                    <p class="welcome-message">
-                        Welcome, **{{ current_user.username }}** (Role: **{{ current_user.role.upper() }}**)
+                <div class="hero-subtext-wrapper">
+                    <p>
+                        **Your vision, flawlessly executed.** We craft unforgettable moments with elegance and precision, turning complex planning into simple celebration.
                     </p>
-                    <a href="{{ url_for('logout') }}" class="logout-link">Log Out</a>
-                </div>
-            </div>
-        </header>
 
-        <!-- Flash messages display here -->
-        {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-            <div class="alert alert-{{ category }}">{{ message }}</div>
-            {% endfor %}
-        {% endif %}
-        {% endwith %}
-
-        <!-- Content Area -->
-        <main class="content-area">
-
-            <!-- NEW HOME PAGE HERO SECTION -->
-            <section class="hero-section">
-                <div class="hero-text">
-                    <h1 class="hero-welcome">🏠 Welcome to Event Pro!</h1>
-                    <p class="hero-tagline">
-                        **Your vision, flawlessly executed.** We craft unforgettable moments with elegance and precision,
-                        turning complex planning into simple celebration.
-                    </p>
-                    <a href="{{ url_for('contact_placeholder') }}" class="button hero-button">
-                        Book Now & Start Planning!
-                    </a>
+                    <!-- FIX: Changed 'booking' to 'index' to resolve BuildError -->
+                    <a href="{{ url_for('index') }}" class="cta-link">Book Now & Start Planning!</a>
                 </div>
 
-                <div class="hero-images">
-                    <img src="https://placehold.co/300x200/C9AD8D/ffffff?text=Elegant+Wedding" alt="Featured Image 1" class="featured-image">
-                    <img src="https://placehold.co/300x200/C9AD8D/ffffff?text=Corporate+Gala" alt="Featured Image 2" class="featured-image hidden-sm">
-                </div>
-            </section>
-
-            <hr class="separator">
-
-            <!-- ADMIN ONLY: Event Creation Form -->
-            {% if current_user.role == 'admin' %}
-            <div class="form-section">
-                <h2>Create a New Event</h2>
-                <p>Use this form to schedule new events, set dates, and specify locations.</p>
-                <form id="add-event-form" method="POST" action="{{ url_for('add_event') }}">
-                    <input type="text" name="title" placeholder="Event Title (e.g., Annual Sales Kickoff)" required>
-                    <!-- UPDATED: Using the new CSS class .form-date-time-group for input layout -->
-                    <div class="form-date-time-group">
-                        <input type="date" name="date" required>
-                        <input type="time" name="time">
-                    </div>
-                    <input type="text" name="location" placeholder="Location (e.g., Grand Ballroom, Online Webinar)" required>
-                    <textarea name="description" placeholder="Detailed Agenda or Key Notes (Optional)"></textarea>
-                    <button type="submit">Schedule Event</button>
-                </form>
             </div>
-            {% endif %}
+        </div>
+    </section>
 
-            <!-- Event List (Visible to all logged-in users) -->
-            <div class="events-section">
-                <h2>Upcoming Scheduled Events</h2>
-                <ul id="event-list">
-                    {% for event in events %}
-                    <li class="event-card">
-                        <div class="event-details">
-                            <a href="{{ url_for('event_detail', event_id=event['id']) }}" class="event-title">{{ event['title'] }}</a>
-                            <p class="event-info">
-                                <span style="font-weight: 600;">Date:</span> {{ event['date'] }} |
-                                <span style="font-weight: 600;">Time:</span> {{ event['time'] or 'All Day' }}
-                                <br><span style="font-weight: 600;">Location:</span> {{ event['location'] }}
-                            </p>
-                            {% if event['description'] %}
-                                <p class="event-description">{{ event['description'] }}</p>
-                            {% endif %}
-                        </div>
+    <!-- Recent Work / Feature Showcase -->
+    <section class="container dashboard-content">
+        <h2 class="dashboard-header">Our Specialized Services</h2>
 
-                        <!-- ADMIN ONLY: Edit and Delete buttons -->
-                        {% if current_user.role == 'admin' %}
-                        <div class="admin-actions">
-                            <a href="{{ url_for('edit_event', event_id=event['id']) }}" class="edit-btn">Edit</a>
-                            <form method="POST" action="{{ url_for('delete_event', event_id=event['id']) }}" style="display:inline;">
-                                <button type="submit" class="delete-btn">Delete</button>
-                            </form>
-                        </div>
-                        {% endif %}
-                    </li>
-                    {% else %}
-                    {% if current_user.role == 'admin' %}
-                    <p class="no-events-message">No events are currently scheduled. Use the form above to add new events.</p>
-                    {% else %}
-                    <p class="no-events-message">No events are currently scheduled. Please check back later for updates from the administrators.</p>
-                    {% endif %}
-                    {% endfor %}
-                </ul>
+        <!-- The Grid of Example Events / Feature Cards -->
+        <div class="dashboard-grid">
+
+            <!-- Feature 1: Elegant Wedding -->
+            <div class="feature-card">
+                <i class="fas fa-ring"></i>
+                <h3>Elegant Wedding</h3>
+                <p>A beautiful, modern celebration with a touch of classic romance, meticulously managed from proposal to honeymoon send-off.</p>
             </div>
-        </main>
-    </div>
-</body>
-</html>
+
+            <!-- Feature 2: Corporate Gala -->
+            <div class="feature-card">
+                <i class="fas fa-city"></i>
+                <h3>Corporate Gala</h3>
+                <p>A high-stakes, professional evening designed to impress partners and motivate teams, featuring seamless logistics and stunning decor.</p>
+            </div>
+
+            <!-- Feature 3: Product Launch -->
+            <div class="feature-card">
+                <i class="fas fa-rocket"></i>
+                <h3>Product Launch</h3>
+                <p>A dynamic, high-energy event generating buzz for a new product, complete with media coordination and immersive branding experiences.</p>
+            </div>
+
+            <!-- Feature 4: Themed Birthday Party -->
+            <div class="feature-card">
+                <i class="fas fa-birthday-cake"></i>
+                <h3>Themed Birthday Party</h3>
+                <p>A custom-designed, memorable celebration tailored to the client's unique vision, ensuring fun for all ages.</p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- Upcoming Events Section -->
+    <section class="container upcoming-events-section">
+        <h2 class="dashboard-header">Upcoming Scheduled Events</h2>
+        
+        <div class="event-list">
+            <p>No events are currently scheduled. Please check back later for updates from the administrators.</p>
+        </div>
+    </section>
+
+</main>
+{% endblock %}
