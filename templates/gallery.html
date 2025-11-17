@@ -1,58 +1,81 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
-{% block title %}Our Portfolio Gallery{% endblock %}
+{% block title %}Event Portfolio Gallery{% endblock %}
 
 {% block content %}
-    <main class="content-area">
-        <div class="hero-section small-hero">
-            <h1>
-                <span class="header-icon">📸</span> Event Portfolio Gallery
+<main class="page-content">
+
+    <!-- Hero Section para sa Title at Description (Iginigitna) -->
+    <section class="hero-section small-hero">
+        <div class="hero-content">
+            <!-- Naka-sentro na ang title dahil sa .hero-content class -->
+            <h1 style="font-size: 3rem; margin-bottom: 0.5rem;">
+                <i class="fas fa-camera-retro" style="color: var(--color-primary-green); margin-right: 15px;"></i> Event Portfolio Gallery
             </h1>
-            <p class="section-description">
+            <p style="font-size: 1.25rem; font-weight: 300; color: var(--color-text-dim); margin-bottom: 0;">
                 A peek into the beautiful events we have planned and managed. Click a category to view examples!
             </p>
         </div>
+    </section>
 
-        <!-- Updated Gallery Grid with cleaner cards -->
-        <div class="gallery-grid event-list">
-            
-            <a href="#" class="event-card text-center" style="border-left: 5px solid #FFD700;">
-                <h3 style="color: #FFD700;">Elegant Weddings</h3>
-                <p>View our most romantic and detailed wedding setups.</p>
-            </a>
+    <!-- Main Content Card at Gallery Grid -->
+    <div class="container">
+        <div class="content-card" style="margin-top: -6rem;"> <!-- Bahagyang itinaas para matakpan ang hero border -->
 
-            <a href="#" class="event-card text-center" style="border-left: 5px solid #4CAF50;">
-                <h3 style="color: #4CAF50;">Corporate Dinners</h3>
-                <p>Showcasing professional and impactful corporate events.</p>
-            </a>
+            <!-- Category Grid -->
+            <div class="gallery-grid">
 
-            <a href="#" class="event-card text-center" style="border-left: 5px solid #FF69B4;">
-                <h3 style="color: #FF69B4;">Birthday Celebrations</h3>
-                <p>From milestone birthdays to thematic parties.</p>
-            </a>
+                <!-- Gallery Card 1: Elegant Weddings -->
+                <div class="gallery-card tier-gold">
+                    <h3><i class="fas fa-heart"></i> Elegant Weddings</h3>
+                    <p>View our most romantic and detailed wedding setups.</p>
+                    <a href="#" class="button secondary-btn small-btn">View Portfolio</a>
+                </div>
 
-            <a href="#" class="event-card text-center" style="border-left: 5px solid #00BFFF;">
-                <h3 style="color: #00BFFF;">Product Launches</h3>
-                <p>High-energy events designed for maximum media impact.</p>
-            </a>
+                <!-- Gallery Card 2: Corporate Dinners -->
+                <div class="gallery-card tier-silver">
+                    <h3><i class="fas fa-briefcase"></i> Corporate Dinners</h3>
+                    <p>Showcasing professional and impactful corporate events.</p>
+                    <a href="#" class="button secondary-btn small-btn">View Portfolio</a>
+                </div>
 
-            <a href="#" class="event-card text-center" style="border-left: 5px solid #FFA500;">
-                <h3 style="color: #FFA500;">Outdoor Festivals</h3>
-                <p>Large-scale organization and logistical mastery.</p>
-            </a>
+                <!-- Gallery Card 3: Birthday Celebrations -->
+                <div class="gallery-card tier-bronze">
+                    <h3><i class="fas fa-birthday-cake"></i> Birthday Celebrations</h3>
+                    <p>From milestone birthdays to thematic parties.</p>
+                    <a href="#" class="button secondary-btn small-btn">View Portfolio</a>
+                </div>
 
-            <a href="#" class="event-card text-center" style="border-left: 5px solid #9370DB;">
-                <h3 style="color: #9370DB;">Non-Profit Galas</h3>
-                <p>Elegant fundraising events and sophisticated ceremonies.</p>
-            </a>
+                <!-- Gallery Card 4: Product Launches -->
+                <div class="gallery-card tier-gold">
+                    <h3><i class="fas fa-rocket"></i> Product Launches</h3>
+                    <p>High-energy events designed for maximum media impact.</p>
+                    <a href="#" class="button secondary-btn small-btn">View Portfolio</a>
+                </div>
+
+                <!-- Gallery Card 5: Outdoor Festivals -->
+                <div class="gallery-card tier-silver">
+                    <h3><i class="fas fa-music"></i> Outdoor Festivals</h3>
+                    <p>Large-scale organization and logistical mastery.</p>
+                    <a href="#" class="button secondary-btn small-btn">View Portfolio</a>
+                </div>
+
+                <!-- Gallery Card 6: Non-Profit Galas -->
+                <div class="gallery-card tier-bronze">
+                    <h3><i class="fas fa-handshake"></i> Non-Profit Galas</h3>
+                    <p>Elegant fundraising events and sophisticated ceremonies.</p>
+                    <a href="#" class="button secondary-btn small-btn">View Portfolio</a>
+                </div>
+
+            </div>
+
+            <div class="text-center" style="margin-top: 3rem;">
+                <a href="{{ url_for('booking') }}" class="button primary-btn" style="font-size: 1.1rem;">
+                    <i class="fas fa-calendar-check"></i> START PLANNING YOUR EVENT
+                </a>
+            </div>
 
         </div>
-
-        <!-- Centralized Back Button -->
-        <div class="text-center" style="margin-top: 40px;">
-            <a href="{{ url_for('index') }}" class="button primary-btn">
-                <i class="fas fa-arrow-left"></i> Back to Dashboard
-            </a>
-        </div>
-    </main>
+    </div>
+</main>
 {% endblock %}

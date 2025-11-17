@@ -1,54 +1,79 @@
 {% extends "base.html" %}
 
-{% block title %}Book Your Event{% endblock %}
+{% block title %}Book Your Planning Session{% endblock %}
 
 {% block content %}
+<main class="page-content">
+    <div class="flex-container">
+        <!-- Using the custom class defined in style.css -->
+        <div class="form-card">
 
-<main class="page-content container">
-<div class="form-card">
-<h1 style="text-align: center;">Book Your Event Planning Session</h1>
-<p style="text-align: center; color: var(--color-text-dim); margin-bottom: 2rem;">
-Let's start turning your vision into a reality. Fill out the form below and we'll be in touch!
-</p>
+            <h1 class="text-center" style="font-size: 2rem; font-weight: 800; margin-bottom: 1.5rem;">
+                <i class="fas fa-clipboard-list" style="color: var(--color-primary-green); margin-right: 10px;"></i> Secure Your Planning Session
+            </h1>
+            <p class="text-center" style="color: var(--color-text-dim); margin-bottom: 2rem;">
+                Let's turn your unique vision into a flawlessly executed celebration.
+            </p>
 
-    <form method="POST" action="#">
-        
-        <div class="form-group">
-            <label for="event_type">Type of Event</label>
-            <select id="event_type" name="event_type" class="form-control" required>
-                <option value="" disabled selected>Select an Event Type</option>
-                <option value="wedding">Wedding</option>
-                <option value="corporate">Corporate Gala / Event</option>
-                <option value="private_party">Private Party (Birthday, Anniversary, etc.)</option>
-                <option value="launch">Product Launch / Media Event</option>
-                <option value="other">Other</option>
-            </select>
+            <!-- Flash Messages -->
+            <div class="flash-messages-container">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <!-- Using the custom flash message classes -->
+                        <div class="flash-message {% if category == 'success' %}flash-success{% elif category == 'danger' %}flash-danger{% else %}flash-info{% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            </div>
+
+            <form method="POST" action="{{ url_for('booking') }}" class="form-layout">
+
+                <!-- Type of Event -->
+                <div class="form-group">
+                    <label for="event_type">Type of Event</label>
+                    <select id="event_type" name="event_type" class="form-control" required>
+                        <option value="" disabled selected>Select an Event Type</option>
+                        <option value="wedding">Elegant Wedding</option>
+                        <option value="corporate">Exclusive Corporate Gala</option>
+                        <option value="private_party">Private Party (Birthday, Anniversary, etc.)</option>
+                        <option value="launch">Product Launch / Media Event</option>
+                        <option value="other">Other (Specify in Details)</option>
+                    </select>
+                </div>
+
+                <!-- Preferred Date(s) -->
+                <div class="form-group">
+                    <label for="date_preference">Preferred Date(s)</label>
+                    <input type="text" id="date_preference" name="date_preference" class="form-control" placeholder="e.g., June 15th, 2026 or Q3 2027" required>
+                </div>
+
+                <!-- Estimated Guest Count -->
+                <div class="form-group">
+                    <label for="guest_count">Estimated Guest Count</label>
+                    <input type="number" id="guest_count" name="guest_count" class="form-control" placeholder="Minimum 50 guests" min="1" required>
+                </div>
+
+                <!-- Approximate Budget (Optional) -->
+                <div class="form-group">
+                    <label for="budget">Approximate Budget (Optional)</label>
+                    <input type="text" id="budget" name="budget" class="form-control" placeholder="e.g., $10k - $20k">
+                </div>
+
+                <!-- Vision Details -->
+                <div class="form-group">
+                    <label for="details">Tell Us More About Your Vision</label>
+                    <textarea id="details" name="details" class="form-control" rows="6" placeholder="Describe the desired style, color palette, specific requirements, or mood you envision..." required></textarea>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="button primary-btn" style="width: 100%; margin-top: 1rem;">
+                    SUBMIT BOOKING REQUEST
+                </button>
+            </form>
         </div>
-
-        <div class="form-group">
-            <label for="date_preference">Preferred Date(s)</label>
-            <input type="text" id="date_preference" name="date_preference" class="form-control" placeholder="e.g., June 15th, 2026 or Q3 2027" required>
-        </div>
-        
-        <div class="form-group">
-            <label for="guest_count">Estimated Guest Count</label>
-            <input type="number" id="guest_count" name="guest_count" class="form-control" placeholder="Minimum 50" min="1" required>
-        </div>
-        
-        <div class="form-group">
-            <label for="budget">Approximate Budget (Optional)</label>
-            <input type="text" id="budget" name="budget" class="form-control" placeholder="e.g., $10k - $20k">
-        </div>
-
-        <div class="form-group">
-            <label for="details">Tell Us More About Your Vision</label>
-            <textarea id="details" name="details" class="form-control" rows="4" placeholder="Describe the style, colors, or mood you envision..." required></textarea>
-        </div>
-        
-        <button type="submit" class="button primary-btn" style="width: 100%;">Submit Booking Request</button>
-    </form>
-</div>
-
-
+    </div>
 </main>
 {% endblock %}

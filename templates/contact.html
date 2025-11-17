@@ -1,76 +1,36 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
-{% block title %}Contact Event Pro{% endblock %}
+{% block title %}Contact Us | Event Pro Manager{% endblock %}
 
 {% block content %}
+    <!-- Dito nakalagay ang lahat ng inyong Contact Form at Page Content -->
 
-<main class="page-content container">
-<div class="contact-grid">
-<div class="info-section">
-<h1 class="page-heading">Get in Touch</h1>
-<p class="subheading">We’re excited to hear about your event. Contact us using the form or the details below.</p>
+    <section class="contact-form-section">
+        <h1>Get in Touch</h1>
+        <p>We'd love to hear about your next event. Fill out the form below and we'll get back to you within 24 hours.</p>
 
-        <div class="contact-detail">
-            <i class="fas fa-envelope contact-icon"></i>
-            <div>
-                <strong>Email:</strong>
-                <p>hello@eventpro.com</p>
-            </div>
-        </div>
+        <!-- Placeholder para sa Contact Form -->
+        <form method="POST" action="{{ url_for('contact') }}" class="modern-form">
+            <!-- Tiyaking kasama ang Flask/Jinja na syntax para sa forms, kung meron man -->
 
-        <div class="contact-detail">
-            <i class="fas fa-phone contact-icon"></i>
-            <div>
-                <strong>Phone:</strong>
-                <p>+1 (555) 123-4567</p>
-            </div>
-        </div>
-
-        <div class="contact-detail">
-            <i class="fas fa-map-marker-alt contact-icon"></i>
-            <div>
-                <strong>Office:</strong>
-                <p>123 Event Street, City Central, CA 90210</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="form-section form-card">
-        <h2 class="text-center">Send Us a Message</h2>
-
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="flash-message flash-{{ category }}">{{ message }}</div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-
-        <form method="POST" action="{{ url_for('contact') }}">
             <div class="form-group">
-                <label for="name">Your Name</label>
-                <input type="text" id="name" name="name" class="form-control" required>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
             </div>
 
             <div class="form-group">
-                <label for="email">Your Email</label>
-                <input type="email" id="email" name="email" class="form-control" required>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
             </div>
 
             <div class="form-group">
-                <label for="subject">Subject</label>
-                <input type="text" id="subject" name="subject" class="form-control" required>
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" rows="5" required></textarea>
             </div>
 
-            <div class="form-group">
-                <label for="message">Message</label>
-                <textarea id="message" name="message" class="form-control" rows="5" required></textarea>
-            </div>
-
-            <button type="submit" class="button primary-btn" style="width: 100%;">Submit Inquiry</button>
+            <button type="submit" class="button primary-btn">Send Message</button>
         </form>
-    </div>
-</div>
+    </section>
 
 
-</main>
+{% endblock content %}

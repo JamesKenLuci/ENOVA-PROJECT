@@ -14,11 +14,13 @@
 <body>
     <header>
         <div class="nav-container">
-            <div class="logo">Event Pro</div>
+            <!-- BINAGO: Ginawa nating clickable link ang Logo para bumalik sa Home -->
+            <a href="{{ url_for('index') }}" class="logo">Event Pro</a>
 
             <!-- Main Navigation Links -->
             <nav class="main-nav">
                 <ul class="nav-links">
+                    <!-- Tiyaking 'index' o kung anuman ang function name sa app.py ang nakalagay dito -->
                     <li><a href="{{ url_for('index') }}">Home</a></li>
                     <li><a href="{{ url_for('services') }}">Services</a></li>
                     <li><a href="{{ url_for('gallery') }}">Gallery</a></li>
