@@ -1,0 +1,668 @@
+/*
+    Professional Event Manager CSS Styling
+    Theme: Modern Dark with Green Accents
+    Font: Inter
+*/
+
+/* --- 1. Global Resets and Variables --- */
+:root {
+    --color-background-dark: #1A1A29; /* Deep dark blue-purple */
+    --color-surface-dark: #23233A; /* Slightly lighter surface for cards */
+    --color-surface-light: #30304D;
+    --color-primary-green: #4CAF50;
+    --color-primary-dark: #388E3C;
+    --color-text-light: #F0F0F5;
+    --color-text-dim: #AAB;
+    --color-error: #FF5252;
+    --color-success: #4CAF50;
+    --spacing-unit: 1rem;
+    --border-radius-base: 10px;
+    --box-shadow-base: 0 6px 15px rgba(0, 0, 0, 0.5);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--color-background-dark);
+    /* --- BEAUTIFUL BACKGROUND TEXTURE --- */
+    background-image: radial-gradient(circle at 1px 1px, var(--color-surface-dark) 1px, transparent 0);
+    background-size: 15px 15px;
+    color: var(--color-text-light);
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container {
+    width: 100%;
+    /* Increased max-width for better desktop spacing */
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-unit);
+}
+
+/* NOTE: The 'nav-container' is used in the HTML header block.
+   We reuse the global container styles for it but target it specifically for flex. */
+header .nav-container {
+    padding: 0 var(--spacing-unit);
+}
+
+a {
+    color: var(--color-primary-green);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+a:hover {
+    color: var(--color-primary-dark);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--color-text-light);
+    margin-bottom: var(--spacing-unit);
+}
+
+/* --- 2. Header and Navigation (FIXED FOR HTML STRUCTURE) --- */
+
+/* Targets the <header> element, replacing .main-header */
+header {
+    background-color: rgba(35, 35, 58, 0.95); /* Semi-transparent dark surface */
+    backdrop-filter: blur(5px); /* Soft blur effect */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+    padding: calc(var(--spacing-unit) * 0.75) 0;
+    border-bottom: 2px solid var(--color-primary-dark);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+/* Targets the .nav-container inside the header, replacing .header-content */
+header .nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--color-text-light);
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.logo i {
+    color: var(--color-primary-green);
+    margin-right: 10px;
+    font-size: 1.5em;
+    filter: drop-shadow(0 0 5px var(--color-primary-green));
+}
+
+/* FIX: Centering the navigation menu - Targets .main-nav, replacing .nav-menu */
+.main-nav {
+    flex-grow: 1; /* Makes the nav menu take up all available space */
+    display: flex; /* Enables flex on the container */
+    justify-content: center; /* Centers the actual list of links (ul) within this space */
+}
+
+/* Targets the ul.nav-links inside nav.main-nav */
+.main-nav .nav-links {
+    list-style: none;
+    display: flex;
+    /* --- MODIFIED: Increased gap from 0.5rem to 1.5rem for better spacing --- */
+    gap: 1.5rem;
+}
+
+/* Styles for boxed navigation links */
+.main-nav a { /* Targets links inside .main-nav, replacing .nav-menu a */
+    color: var(--color-text-light);
+    font-weight: 600;
+    padding: 8px 15px;
+    border-radius: 6px;
+    background-color: transparent;
+    border: 1px solid var(--color-surface-light);
+    transition: all 0.2s ease-in-out;
+    white-space: nowrap;
+}
+
+.main-nav a:hover {
+    color: var(--color-background-dark);
+    background-color: var(--color-primary-green);
+    border-color: var(--color-primary-green);
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+    transform: translateY(-2px);
+}
+
+.main-nav a.active {
+    color: var(--color-background-dark);
+    background-color: var(--color-primary-green);
+    border-color: var(--color-primary-green);
+    font-weight: 700;
+}
+
+/* Targets the .user-info div, replacing .user-status */
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+.welcome-message {
+    color: var(--color-text-dim);
+    white-space: nowrap;
+}
+
+.user-role {
+    color: var(--color-primary-green);
+    font-weight: 700;
+}
+
+/* --- 3. Buttons and Forms (UNCHANGED) --- */
+
+.button {
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--border-radius-base);
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s, transform 0.1s, box-shadow 0.3s;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.button i {
+    margin-right: 8px;
+}
+
+.primary-btn {
+    background-color: var(--color-primary-green);
+    color: var(--color-background-dark);
+    box-shadow: 0 4px 10px rgba(76, 175, 80, 0.4);
+}
+
+.primary-btn:hover {
+    background-color: var(--color-primary-dark);
+    color: var(--color-text-light);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(76, 175, 80, 0.5);
+}
+
+.secondary-btn {
+    background-color: var(--color-surface-light);
+    color: var(--color-text-light);
+    border: 2px solid var(--color-primary-green);
+}
+
+.secondary-btn:hover {
+    background-color: var(--color-primary-green);
+    color: var(--color-background-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(76, 175, 80, 0.3);
+}
+
+.small-btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+}
+
+.form-card {
+    background-color: var(--color-surface-dark);
+    padding: 2rem;
+    border-radius: var(--border-radius-base);
+    box-shadow: var(--box-shadow-base);
+    max-width: 400px;
+    margin: 3rem auto;
+    border: 1px solid rgba(76, 175, 80, 0.2);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--color-text-dim);
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: var(--border-radius-base);
+    border: 1px solid var(--color-surface-light);
+    background-color: var(--color-surface-light);
+    color: var(--color-text-light);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-control:focus {
+    border-color: var(--color-primary-green);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.3);
+}
+
+/* -------------------------------------- */
+/* --- New/Updated CTA Link Style --- */
+/* -------------------------------------- */
+
+.cta-link {
+    display: inline-block;
+    padding: 10px 25px;
+    border: 2px solid var(--color-primary-green);
+    border-radius: var(--border-radius-base);
+    color: var(--color-primary-green);
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: all 0.3s ease-in-out;
+    margin-top: 1.5rem; /* Space above the link */
+}
+
+.cta-link:hover {
+    background-color: var(--color-primary-green);
+    color: var(--color-background-dark);
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(76, 175, 80, 0.6);
+}
+
+
+/* --- 4. Main Content Layout & Hero Section (UPDATED FOR SMALL HERO) --- */
+
+.page-content {
+    flex-grow: 1;
+    padding-top: 0;
+    padding-bottom: 4rem;
+}
+
+.hero-section {
+    background-color: var(--color-surface-dark);
+    padding: 8rem 0; /* Increased vertical padding */
+    margin-bottom: 3rem;
+    /* Added subtle inner gradient for depth */
+    background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), radial-gradient(circle at center, #30304D 0%, #23233A 100%);
+    border-bottom: 5px solid var(--color-primary-green);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+}
+
+/* New class for smaller header heroes like on the Services page */
+.hero-section.small-hero {
+    padding: 4rem 0; /* Reduced padding for secondary pages */
+    margin-bottom: 3rem;
+}
+
+.hero-content {
+    text-align: center;
+    max-width: 900px; /* Slightly wider text block */
+    margin: 0 auto;
+}
+
+.hero-content h1 {
+    font-size: 3.8rem; /* Larger Title */
+    font-weight: 900;
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+    color: var(--color-text-light);
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.2); /* Stronger text glow */
+    /* If your icon is a unicode char (like 🏠), this helps it stand out: */
+    text-shadow: 0 0 10px var(--color-primary-green), 0 0 5px rgba(0,0,0,0.8);
+}
+
+/* Styling for the main descriptive paragraph */
+.hero-content p {
+    font-size: 1.4rem; /* Larger font size */
+    color: var(--color-text-light); /* Changed to light for better contrast */
+    font-weight: 300; /* Lighter weight for modern look */
+    margin-bottom: 2.5rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+
+/* --- 5. Dashboard / Feature Cards (UNCHANGED) --- */
+.dashboard-content {
+    padding: 2rem;
+}
+
+.dashboard-header {
+    margin-bottom: 2rem;
+    border-bottom: 2px solid var(--color-surface-light);
+    padding-bottom: 1rem;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.feature-card {
+    background-color: var(--color-surface-dark);
+    border-radius: var(--border-radius-base);
+    padding: 1.5rem;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+    cursor: pointer;
+    border: 1px solid rgba(76, 175, 80, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    background-color: #353555;
+    box-shadow: 0 12px 25px rgba(76, 175, 80, 0.2);
+}
+
+.feature-card i {
+    font-size: 2.5rem;
+    color: var(--color-primary-green);
+    margin-bottom: 0.75rem;
+}
+
+.feature-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.feature-card p {
+    font-size: 0.9rem;
+    color: var(--color-text-dim);
+}
+
+
+.upcoming-events-section {
+    margin-top: 4rem;
+}
+
+.event-list {
+    background-color: var(--color-surface-dark);
+    padding: 1.5rem;
+    border-radius: var(--border-radius-base);
+    text-align: center;
+    border: 1px dashed var(--color-text-dim);
+}
+
+.event-list p {
+    color: var(--color-text-dim);
+    font-style: italic;
+}
+
+
+/* --- 6. Flash Messages (Alerts) (UNCHANGED) --- */
+
+.flash-messages-container {
+    margin-bottom: 1.5rem;
+    padding-top: 0.5rem;
+}
+
+.flash-message {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: var(--border-radius-base);
+    font-weight: 600;
+    opacity: 0.95;
+    animation: fadeInOut 5s ease-in-out forwards;
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translateY(-10px); }
+    10% { opacity: 1; transform: translateY(0); }
+    90% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; display: none; }
+}
+
+.flash-success {
+    background-color: #2E7D32;
+    color: #C8E6C9;
+    border: 1px solid #1B5E20;
+}
+
+.flash-danger {
+    background-color: #C62828;
+    color: #FFCDD2;
+    border: 1px solid #B71C1C;
+}
+
+.flash-info {
+    background-color: #1565C0;
+    color: #BBDEFB;
+    border: 1px solid #0D47A1;
+}
+
+/* --- 7. Footer (UNCHANGED) --- */
+
+footer {
+    background-color: var(--color-surface-dark);
+    color: var(--color-text-dim);
+    text-align: center;
+    padding: 1.5rem 0;
+    margin-top: auto;
+    font-size: 0.85rem;
+    border-top: 1px solid rgba(76, 175, 80, 0.1);
+}
+
+/* --- 8. Media Queries for Responsiveness (FIXED FOR HTML STRUCTURE) --- */
+
+@media (max-width: 768px) {
+    /* Targets the inner container, replacing .header-content */
+    header .nav-container {
+        /* When stacking, align elements to the left for better reading flow */
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+
+    /* Targets .main-nav, replacing .nav-menu */
+    .main-nav {
+        width: 100%; /* Ensure nav menu takes full width when stacked */
+        justify-content: flex-start; /* Align links to the left on mobile */
+    }
+
+    /* Targets .nav-links inside .main-nav */
+    .main-nav .nav-links {
+        /* Keep tighter spacing for mobile to prevent overflow */
+        gap: 0.8rem;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+
+    /* Targets .user-info, replacing .user-status */
+    .user-info {
+        /* Keep user status inline but give it full width for better positioning */
+        width: 100%;
+        justify-content: flex-start;
+        flex-direction: row;
+        gap: 0.5rem;
+    }
+
+    /* Small hero adjustment for mobile */
+    .hero-section.small-hero {
+        padding: 3rem 0;
+    }
+
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+    .hero-content p {
+        font-size: 1.1rem;
+    }
+    .hero-buttons {
+        flex-direction: column;
+    }
+
+    /* Services grid layout for mobile */
+    .service-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .service-card .details {
+        text-align: left;
+    }
+}
+
+@media (max-width: 500px) {
+    .logo {
+        font-size: 1.5rem;
+    }
+    .button {
+        width: 100%;
+    }
+    .hero-section {
+        padding: 4rem 0;
+    }
+}
+
+/* --- 9. Gallery/Packages Specific Styles (UNCHANGED) --- */
+
+.content-card {
+    background-color: var(--color-surface-dark);
+    padding: 2rem;
+    border-radius: var(--border-radius-base);
+    box-shadow: var(--box-shadow-base);
+    margin-bottom: 2rem;
+    border: 1px solid rgba(76, 175, 80, 0.1);
+}
+
+.package-tier-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.package-card {
+    background-color: var(--color-surface-light);
+    padding: 1.5rem;
+    border-radius: var(--border-radius-base);
+    border-top: 5px solid transparent;
+    transition: transform 0.3s, border-color 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.package-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+.package-card ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 1.5rem;
+}
+
+.package-card ul li {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 0.8rem;
+    color: var(--color-text-light);
+    font-size: 0.95rem;
+}
+
+.package-card ul li i {
+    color: var(--color-primary-green);
+    margin-right: 12px;
+    font-size: 1.1em;
+    flex-shrink: 0;
+}
+
+/* Specific Tier Colors */
+.tier-gold { border-top-color: #FFD700; }
+.tier-silver { border-top-color: #C0C0C0; }
+.tier-bronze { border-top-color: #CD7F32; }
+
+
+/* --- 10. Services Page Layout (NEW) --- */
+
+.services-showcase .section-description {
+    text-align: center;
+    color: var(--color-text-dim);
+    margin-bottom: 3rem;
+    font-size: 1.1rem;
+}
+
+.service-grid {
+    display: grid;
+    /* 2 columns on desktop, responsive minimum size */
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 3rem;
+    margin-bottom: 3rem;
+}
+
+.service-card {
+    background-color: var(--color-surface-light);
+    border-radius: var(--border-radius-base);
+    overflow: hidden; /* Important for rounding image corners */
+    box-shadow: var(--box-shadow-base);
+    transition: transform 0.3s;
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(76, 175, 80, 0.2);
+}
+
+.service-card .image-wrapper {
+    width: 100%;
+    height: 250px; /* Fixed height for image consistency */
+    overflow: hidden;
+}
+
+.service-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures image covers the area without distortion */
+    transition: transform 0.5s ease;
+}
+
+.service-card:hover img {
+    transform: scale(1.05); /* Subtle zoom effect on hover */
+}
+
+.service-card .details {
+    padding: 1.5rem;
+    text-align: left;
+}
+
+.service-card h3 {
+    font-size: 1.5rem;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    color: var(--color-primary-green);
+}
+
+.service-card .service-icon {
+    margin-right: 10px;
+    font-size: 1.1em;
+    color: var(--color-text-light);
+}
+
+.service-card p {
+    color: var(--color-text-dim);
+}
+
+.text-center {
+    text-align: center;
+}
