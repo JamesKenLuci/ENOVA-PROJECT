@@ -3,24 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Event Pro Manager{% endblock %}</title>
+    <title>{% block title %}Enova{% endblock %}</title>
+
     <!-- Load Google Font: Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     <!-- Load the stylesheet from the static folder -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <!-- Load Font Awesome for icons -->
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+    <!-- START: Global Background Styling -->
+    <style>
+        /*
+        Sets the user's background.png as a fixed, cover background for the entire page.
+        */
+        body {
+            background-image: url('{{ url_for('static', filename='image/background.png') }}');
+            background-size: cover;
+            background-attachment: fixed; /* Ensures background doesn't scroll with content */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: #121212; /* Fallback color for dark aesthetic */
+        }
+
+        /* Apply a semi-transparent dark overlay to the header, main, and footer
+        containers to ensure all content is readable against the image background.
+        Using rgba(0, 0, 0, 0.7) makes the content area dark but lets the image show through.
+        */
+        header, main, footer {
+            background-color: rgba(0, 0, 0, 0.7);
+            /* Optional: Add backdrop-filter for a "frosted glass" effect on supported browsers */
+            backdrop-filter: blur(3px);
+        }
+
+        /* Ensure the main content area inside the navigation container uses a transparent background
+           so the body background is visible. This might need adjustments based on 'style.css'. */
+        .main-content {
+            background-color: transparent;
+        }
+
+    </style>
+    <!-- END: Global Background Styling -->
+
 </head>
 <body>
     <header>
         <div class="nav-container">
-            <!-- BINAGO: Ginawa nating clickable link ang Logo para bumalik sa Home -->
-            <a href="{{ url_for('index') }}" class="logo">Event Pro</a>
+
+            <div class="logo-area">
+                <!-- Logo reference using Flask's url_for -->
+                <img src="{{ url_for('static', filename='image/logo.png') }}" alt="Enova Hiraya Logo" class="website-logo">
+                <a href="{{ url_for('index') }}" class="logo-text">Enova Hiraya</a>
+            </div>
+
+            <!-- Removed the redundant <img> tag for the background here -->
 
             <!-- Main Navigation Links -->
             <nav class="main-nav">
                 <ul class="nav-links">
-                    <!-- Tiyaking 'index' o kung anuman ang function name sa app.py ang nakalagay dito -->
                     <li><a href="{{ url_for('index') }}">Home</a></li>
                     <li><a href="{{ url_for('services') }}">Services</a></li>
                     <li><a href="{{ url_for('gallery') }}">Gallery</a></li>
@@ -29,10 +69,10 @@
                 </ul>
             </nav>
 
-            <!-- User Info and Auth Links (Moved inside nav-container for single-row display) -->
+
             <div class="user-info">
                 {% if current_user.is_authenticated %}
-                    Welcome, **James Ken** (Role: **USER**)
+                    Welcome, James Ken (Role: USER)
                     <a href="{{ url_for('logout') }}" class="btn-link">LOGOUT</a>
                 {% else %}
                     <a href="{{ url_for('login') }}">Login</a> | <a href="{{ url_for('register') }}">Register</a>

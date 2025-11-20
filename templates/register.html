@@ -3,35 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - Event Planner</title>
-    <!-- Links to the shared CSS file -->
+    <title>Create Account | Enova Hiraya</title>
+    <!-- Links to the shared CSS file which must contain the new login-card styles -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
-<body>
-    <div class="container small-container">
-        <h1>Event Planner</h1>
-        <h2>Create Account</h2>
-        <p style="text-align: center; margin-bottom: 20px;">Join to start viewing and planning events.</p>
+<!-- Use the new login-body and login-container structure to center the card -->
+<body class="login-body">
+    <div class="login-container">
+        <!-- The login-card class creates the prominent, frosted box effect -->
+        <div class="login-card">
 
-        <!-- Flash messages display here (e.g., success or username taken) -->
-        {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-            <div class="alert alert-{{ category }}">{{ message }}</div>
-            {% endfor %}
-        {% endif %}
-        {% endwith %}
+            <h1 class="card-title">
+                <i class="fas fa-user-plus"></i> Create Account
+            </h1>
+            <p class="card-subtitle">
+                Join Enova Hiraya to start organizing unforgettable moments.
+            </p>
 
-        <!-- Form submits to the /register route in app.py -->
-        <form method="POST" action="{{ url_for('register') }}">
-            <input type="text" name="username" placeholder="Choose a Username" required>
-            <input type="password" name="password" placeholder="Choose a Password" required>
-            <button type="submit" class="primary-btn">Register</button>
-        </form>
+            <!-- Flash messages display here -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <!-- Note: The new styles use flash-message and flash-{{ category }} -->
+                <div class="flash-message flash-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
 
-        <p style="text-align: center; margin-top: 20px; font-size: 0.9em; color: #6c757d;">
-            Already have an account? <a href="{{ url_for('login') }}" style="color: var(--primary-color); font-weight: bold;">Log In Here</a>
-        </p>
+            <!-- Form submits to the /register route in app.py -->
+            <form method="POST" action="{{ url_for('register') }}">
+                <!-- Input fields use the new form-input class for height and styling -->
+                <input type="text" name="username" class="form-input" placeholder="Choose a Username" required>
+                <input type="password" name="password" class="form-input" placeholder="Choose a Password" required>
+
+                <!-- Button uses the new login-btn class for size and spacing -->
+                <button type="submit" class="button primary-btn login-btn">Register</button>
+            </form>
+
+            <p class="register-link">
+                Already have an account?
+                <a href="{{ url_for('login') }}" class="register-link-a">Log In Here</a>
+            </p>
+        </div>
     </div>
 </body>
 </html>

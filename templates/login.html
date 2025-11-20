@@ -3,42 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Login</title>
+    <title>Client Login | Enova Hiraya</title>
+    <!-- IMPORTANT: This assumes 'style.css' (or a file linked within it) contains the styles below.
+         If you used the 'login_page_styles.css' file I provided previously, ensure that file is linked. -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- You will also need to link Font Awesome or include the icons if you want them to display -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
+<!-- The login-body class applies the full-screen background image/style -->
 <body class="login-body">
-    <div class="container small-container">
-        <h1 class="logo-title">
-            <span class="icon">📅</span> Event Planner
-        </h1>
+    <div class="login-container">
+        <!-- The login-card class creates the prominent, frosted box effect -->
+        <div class="login-card">
 
-        <h2>Log In</h2>
+            <h1 class="card-title">
+                <i class="fas fa-sign-in-alt"></i> Access Portal
+            </h1>
+            <p class="card-subtitle">
+                Securely sign in to manage your unforgettable events.
+            </p>
 
-        <!-- Single hardcoded login prompt -->
-        <p style="text-align: center; color: var(--text-color); margin-bottom: 25px; font-weight: 500;">
-            Please log in to access this page.
-        </p>
+            <!-- Flash messages display here -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <!-- Note: The new styles use flash-message and flash-{{ category }} -->
+                <div class="flash-message flash-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
 
-        <!-- Flash messages display here (hidden when no message is present) -->
-        {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-            <!-- Note: Flask-Login still sends a 'Please log in' message on redirect,
-                 but we are relying on the hardcoded message above for a consistent look. -->
-            <div class="alert alert-{{ category }}">{{ message }}</div>
-            {% endfor %}
-        {% endif %}
-        {% endwith %}
+            <form method="POST" action="{{ url_for('login') }}">
+                <!-- Input fields use the new form-input class for height and styling -->
+                <input type="text" name="username" class="form-input" placeholder="Username" required>
+                <input type="password" name="password" class="form-input" placeholder="Password" required>
 
-        <form method="POST" action="{{ url_for('login') }}">
-            <input type="text" name="username" placeholder="Username" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <button type="submit" class="primary-btn">Log In</button>
-        </form>
+                <!-- Button uses the new login-btn class for size and spacing -->
+                <button type="submit" class="button primary-btn login-btn">Sign In Now</button>
+            </form>
 
-        <p class="register-link-container">
-            Don't have an account? <a href="{{ url_for('register') }}" class="register-link">Register Here</a>
-        </p>
+            <p class="register-link">
+                New client? <a href="{{ url_for('register') }}" class="register-link-a">Create an Account</a>
+            </p>
+        </div>
     </div>
 </body>
 </html>

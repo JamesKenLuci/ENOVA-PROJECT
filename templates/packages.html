@@ -1,67 +1,164 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
-{% block title %}Our Planning Packages{% endblock %}
+<!-- Style block to add a global background image to the body -->
+<style>
+    /* IMPORTANT: This CSS targets the entire <body> element.
+    If you want this background on ALL pages, move this <style> block
+    to your core 'base.html' or main CSS file.
+    */
+    body {
+        /* *** REPLACE THIS URL WITH YOUR ACTUAL BACKGROUND IMAGE URL ***
+        I've used a placeholder that simulates a subtle, high-resolution background.
+        */
+        background-image: url('https://placehold.co/1920x1080/1c1c1c/FFFFFF/png?text=SUBTLE+BACKGROUND+IMAGE');
+        background-size: cover;
+        background-attachment: fixed; /* Keeps the image fixed when scrolling */
+        background-position: center;
+        background-repeat: no-repeat;
+        /* Optional: A subtle dark color overlay to aid readability */
+        background-color: #121212;
+    }
+
+    /* Making the main content slightly transparent and blurring the background
+    to ensure text is readable while the image shows through.
+    */
+    .content-card {
+        /* Use a semi-transparent dark background */
+        background-color: rgba(18, 18, 18, 0.95) !important;
+        /* Subtle blur effect for depth */
+        backdrop-filter: blur(5px);
+    }
+
+    /* Adjust the hero section for the same effect */
+    .hero-section.small-hero {
+        background-color: rgba(18, 18, 18, 0.9) !important;
+    }
+
+    /* --- STYLES TO MAKE CARDS SMALLER --- */
+    /* This targets the container holding the cards. By setting a max-width and
+    centering it, the cards inside will be forced to occupy less horizontal space.
+    */
+    .package-tier-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+        /* Limiting the overall width of the grid container */
+        max-width: 1000px;
+        margin: 0 auto; /* Center the grid on the page */
+    }
+
+    /* Keep card styles but now they are constrained by the smaller grid width */
+    .package-card {
+        padding: 30px;
+        border-radius: 12px;
+        background-color: var(--color-surface); /* Assuming this is a slightly lighter dark color */
+        border: 2px solid var(--color-surface-dark);
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    /* --- END STYLES --- */
+</style>
+
+{% block title %}Event Packages{% endblock %}
 
 {% block content %}
-    <div class="hero-section small-hero">
-        <h1>Flexible Planning Packages</h1>
-        <p class="section-description">
-            Choose the level of service that best fits your needs, from full-service to month-of coordination.
-        </p>
+<!-- Page Header using the small-hero class for a clean banner -->
+<div class="hero-section small-hero">
+    <div class="hero-content">
+        <!-- Using the primary green color for emphasis -->
+        <h1><i class="fas fa-tags" style="color: var(--color-primary-green);"></i> Our Event Packages</h1>
+        <p>Choose the perfect tier that matches your vision and budget for a truly unforgettable event experience.</p>
     </div>
+</div>
 
-    <div class="event-list">
-        
-        <!-- Package Card 1: The Full-Service -->
-        <div class="event-card" style="border-left: 5px solid #F97316;">
-            <h3 style="color: #F97316;"><i class="fas fa-gem"></i> The Signature Package</h3>
-            <p class="event-meta">Perfect for busy clients who want a completely hands-off experience.</p>
-            
-            <ul style="color: var(--color-text-light); padding-left: 20px;">
-                <li>Full concept, design, and theme development.</li>
-                <li>Unlimited vendor sourcing and contract negotiation.</li>
-                <li>Comprehensive budget management.</li>
-                <li>On-site coordination with 2 lead planners.</li>
-            </ul>
-            <div class="event-actions">
-                <!-- Tiyakin na ang 'booking' ay tama ang route name -->
-                <a href="{{ url_for('booking') }}" class="button primary-btn small-btn">Inquire Now</a>
+<section class="packages-showcase">
+    <!-- content-card holds the main section content, giving it a dark surface background -->
+    <div class="content-card">
+        <h2 class="text-center" style="margin-bottom: 2.5rem; color: var(--color-primary-green); font-weight: 800; letter-spacing: 0.05em;">Simple, Streamlined, Stellar Events</h2>
+
+        <!-- The core pricing grid -->
+        <div class="package-tier-grid">
+
+            <!-- ESSENTIAL SUPPORT TIER CARD (Bronze Equivalent) -->
+            <!-- We keep the "tier-bronze" style class for the border color, but the name is changed -->
+            <div class="package-card tier-bronze">
+                <h3 class="text-center" style="font-size: 1.8rem; color: #CD7F32;">Essential Support</h3>
+                <p class="text-center" style="color: var(--color-text-dim); margin-bottom: 1rem; font-style: italic;">Focused on coordination for smaller events.</p>
+
+                <!-- Price Box -->
+                <div class="price-box" style="text-align: center; margin-bottom: 1.5rem; padding: 10px; background-color: var(--color-surface-dark); border-radius: 6px;">
+                    <span style="font-size: 2.5rem; font-weight: 900; color: var(--color-text-light);">₱25,000</span>
+                    <p style="font-size: 0.9rem; color: var(--color-text-dim); margin: 0;">Starting Price</p>
+                </div>
+
+                <!-- Feature List -->
+                <ul>
+                    <li><i class="fas fa-check-circle"></i> Basic Vendor Vetting</li>
+                    <li><i class="fas fa-check-circle"></i> Timeline Planning</li>
+                    <li><i class="fas fa-check-circle"></i> Day-of Coordination</li>
+                    <!-- Use red X for excluded features -->
+                    <li><i class="fas fa-times-circle" style="color: var(--color-error);"></i> Budget Oversight</li>
+                    <li><i class="fas fa-times-circle" style="color: var(--color-error);"></i> Custom Design Concept</li>
+                </ul>
+                <!-- LINK CHANGED to 'booking' with package parameter -->
+                <a href="{{ url_for('booking') }}?package=Essential%20Support" class="button primary-btn small-btn" style="width: 100%;"><i class="fas fa-briefcase"></i> Book Essential</a>
             </div>
+
+            <!-- SIGNATURE PLANNING TIER CARD (Silver Equivalent) - HIGHLIGHTED AS POPULAR -->
+            <!-- We keep the "tier-silver" style class for the border color -->
+            <div class="package-card tier-silver" style="transform: scale(1.05); box-shadow: 0 15px 30px rgba(76, 175, 80, 0.3); border-color: var(--color-primary-green);">
+                <p class="text-center" style="margin-bottom: 0.5rem; color: var(--color-primary-green); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;"> Most Popular </p>
+                <h3 class="text-center" style="font-size: 2.2rem; color: #C0C0C0;">Signature Planning</h3>
+                <p class="text-center" style="color: var(--color-text-dim); margin-bottom: 1rem; font-style: italic;">Comprehensive planning and full execution.</p>
+
+                <!-- Price Box - Highlighted -->
+                <div class="price-box" style="text-align: center; margin-bottom: 1.5rem; padding: 15px; background-color: var(--color-surface-dark); border-radius: 6px; border: 2px solid var(--color-primary-green);">
+                    <span style="font-size: 3rem; font-weight: 900; color: var(--color-primary-green);">₱55,000</span>
+                    <p style="font-size: 1rem; color: var(--color-text-dim); margin: 0;">Starting Price</p>
+                </div>
+
+                <!-- Feature List -->
+                <ul>
+                    <li><i class="fas fa-check-circle"></i> **Complete Vendor Management**</li>
+                    <li><i class="fas fa-check-circle"></i> Detailed Event Timeline</li>
+                    <li><i class="fas fa-check-circle"></i> Full On-Site Coordination</li>
+                    <li><i class="fas fa-check-circle"></i> Budget Oversight</li>
+                    <li><i class="fas fa-times-circle" style="color: var(--color-error);"></i> Custom Design Concept</li>
+                </ul>
+                <!-- LINK CHANGED to 'booking' with package parameter -->
+                <a href="{{ url_for('booking') }}?package=Signature%20Planning" class="button primary-btn" style="width: 100%;"><i class="fas fa-star"></i> Select Signature</a>
+            </div>
+
+            <!-- PREMIER EXPERIENCE TIER CARD (Gold Equivalent) -->
+            <!-- We keep the "tier-gold" style class for the border color -->
+            <div class="package-card tier-gold">
+                <h3 class="text-center" style="font-size: 1.8rem; color: #FFD700;">Premier Experience</h3>
+                <p class="text-center" style="color: var(--color-text-dim); margin-bottom: 1rem; font-style: italic;">The ultimate stress-free, fully styled event.</p>
+
+                <!-- Price Box -->
+                <div class="price-box" style="text-align: center; margin-bottom: 1.5rem; padding: 10px; background-color: var(--color-surface-dark); border-radius: 6px;">
+                    <span style="font-size: 2.5rem; font-weight: 900; color: var(--color-text-light);">₱90,000+</span>
+                    <p style="font-size: 0.9rem; color: var(--color-text-dim); margin: 0;">Starting Price</p>
+                </div>
+
+                <!-- Feature List -->
+                <ul>
+                    <li><i class="fas fa-check-circle"></i> **Full-Service Planning & Design**</li>
+                    <li><i class="fas fa-check-circle"></i> Dedicated Event Manager</li>
+                    <li><i class="fas fa-check-circle"></i> Premium Coordination & Execution</li>
+                    <li><i class="fas fa-check-circle"></i> Budget Management</li>
+                    <li><i class="fas fa-check-circle"></i> Custom Styling & Concept</li>
+                </ul>
+                <!-- LINK CHANGED to 'booking' with package parameter -->
+                <a href="{{ url_for('booking') }}?package=Premier%20Experience" class="button primary-btn small-btn" style="width: 100%;"><i class="fas fa-crown"></i> Go Premier</a>
+            </div>
+
         </div>
 
-        <!-- Package Card 2: The Essential -->
-        <div class="event-card" style="border-left: 5px solid #2563EB;">
-            <h3 style="color: #2563EB;"><i class="fas fa-cube"></i> The Essential Planner</h3>
-            <p class="event-meta">A balance of planning support and on-the-day execution.</p>
-
-            <ul style="color: var(--color-text-light); padding-left: 20px;">
-                <li>Vendor recommendations and partial booking assistance.</li>
-                <li>Timeline creation and schedule management.</li>
-                <li>Final details and logistics walkthrough.</li>
-                <li>Month-of and Day-of event coordination.</li>
-            </ul>
-            <div class="event-actions">
-                <!-- Tiyakin na ang 'booking' ay tama ang route name -->
-                <a href="{{ url_for('booking') }}" class="button primary-btn small-btn">Inquire Now</a>
-            </div>
-        </div>
-
-        <!-- Package Card 3: The Day-Of -->
-        <div class="event-card" style="border-left: 5px solid #EF4444;">
-            <h3 style="color: #EF4444;"><i class="fas fa-clipboard-list"></i> Day-of Coordination</h3>
-            <p class="event-meta">You plan the event; we handle the flawless execution.</p>
-
-            <ul style="color: var(--color-text-light); padding-left: 20px;">
-                <li>Venue setup and decoration oversight.</li>
-                <li>Vendor check-ins and delivery management.</li>
-                <li>Emergency problem-solving.</li>
-                <li>Final rehearsal and ceremony direction.</li>
-            </ul>
-            <div class="event-actions">
-                <!-- Tiyakin na ang 'booking' ay tama ang route name -->
-                <a href="{{ url_for('booking') }}" class="button primary-btn small-btn">Inquire Now</a>
-            </div>
+        <div class="text-center" style="margin-top: 4rem;">
+            <h4 style="color: var(--color-primary-green); font-size: 1.2rem; margin-bottom: 0.5rem;">The Perfect Fit Awaits</h4>
+            <p style="color: var(--color-text-dim); font-style: italic;">Need something in between or for an international event? <a href="{{ url_for('contact') }}" class="secondary-btn small-btn" style="margin-left: 10px; text-transform: none; padding: 5px 10px;">Contact us for a Custom Quote</a>.</p>
         </div>
 
     </div>
+</section>
 {% endblock %}

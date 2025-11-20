@@ -89,20 +89,35 @@ header .nav-container {
     align-items: center;
 }
 
-.logo {
-    font-size: 1.8rem;
-    font-weight: 800;
-    color: var(--color-text-light);
+/* --- Specific Logo Styling for base.html structure --- */
+
+.logo-area {
     display: flex;
     align-items: center;
+    gap: 8px; /* Space between image and text */
     white-space: nowrap;
 }
 
-.logo i {
+/* ADJUSTED: Keeps the logo size consistent with the text and the previous fix */
+.website-logo {
+    height: 1.8rem;
+    width: auto;
+    /* Adding a subtle glow effect for the dark theme */
+    filter: drop-shadow(0 0 3px var(--color-primary-green));
+    border-radius: 4px;
+}
+
+.logo-text {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--color-text-light);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.2s;
+}
+
+.logo-text:hover {
     color: var(--color-primary-green);
-    margin-right: 10px;
-    font-size: 1.5em;
-    filter: drop-shadow(0 0 5px var(--color-primary-green));
 }
 
 /* FIX: Centering the navigation menu - Targets .main-nav, replacing .nav-menu */
@@ -166,9 +181,9 @@ header .nav-container {
     font-weight: 700;
 }
 
-/* --- 3. Buttons and Forms (UNCHANGED) --- */
+/* --- 3. Buttons and Forms --- */
 
-.button {
+.button, .btn-link { /* Added .btn-link to style logout button */
     padding: 0.75rem 1.5rem;
     border-radius: var(--border-radius-base);
     font-weight: 700;
@@ -187,13 +202,13 @@ header .nav-container {
     margin-right: 8px;
 }
 
-.primary-btn {
+.primary-btn, .btn-link {
     background-color: var(--color-primary-green);
     color: var(--color-background-dark);
     box-shadow: 0 4px 10px rgba(76, 175, 80, 0.4);
 }
 
-.primary-btn:hover {
+.primary-btn:hover, .btn-link:hover {
     background-color: var(--color-primary-dark);
     color: var(--color-text-light);
     transform: translateY(-2px);
@@ -283,7 +298,7 @@ header .nav-container {
 
 /* --- 4. Main Content Layout & Hero Section (UPDATED FOR SMALL HERO) --- */
 
-.page-content {
+.main-content { /* Changed from .page-content to match HTML */
     flex-grow: 1;
     padding-top: 0;
     padding-bottom: 4rem;
@@ -341,7 +356,7 @@ header .nav-container {
 }
 
 
-/* --- 5. Dashboard / Feature Cards (UNCHANGED) --- */
+/* --- 5. Dashboard / Feature Cards --- */
 .dashboard-content {
     padding: 2rem;
 }
@@ -411,14 +426,16 @@ header .nav-container {
 }
 
 
-/* --- 6. Flash Messages (Alerts) (UNCHANGED) --- */
+/* --- 6. Flash Messages (Alerts) --- */
 
-.flash-messages-container {
+/* Updated .flashes and .flashes li to match the new dark theme CSS */
+.flashes {
+    list-style: none;
     margin-bottom: 1.5rem;
     padding-top: 0.5rem;
 }
 
-.flash-message {
+.flashes li {
     padding: 1rem;
     margin-bottom: 1rem;
     border-radius: var(--border-radius-base);
@@ -434,25 +451,25 @@ header .nav-container {
     100% { opacity: 0; display: none; }
 }
 
-.flash-success {
+.success { /* Matches Flask category 'success' */
     background-color: #2E7D32;
     color: #C8E6C9;
     border: 1px solid #1B5E20;
 }
 
-.flash-danger {
+.error, .danger { /* Matches Flask category 'error' or 'danger' */
     background-color: #C62828;
     color: #FFCDD2;
     border: 1px solid #B71C1C;
 }
 
-.flash-info {
+.info { /* Matches Flask category 'info' */
     background-color: #1565C0;
     color: #BBDEFB;
     border: 1px solid #0D47A1;
 }
 
-/* --- 7. Footer (UNCHANGED) --- */
+/* --- 7. Footer --- */
 
 footer {
     background-color: var(--color-surface-dark);
@@ -464,7 +481,7 @@ footer {
     border-top: 1px solid rgba(76, 175, 80, 0.1);
 }
 
-/* --- 8. Media Queries for Responsiveness (FIXED FOR HTML STRUCTURE) --- */
+/* --- 8. Media Queries for Responsiveness --- */
 
 @media (max-width: 768px) {
     /* Targets the inner container, replacing .header-content */
@@ -524,8 +541,11 @@ footer {
 }
 
 @media (max-width: 500px) {
-    .logo {
+    .logo-text {
         font-size: 1.5rem;
+    }
+    .website-logo {
+        height: 1.5rem; /* Adjust logo height to match smaller text */
     }
     .button {
         width: 100%;
@@ -535,7 +555,7 @@ footer {
     }
 }
 
-/* --- 9. Gallery/Packages Specific Styles (UNCHANGED) --- */
+/* --- 9. Gallery/Packages Specific Styles --- */
 
 .content-card {
     background-color: var(--color-surface-dark);
@@ -665,4 +685,116 @@ footer {
 
 .text-center {
     text-align: center;
+}
+.login-body {
+    /* Set a visually interesting but dark background image */
+    background: url('https://placehold.co/1920x1080/1c1c1c/999999/webp?text=Enova Hiraya') no-repeat center center fixed;
+    background-size: cover;
+    /* You would typically use a high-quality, blurred dark image here */
+}
+
+.login-container {
+    min-height: 100vh; /* Use 100vh to cover the whole viewport */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+/* 2. Frosted Glass Login Card */
+.login-card {
+    background-color: rgba(30, 30, 30, 0.85); /* Semi-transparent dark background */
+    backdrop-filter: blur(8px); /* Frosted glass effect */
+    -webkit-backdrop-filter: blur(8px); /* Safari support */
+
+    border: 1px solid rgba(120, 120, 120, 0.3); /* Lighter, subtle border */
+    box-shadow: 0 12px 50px rgba(0, 0, 0, 0.7); /* Deep, impactful shadow */
+
+    padding: 3.5rem 4.5rem; /* Even more generous padding */
+    border-radius: 20px; /* Slightly more rounded corners */
+    max-width: 480px; /* Wider card */
+    width: 100%;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+/* Add a slight hover effect to make it feel responsive */
+.login-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 55px rgba(0, 0, 0, 0.8);
+}
+
+
+.card-title {
+    color: var(--color-primary-green);
+    font-size: 2.8rem; /* Larger title */
+    margin-bottom: 0.5rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-shadow: 0 0 8px rgba(0, 255, 0, 0.3); /* Glowing title effect */
+}
+
+.card-subtitle {
+    color: var(--color-text-dim);
+    margin-bottom: 2.5rem; /* More spacing */
+    font-size: 1.1rem;
+    font-weight: 300;
+}
+
+/* 3. Input field styling */
+.form-input {
+    width: 100%;
+    padding: 16px; /* Taller input */
+    margin-bottom: 1.5rem;
+    background-color: rgba(26, 26, 26, 0.9); /* Opaque background for text clarity */
+    border: 1px solid #444;
+    border-radius: 10px;
+    color: var(--color-text-light);
+    font-size: 1.05rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+.form-input:focus {
+    outline: none;
+    border-color: var(--color-primary-green);
+    box-shadow: 0 0 0 3px rgba(0, 255, 0, 0.5); /* Stronger glow/shadow */
+}
+
+.login-btn {
+    margin-top: 1.5rem; /* More spacing */
+    padding: 15px;
+    font-size: 1.25rem; /* Larger text on button */
+    font-weight: 700;
+    width: 100%;
+    /* Assuming 'button primary-btn' already gives it a great green look */
+}
+
+.register-link {
+    display: block;
+    margin-top: 2rem; /* More separation from button */
+    font-size: 1rem;
+    color: var(--color-text-dim);
+}
+.register-link a {
+    color: var(--color-primary-green);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+.register-link a:hover {
+    color: #a0ffa0; /* Very light, vibrant green on hover */
+    text-decoration: underline;
+}
+
+/* Flash message styling remains helpful */
+.flash-message {
+    padding: 12px;
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+.flash-success {
+    background-color: rgba(50, 205, 50, 0.15);
+    color: #32cd32;
+    border: 1px solid #32cd3260;
 }
