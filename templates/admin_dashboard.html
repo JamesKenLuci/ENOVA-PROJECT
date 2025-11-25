@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mx-auto p-4 md:p-8">
+    <h1 class="text-3xl font-bold mb-6 text-white text-center">Administrator Panel</h1>
+
+    <!-- Admin Stats Cards - Focused on overall metrics -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+        <!-- Total Bookings -->
+        <div class="bg-gray-800 p-4 rounded-lg shadow-xl flex items-center justify-between">
+            <div>
+                <h2 class="text-lg font-semibold text-indigo-400">Total Bookings</h2>
+                <p class="text-3xl font-extrabold text-white">{{ stats.total_bookings | default(0) }}</p>
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2m-2 4l-4 4-2-2m4-2h6"/>
+            </svg>
+        </div>
+
+        <!-- Pending Requests -->
+        <div class="bg-gray-800 p-4 rounded-lg shadow-xl flex items-center justify-between">
+            <div>
+                <h2 class="text-lg font-semibold text-yellow-400">Pending Requests</h2>
+                <p class="text-3xl font-extrabold text-white">{{ stats.pending_requests | default(0) }}</p>
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+        </div>
+
+        <!-- Approved Events -->
+        <div class="bg-gray-800 p-4 rounded-lg shadow-xl flex items-center justify-between">
+            <div>
+                <h2 class="text-lg font-semibold text-green-400">Approved Events</h2>
+                <p class="text-3xl font-extrabold text-white">{{ stats.approved_events | default(0) }}</p>
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+        </div>
+
+        <!-- Registered Users -->
+        <div class="bg-gray-800 p-4 rounded-lg shadow-xl flex items-center justify-between">
+            <div>
+                <h2 class="text-lg font-semibold text-pink-400">Registered Users</h2>
+                <p class="text-3xl font-extrabold text-white">{{ stats.registered_users | default(0) }}</p>
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-pink-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20v-2c0-.656-.126-1.283-.356-1.857m0 0a5.002 5.002 0 019.288 0M10 10a5 5 0 0110 0v2m-10 0a5 5 0 0010 0v2"/>
+            </svg>
+        </div>
+    </div>
+
+
+    <!-- Client Booking Requests Management Table -->
+    <div class="bg-gray-800 p-6 rounded-xl shadow-2xl border border-red-700">
+        <h2 class="text-2xl font-bold text-red-400 mb-6">Client Booking & Receipt Management</h2>
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-700">
+                <thead class="bg-gray-700">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Booking ID</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Client Name / Email</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Event Type / Date</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Package / Base Price</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Final Price (Receipt)</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Status</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-gray-800 divide-y divide-gray-700">
+                    {% for booking in bookings %}
+                    <tr class="hover:bg-gray-700 transition duration-150">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-400">{{ booking.id }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-white">
+                            {{ booking.client_name | default('N/A') }} <br>
+                            <span class="text-xs text-gray-400 italic">{{ booking.client_email | default('No Email') }}</span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                            {{ booking.event_type | default('N/A') }} <br>
+                            <span class="text-xs text-gray-500">{{ booking.event_date | default('No Date') }}</span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-purple-400">
+                             {{ booking.package_name | default('N/A') }} <br>
+                             <span class="text-xs font-bold">P{{ "{:,.2f}".format(booking.base_price | default(0.00)) }}</span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-green-500">
+                            P{{ "{:,.2f}".format(booking.final_price | default(0.00)) }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                                {% if booking.status == 'Approved' %} bg-green-100 text-green-800
+                                {% elif booking.status == 'Pending' %} bg-yellow-100 text-yellow-800
+                                {% elif booking.status == 'Rejected' or booking.status == 'Cancelled' %} bg-red-100 text-red-800
+                                {% else %} bg-gray-100 text-gray-800
+                                {% endif %}">
+                                {{ booking.status | default('Unknown') }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-y-2 flex flex-col items-start">
+                            <!-- View/Approve Link (Primary action) -->
+                            <a href="{{ url_for('view_receipt', booking_id=booking.id) }}" class="text-indigo-400 hover:text-indigo-300 font-semibold text-xs">
+                                View / Approve
+                            </a>
+
+                            <!-- Edit Action -->
+                            <a href="{{ url_for('edit_booking', booking_id=booking.id) }}" class="text-yellow-500 hover:text-yellow-400 text-xs">
+                                Edit Details
+                            </a>
+
+                            <!-- Delete Action (Uses a form for safety) -->
+                            <form method="POST" action="{{ url_for('delete_booking', booking_id=booking.id) }}" onsubmit="return confirm('Are you sure you want to permanently delete booking ID {{ booking.id }}? This action cannot be undone.');">
+                                <button type="submit" class="text-red-500 hover:text-red-400 text-xs mt-1">
+                                    Delete
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="7" class="px-6 py-10 text-center text-xl font-semibold text-gray-500">
+                            No active client booking requests found.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

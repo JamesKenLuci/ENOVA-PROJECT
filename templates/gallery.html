@@ -1,81 +1,65 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
-{% block title %}Event Portfolio Gallery{% endblock %}
+{% block title %}Our Portfolio{% endblock %}
 
 {% block content %}
-<main class="page-content">
+<div class="container mx-auto px-4 py-12">
+    <div class="bg-gray-900 shadow-2xl rounded-xl p-8 md:p-10 border border-gray-700">
+        <h1 class="text-4xl font-extrabold text-green-400 mb-8 border-b border-gray-700 pb-2 text-center">Our Portfolio</h1>
+        <p class="text-lg text-gray-400 mb-10 text-center">A glimpse into the elegant, effortless, and unforgettable moments we've created.</p>
 
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
 
-    <section class="hero-section small-hero">
-        <div class="hero-content">
+            <div class="relative group h-64 rounded-xl overflow-hidden shadow-lg border border-gray-700 hover:shadow-green-500/50 transition duration-300">
+                <img src="{{ url_for('static', filename='image/elegant_wedding.jpg') }}" alt="Elegant Wedding" class="w-full h-full object-cover transition duration-500 transform group-hover:scale-105">
+                <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-500">
+                    <p class="text-white text-xl font-bold tracking-wider">Elegant Wedding</p>
+                </div>
+            </div>
 
-            <h1 style="font-size: 3rem; margin-bottom: 0.5rem;">
-                <i class="fas fa-camera-retro" style="color: var(--color-primary-green); margin-right: 15px;"></i> Event Portfolio Gallery
-            </h1>
-            <p style="font-size: 1.25rem; font-weight: 300; color: var(--color-text-dim); margin-bottom: 0;">
-                A peek into the beautiful events we have planned and managed. Click a category to view examples!
-            </p>
+            <div class="relative group h-64 rounded-xl overflow-hidden shadow-lg border border-gray-700 hover:shadow-green-500/50 transition duration-300">
+                <img src="{{ url_for('static', filename='image/corporate_gala.jpg') }}" alt="Corporate Gala" class="w-full h-full object-cover transition duration-500 transform group-hover:scale-105">
+                <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-500">
+                    <p class="text-white text-xl font-bold tracking-wider">Corporate Gala</p>
+                </div>
+            </div>
+
+            <div class="relative group h-64 rounded-xl overflow-hidden shadow-lg border border-gray-700 hover:shadow-green-500/50 transition duration-300">
+                <img src="{{ url_for('static', filename='image/themed_birthday.jpg') }}" alt="Themed Birthday" class="w-full h-full object-cover transition duration-500 transform group-hover:scale-105">
+                <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-500">
+                    <p class="text-white text-xl font-bold tracking-wider">Themed Birthday</p>
+                </div>
+            </div>
+
+            <div class="relative group h-64 rounded-xl overflow-hidden shadow-lg border border-gray-700 hover:shadow-green-500/50 transition duration-300">
+                <img src="{{ url_for('static', filename='image/product_launch.jpg') }}" alt="Product Launch" class="w-full h-full object-cover transition duration-500 transform group-hover:scale-105">
+                <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-500">
+                    <p class="text-white text-xl font-bold tracking-wider">Product Launch</p>
+                </div>
+            </div>
+
+             <div class="relative group h-64 rounded-xl overflow-hidden shadow-lg border border-gray-700 hover:shadow-green-500/50 transition duration-300">
+                <img src="{{ url_for('static', filename='image/anniv_celeb.jpg') }}" alt="Anniversary Celebration" class="w-full h-full object-cover transition duration-500 transform group-hover:scale-105">
+                <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-500">
+                    <p class="text-white text-xl font-bold tracking-wider">Anniversary</p>
+                </div>
+            </div>
+
+            <div class="relative group h-64 rounded-xl overflow-hidden shadow-lg border border-gray-700 hover:shadow-green-500/50 transition duration-300">
+                <img src="{{ url_for('static', filename='image/holiday_party.jpg') }}" alt="Holiday Party" class="w-full h-full object-cover transition duration-500 transform group-hover:scale-105">
+                <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-500">
+                    <p class="text-white text-xl font-bold tracking-wider">Holiday Party</p>
+                </div>
+            </div>
+
         </div>
-    </section>
 
-    <!-- Main Content Card at Gallery Grid -->
-    <div class="container">
-        <div class="content-card" style="margin-top: -6rem;"> <!-- Bahagyang itinaas para matakpan ang hero border -->
-
-            <!-- Category Grid -->
-            <div class="gallery-grid">
-
-                <!-- Gallery Card 1: Elegant Weddings -->
-                <div class="gallery-card tier-gold">
-                    <h3><i class="fas fa-heart"></i> Elegant Weddings</h3>
-                    <p>View our most romantic and detailed wedding setups.</p>
-                    <a href="#" class="button secondary-btn small-btn">View Portfolio</a>
-                </div>
-
-                <!-- Gallery Card 2: Corporate Dinners -->
-                <div class="gallery-card tier-silver">
-                    <h3><i class="fas fa-briefcase"></i> Corporate Dinners</h3>
-                    <p>Showcasing professional and impactful corporate events.</p>
-                    <a href="#" class="button secondary-btn small-btn">View Portfolio</a>
-                </div>
-
-                <!-- Gallery Card 3: Birthday Celebrations -->
-                <div class="gallery-card tier-bronze">
-                    <h3><i class="fas fa-birthday-cake"></i> Birthday Celebrations</h3>
-                    <p>From milestone birthdays to thematic parties.</p>
-                    <a href="#" class="button secondary-btn small-btn">View Portfolio</a>
-                </div>
-
-                <!-- Gallery Card 4: Product Launches -->
-                <div class="gallery-card tier-gold">
-                    <h3><i class="fas fa-rocket"></i> Product Launches</h3>
-                    <p>High-energy events designed for maximum media impact.</p>
-                    <a href="#" class="button secondary-btn small-btn">View Portfolio</a>
-                </div>
-
-                <!-- Gallery Card 5: Outdoor Festivals -->
-                <div class="gallery-card tier-silver">
-                    <h3><i class="fas fa-music"></i> Outdoor Festivals</h3>
-                    <p>Large-scale organization and logistical mastery.</p>
-                    <a href="#" class="button secondary-btn small-btn">View Portfolio</a>
-                </div>
-
-                <!-- Gallery Card 6: Non-Profit Galas -->
-                <div class="gallery-card tier-bronze">
-                    <h3><i class="fas fa-handshake"></i> Non-Profit Galas</h3>
-                    <p>Elegant fundraising events and sophisticated ceremonies.</p>
-                    <a href="#" class="button secondary-btn small-btn">View Portfolio</a>
-                </div>
-
-            </div>
-
-            <div class="text-center" style="margin-top: 3rem;">
-                <a href="{{ url_for('booking') }}" class="button primary-btn" style="font-size: 1.1rem;">
-                    <i class="fas fa-calendar-check"></i> START PLANNING YOUR EVENT
-                </a>
-            </div>
-
+        <div class="mt-12 text-center p-6 bg-gray-800 rounded-lg border border-gray-700">
+            <p class="text-xl font-semibold text-gray-300">Ready to see your vision realized? </p>
+            <a href="{{ url_for('booking') }}" class="mt-4 inline-block py-3 px-8 bg-green-500 text-gray-900 font-bold rounded-full hover:bg-green-600 transition duration-300 shadow-lg">
+                Inquire Now
+            </a>
         </div>
     </div>
-</main>
+</div>
 {% endblock %}

@@ -1,155 +1,74 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
-<style>
-    /*
-    This CSS section sets up the overall page aesthetic using a dark theme
-    and ensuring the background image is visually subtle and doesn't interfere with the form.
-    */
-    body {
-        /* Set a dark background, potentially with a placeholder image */
-        background-color: #121212;
-        background-image: url('https://placehold.co/1920x1080/1c1c1c/FFFFFF/png?text=SUBTLE+BACKGROUND+IMAGE');
-        background-size: cover;
-        background-attachment: fixed;
-        background-position: center;
-        background-repeat: no-repeat;
-    }
-
-    /* Styles for the main form card to ensure high contrast */
-    .contact-card {
-        background-color: rgba(24, 24, 24, 0.98); /* Near-black surface for contrast */
-        border: 1px solid var(--color-surface-dark);
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
-        padding: 3rem; /* Increased card padding for more internal space */
-        border-radius: 12px;
-        backdrop-filter: blur(4px);
-    }
-
-    /* Input field styling for dark mode */
-    .form-input {
-        width: 100%;
-        padding: 16px; /* Increased input padding for taller, more noticeable boxes */
-        margin-bottom: 2rem; /* Increased margin for better separation */
-        background-color: var(--color-surface-dark);
-        border: 1px solid #333;
-        border-radius: 8px;
-        color: var(--color-text-light);
-        font-size: 1.1rem; /* Increased font size inside inputs */
-        transition: border-color 0.3s, box-shadow 0.3s;
-    }
-    .form-input:focus {
-        outline: none;
-        border-color: var(--color-primary-green);
-        box-shadow: 0 0 0 2px var(--color-primary-green);
-    }
-
-    /* Increased font size for labels */
-    .form-group label {
-        font-size: 1.1rem;
-        font-weight: 500;
-    }
-
-    /* Increased font size for footer contact details */
-    .contact-detail p {
-        font-size: 1.1rem;
-    }
-    .contact-detail i {
-        font-size: 1.5rem !important; /* Make icons larger */
-    }
-
-</style>
-
-{% block title %}Contact Event Pro{% endblock %}
+{% block title %}Contact Us{% endblock %}
 
 {% block content %}
-<div class="page-container" style="padding: 40px 20px;">
 
-    <!-- Hero Section for the Contact Page -->
-    <div class="hero-section small-hero text-center" style="margin-bottom: 3rem; background-color: transparent;">
-        <div class="hero-content">
-            <!-- Increased H1 size to 3rem -->
-            <h1 style="font-size: 3rem; font-weight: 900; color: var(--color-primary-green); letter-spacing: 0.1em;">
-                <i class="fas fa-handshake"></i> Let's Start Planning!
-            </h1>
-            <!-- Increased P size to 1.2rem -->
-            <p style="font-size: 1.2rem; color: var(--color-text-dim); max-width: 800px; margin: 0 auto;">
-                We'd love to hear about your next event. Fill out the form below and we'll get back to you within 24 hours.
-            </p>
-        </div>
-    </div>
+<div class="container mx-auto px-4 py-12">
+    <!-- Main container updated for dark theme -->
+    <div class="max-w-4xl mx-auto bg-gray-900 shadow-2xl rounded-xl p-8 md:p-12 border border-gray-700">
+        <h1 class="text-4xl font-extrabold text-green-400 mb-4 border-b border-gray-700 pb-2 text-center">Get in Touch</h1>
+        <p class="text-lg text-gray-400 mb-8 text-center">We'd love to hear about your next event. Fill out the form below and we'll get back to you within 24 hours.</p>
 
-    <!-- Main Content Grid - Max width increased from 900px to 1100px -->
-    <div class="main-content-grid" style="max-width: 1100px; margin: 0 auto;">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
 
-        <div class="contact-card">
-            <!-- Increased H2 size to 2.2rem -->
-            <h2 style="font-size: 2.2rem; margin-bottom: 2rem; color: var(--color-text-light); text-align: center;">
-                Inquire About Your Event
-            </h2>
-
-            <form action="{{ url_for('contact') }}" method="POST">
-                <!-- Name Field -->
-                <div class="form-group">
-                    <label for="name" style="display: block; color: var(--color-text-dim); margin-bottom: 8px;">Your Name:</label>
-                    <input type="text" id="name" name="name" class="form-input" required placeholder="Full Name">
+            <!-- Contact Form -->
+            <form method="POST" action="{{ url_for('contact') }}" class="space-y-6">
+                <div>
+                    <label for="name" class="block text-sm font-medium text-gray-300 mb-1">Your Name</label>
+                    <input type="text" id="name" name="name" required placeholder="Full Name"
+                           class="w-full p-3 border border-gray-700 bg-gray-800 text-white rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150" />
                 </div>
 
-                <!-- Email Field -->
-                <div class="form-group">
-                    <label for="email" style="display: block; color: var(--color-text-dim); margin-bottom: 8px;">Email Address:</label>
-                    <input type="email" id="email" name="email" class="form-input" required placeholder="example@email.com">
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-300 mb-1">Email Address</label>
+                    <input type="email" id="email" name="email" required placeholder="example@enovahiraya.com"
+                           class="w-full p-3 border border-gray-700 bg-gray-800 text-white rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150" />
                 </div>
 
-                <!-- Subject/Package Field (Will be pre-filled if coming from packages page) -->
-                <div class="form-group">
-                    <label for="subject" style="display: block; color: var(--color-text-dim); margin-bottom: 8px;">Subject/Interest:</label>
-                    <!-- Check if a 'package' query parameter was passed and use it as default value -->
-                    <input
-                        type="text"
-                        id="subject"
-                        name="subject"
-                        class="form-input"
-                        placeholder="e.g., Signature Planning Inquiry"
-                        value="{{ request.args.get('package', '') }}"
-                        required
-                    >
+                <div>
+                    <label for="subject" class="block text-sm font-medium text-gray-300 mb-1">Subject/Interest</label>
+                    <input type="text" id="subject" name="subject" required placeholder="e.g., Signature Planning, Vendor Inquiry"
+                           class="w-full p-3 border border-gray-700 bg-gray-800 text-white rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150" />
                 </div>
 
-                <!-- Message Field -->
-                <div class="form-group">
-                    <label for="message" style="display: block; color: var(--color-text-dim); margin-bottom: 8px;">Detailed Message:</label>
-                    <textarea id="message" name="message" class="form-input" rows="8" required placeholder="Tell us about the event type, estimated date, guest count, and specific needs..."></textarea>
+                <div>
+                    <label for="message" class="block text-sm font-medium text-gray-300 mb-1">Detailed Message</label>
+                    <textarea id="message" name="message" rows="5" required placeholder="Tell us about the event type, estimated dates, guest count, and specific needs."
+                              class="w-full p-3 border border-gray-700 bg-gray-800 text-white rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150"></textarea>
                 </div>
 
-                <div class="form-group" style="margin-top: 3rem;">
-                    <!-- Increased button padding and size for impact -->
-                    <button type="submit" class="button primary-btn" style="width: 100%; padding: 20px; font-size: 1.3rem; font-weight: 700;">
-                        <i class="fas fa-paper-plane"></i> Send Message
-                    </button>
-                </div>
+                <button type="submit" class="w-full py-3 px-4 bg-green-500 text-gray-900 font-extrabold rounded-lg shadow-xl hover:bg-green-600 transition duration-150 transform hover:scale-[1.01]">
+                    <i class="fas fa-paper-plane mr-2"></i> SEND MESSAGE
+                </button>
             </form>
+
+            <!-- Contact Information -->
+            <div class="bg-gray-800 p-8 rounded-xl border border-gray-700 self-start shadow-inner">
+                <h2 class="text-xl font-bold text-green-400 mb-4">Or Reach Us Directly</h2>
+
+                <div class="space-y-4">
+                    <p class="flex items-center text-gray-300">
+                        <i class="fas fa-phone-alt mr-4 text-green-500 text-lg"></i>
+                        +63 912 345 6789
+                    </p>
+                    <p class="flex items-center text-gray-300">
+                        <i class="fas fa-envelope mr-4 text-green-500 text-lg"></i>
+                        @enovahiraya.com
+                    </p>
+                    <p class="flex items-center text-gray-300">
+                        <i class="fas fa-map-marker-alt mr-4 text-green-500 text-lg"></i>
+                        Manila, Philippines
+                    </p>
+                </div>
+
+                <div class="mt-8 pt-4 border-t border-gray-700">
+                    <h3 class="text-lg font-semibold text-gray-300 mb-2">Office Hours</h3>
+                    <p class="text-gray-400">Monday - Friday: 9:00 AM - 5:00 PM</p>
+                    <p class="text-gray-400">Weekends: By Appointment Only</p>
+                </div>
+            </div>
         </div>
-
     </div>
-
-    <!-- Contact Info Section -->
-    <div class="text-center" style="margin-top: 5rem; padding-top: 4rem; border-top: 1px solid #222;">
-        <h3 style="color: var(--color-text-light); margin-bottom: 2rem; font-size: 1.8rem;">Or Reach Us Directly</h3>
-        <div style="display: flex; justify-content: center; gap: 50px; color: var(--color-text-dim); flex-wrap: wrap;">
-            <div class="contact-detail">
-                <i class="fas fa-phone-alt" style="color: var(--color-primary-green); margin-bottom: 5px;"></i>
-                <p>+63 9297 35920</p>
-            </div>
-            <div class="contact-detail">
-                <i class="fas fa-envelope" style="color: var(--color-primary-green); margin-bottom: 5px;"></i>
-                <p>enova.com</p>
-            </div>
-            <div class="contact-detail">
-                <i class="fas fa-map-marker-alt" style="color: var(--color-primary-green); margin-bottom: 5px;"></i>
-                <p>Manila, Philippines</p>
-            </div>
-        </div>
-    </div>
-
 </div>
 {% endblock %}

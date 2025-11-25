@@ -3,113 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Enova{% endblock %}</title>
-
-    <!-- Load Google Font: Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    <!-- Load the stylesheet from the static folder -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <!-- Load Font Awesome for icons -->
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-
-    <!-- START: Global Background Styling -->
+    <title>{% block title %}Enova Hiraya Events{% endblock %}</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /*
-        Sets the user's background.png as a fixed, cover background for the entire page.
-        */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
         body {
-            background-image: url('{{ url_for('static', filename='image/background.png') }}');
-            background-size: cover;
-            background-attachment: fixed; /* Ensures background doesn't scroll with content */
-            background-position: center;
-            background-repeat: no-repeat;
-            background-color: #121212; /* Fallback color for dark aesthetic */
+            font-family: 'Inter', sans-serif;
+            background-color: #0d0d0d;
+            color: #f3f4f6;
         }
-
-        /* Apply a semi-transparent dark overlay to the header, main, and footer
-        containers to ensure all content is readable against the image background.
-        Using rgba(0, 0, 0, 0.7) makes the content area dark but lets the image show through.
-        */
-        header, main, footer {
-            background-color: rgba(0, 0, 0, 0.7);
-            /* Optional: Add backdrop-filter for a "frosted glass" effect on supported browsers */
-            backdrop-filter: blur(3px);
+        .hero-bg {
+            /* Using a simple gradient background for a clean dark theme */
+            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+            min-height: 100vh;
         }
-
-        /* Ensure the main content area inside the navigation container uses a transparent background
-           so the body background is visible. This might need adjustments based on 'style.css'. */
-        .main-content {
-            background-color: transparent;
+        .admin-link {
+            transition: background-color 0.3s, transform 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
         }
-
+        .admin-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.5);
+        }
     </style>
-    <!-- END: Global Background Styling -->
-
 </head>
-<body>
-    <header>
-        <div class="nav-container">
+<body class="hero-bg">
 
-            <div class="logo-area">
-                <!-- Logo reference using Flask's url_for -->
-                <img src="{{ url_for('static', filename='image/logo.png') }}" alt="Enova Hiraya Logo" class="website-logo">
-                <a href="{{ url_for('index') }}" class="logo-text">Enova Hiraya</a>
-            </div>
+    <!-- Navbar -->
+    <nav class="bg-gray-900 border-b-4 border-green-500 shadow-xl sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo/Brand -->
+                <a href="{{ url_for('index') }}" class="text-2xl font-extrabold text-green-400 hover:text-green-300 transition duration-150">
+                    Enova Hiraya
+                </a>
 
-            <!-- Removed the redundant <img> tag for the background here -->
+                <!-- Navigation Links -->
+                <div class="hidden md:flex space-x-4">
+                    <a href="{{ url_for('index') }}" class="nav-item">Home</a>
+                    <a href="{{ url_for('services') }}" class="nav-item">Services</a>
+                    <a href="{{ url_for('packages') }}" class="nav-item">Packages</a>
+                    <a href="{{ url_for('gallery') }}" class="nav-item">Gallery</a>
+                    <a href="{{ url_for('booking') }}" class="nav-item">Book Event</a>
+                    <a href="{{ url_for('contact') }}" class="nav-item">Contact</a>
 
-            <!-- Main Navigation Links -->
-            <nav class="main-nav">
-                <ul class="nav-links">
-                    <li><a href="{{ url_for('index') }}">Home</a></li>
-                    <li><a href="{{ url_for('services') }}">Services</a></li>
-                    <li><a href="{{ url_for('gallery') }}">Gallery</a></li>
-                    <li><a href="{{ url_for('packages') }}">Packages</a></li>
-                    <li><a href="{{ url_for('contact') }}">Contact</a></li>
-                </ul>
-            </nav>
+                    <!-- Admin Link Check -->
+                    {% if current_user.is_authenticated and current_user.role == 'admin' %}
+                        <a href="{{ url_for('admin_dashboard') }}" class="admin-link bg-red-600 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-red-700">
+                            Admin Dashboard
+                        </a>
+                    {% endif %}
+                </div>
 
-
-            <div class="user-info">
-                {% if current_user.is_authenticated %}
-                    Welcome, James Ken (Role: USER)
-                    <a href="{{ url_for('logout') }}" class="btn-link">LOGOUT</a>
-                {% else %}
-                    <a href="{{ url_for('login') }}">Login</a> | <a href="{{ url_for('register') }}">Register</a>
-                {% endif %}
+                <!-- User Info and Auth Buttons -->
+                <div class="flex items-center space-x-3">
+                    {% if current_user.is_authenticated %}
+                        <span class="text-sm font-medium mr-2 text-gray-200">
+                            {{ current_user.username }}
+                            <span class="px-2 py-0.5 ml-1 text-xs font-bold rounded-full
+                                {% if current_user.role == 'admin' %}bg-green-600{% else %}bg-blue-600{% endif %}
+                                text-white shadow-md">
+                                {{ current_user.role | upper }}
+                            </span>
+                        </span>
+                        <a href="{{ url_for('logout') }}" class="px-3 py-2 text-sm font-medium text-white bg-red-500 rounded-lg hover:bg-red-600 transition">
+                            Logout
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('login') }}" class="px-3 py-2 text-sm font-medium text-white bg-green-500 rounded-lg hover:bg-green-600 transition">
+                            Login
+                        </a>
+                        <a href="{{ url_for('register') }}" class="px-3 py-2 text-sm font-medium text-gray-900 bg-gray-300 rounded-lg hover:bg-gray-400 transition hidden sm:inline-block">
+                            Register
+                        </a>
+                    {% endif %}
+                </div>
             </div>
         </div>
-    </header>
+    </nav>
+    <style>
+        .nav-item {
+            @apply text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-lg text-sm font-medium transition duration-150;
+        }
+    </style>
 
-    <!-- Top Green Separator Line -->
-    <div class="green-border-row"></div>
+    <!-- Flash Messages -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="p-3 mb-3 rounded-xl text-sm font-semibold shadow-xl
+                    {% if category == 'success' %}bg-green-700 text-white{% elif category == 'danger' %}bg-red-700 text-white{% else %}bg-blue-700 text-white{% endif %}
+                    " role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    </div>
 
-    <main class="main-content">
-        <div class="nav-container">
-            <!-- Flash Messages -->
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    <ul class="flashes">
-                        {% for category, message in messages %}
-                            <li class="{{ category }}">{{ message }}</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-            {% endwith %}
-
-            <!-- Content Block -->
-            {% block content %}{% endblock %}
-        </div>
+    <!-- Main Content Block -->
+    <main class="py-8">
+        {% block content %}{% endblock %}
     </main>
 
-    <!-- Bottom Green Separator Line -->
-    <div class="green-border-row"></div>
-
-    <!-- Basic Footer -->
-    <footer>
-        <div class="nav-container" style="text-align: center; font-size: 0.8rem; padding: 10px 0;">
-            Our Specialized Services
-        </div>
-    </footer>
 </body>
 </html>

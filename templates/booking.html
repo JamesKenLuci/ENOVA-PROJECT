@@ -1,79 +1,287 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Your Planning Session</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles to ensure Inter font is used and smooth transitions */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom styling for appearance-none on select to allow custom arrow or indicator if needed */
+        select:not([multiple]) {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%239CA3AF'%3e%3cpath d='M7 7l3-3 3 3m0 6l-3 3-3-3' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3e%3c/svg%3e");
+            background-position: right 0.75rem center;
+            background-size: 1.5em 1.5em;
+            background-repeat: no-repeat;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 min-h-screen">
+<div class="container mx-auto px-4 py-16 sm:px-6 lg:px-8">
 
-{% block title %}Book Your Planning Session{% endblock %}
+    <!-- Booking Form Container -->
+    <div class="max-w-3xl mx-auto bg-gray-800 p-8 md:p-10 rounded-xl shadow-2xl border border-gray-700">
 
-{% block content %}
-<main class="page-content">
-    <div class="flex-container">
-        <!-- Using the custom class defined in style.css -->
-        <div class="form-card">
-
-            <h1 class="text-center" style="font-size: 2rem; font-weight: 800; margin-bottom: 1.5rem;">
-                <i class="fas fa-clipboard-list" style="color: var(--color-primary-green); margin-right: 10px;"></i> Secure Your Planning Session
-            </h1>
-            <p class="text-center" style="color: var(--color-text-dim); margin-bottom: 2rem;">
-                Let's turn your unique vision into a flawlessly executed celebration.
+        <!-- Header Text -->
+        <div class="text-center mb-10">
+            <h2 class="text-3xl font-bold text-green-500 mb-2">Secure Your Planning Session</h2>
+            <p class="text-gray-400">
+                Let's turn your unique vision into a flawlessly executed celebration. Select your preferred planning package and customize your event.
             </p>
+        </div>
 
-            <!-- Flash Messages -->
-            <div class="flash-messages-container">
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    {% for category, message in messages %}
-                        <!-- Using the custom flash message classes -->
-                        <div class="flash-message {% if category == 'success' %}flash-success{% elif category == 'danger' %}flash-danger{% else %}flash-info{% endif %}">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
-            </div>
+        <!-- Booking Form -->
+        <form action="#" method="POST" class="space-y-8">
 
-            <form method="POST" action="{{ url_for('booking') }}" class="form-layout">
+            <!-- SECTION 1: Package Selection -->
+            <div class="space-y-6">
+                <h3 class="text-xl font-semibold text-white border-b border-gray-700 pb-3">1. Select Planning Package</h3>
 
-                <!-- Type of Event -->
-                <div class="form-group">
-                    <label for="event_type">Type of Event</label>
-                    <select id="event_type" name="event_type" class="form-control" required>
-                        <option value="" disabled selected>Select an Event Type</option>
-                        <option value="wedding">Elegant Wedding</option>
-                        <option value="corporate">Exclusive Corporate Gala</option>
-                        <option value="private_party">Private Party (Birthday, Anniversary, etc.)</option>
-                        <option value="launch">Product Launch / Media Event</option>
-                        <option value="other">Other (Specify in Details)</option>
+                <!-- Planning Package Dropdown -->
+                <div>
+                    <label for="event_package" class="block text-sm font-medium text-gray-300 mb-1">Select Your Planning Package *</label>
+                    <select id="event_package" name="event_package" required onchange="updatePackageDetails()"
+                            class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-green-500 focus:border-green-500 appearance-none">
+                        <option value="None" disabled selected>Choose a Planning Package</option>
+                        <option value="Essential">The Essential: Day-of Coordination</option>
+                        <option value="Signature">The Signature: Partial Planning</option>
+                        <option value="Premium">The Premium: Full-Service Planning</option>
                     </select>
                 </div>
+            </div>
 
-                <!-- Preferred Date(s) -->
-                <div class="form-group">
-                    <label for="date_preference">Preferred Date(s)</label>
-                    <input type="text" id="date_preference" name="date_preference" class="form-control" placeholder="e.g., June 15th, 2026 or Q3 2027" required>
+            <!-- SECTION 2: Package Details and Estimated Price -->
+            <div class="space-y-6" id="package-section">
+                <h3 class="text-xl font-semibold text-white border-b border-gray-700 pb-3">2. Package Details & Estimated Cost</h3>
+
+                <div id="package-details" class="bg-gray-700 p-5 rounded-lg border border-green-700 hidden">
+                    <h4 class="text-lg font-semibold text-green-400 mb-3">
+                        <span id="package-title"></span> (Base Package Price)
+                    </h4>
+                    <p class="text-gray-300 mb-4 text-sm italic">
+                        <span id="package-description"></span>
+                    </p>
+                    <p class="text-2xl font-bold text-green-500">
+                        Base Price: <span id="base-price">₱0.00</span>
+                    </p>
                 </div>
 
-                <!-- Estimated Guest Count -->
-                <div class="form-group">
-                    <label for="guest_count">Estimated Guest Count</label>
-                    <input type="number" id="guest_count" name="guest_count" class="form-control" placeholder="Minimum 50 guests" min="1" required>
+                <!-- Add-ons Checkboxes -->
+                <div class="space-y-4">
+                    <p class="text-sm font-medium text-gray-300">Add Essential Items/Services (Optional):</p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <!-- Add-on 1: Chairs and Tables (per 10 guests) -->
+                        <label class="flex items-center space-x-3 p-3 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-600 transition">
+                            <input type="checkbox" name="addon_chairs_tables" value="50000"
+                                   class="form-checkbox h-5 w-5 text-green-500 bg-gray-900 border-gray-600 rounded" onchange="calculateTotal()">
+                            <span class="text-gray-200">Premium Chairs & Tables (Est. ₱50,000)</span>
+                        </label>
+
+                        <!-- Add-on 2: Balloon Arch & Decor -->
+                        <label class="flex items-center space-x-3 p-3 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-600 transition">
+                            <input type="checkbox" name="addon_balloons" value="30000"
+                                   class="form-checkbox h-5 w-5 text-green-500 bg-gray-900 border-gray-600 rounded" onchange="calculateTotal()">
+                            <span class="text-gray-200">Custom Balloon Arch & Decor (Est. ₱30,000)</span>
+                        </label>
+
+                        <!-- Add-on 3: Professional DJ Service -->
+                        <label class="flex items-center space-x-3 p-3 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-600 transition">
+                            <input type="checkbox" name="addon_dj" value="80000"
+                                   class="form-checkbox h-5 w-5 text-green-500 bg-gray-900 border-gray-600 rounded" onchange="calculateTotal()">
+                            <span class="text-gray-200">Professional DJ Service (Est. ₱80,000)</span>
+                        </label>
+
+                        <!-- Add-on 4: Custom Lighting & AV -->
+                        <label class="flex items-center space-x-3 p-3 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-600 transition">
+                            <input type="checkbox" name="addon_lighting" value="65000"
+                                   class="form-checkbox h-5 w-5 text-green-500 bg-gray-900 border-gray-600 rounded" onchange="calculateTotal()">
+                            <span class="text-gray-200">Custom Lighting & AV Setup (Est. ₱65,000)</span>
+                        </label>
+                    </div>
                 </div>
 
-                <!-- Approximate Budget (Optional) -->
-                <div class="form-group">
-                    <label for="budget">Approximate Budget (Optional)</label>
-                    <input type="text" id="budget" name="budget" class="form-control" placeholder="e.g., $10k - $20k">
+                <!-- Total Estimated Price -->
+                <div class="p-5 bg-gray-700 rounded-lg shadow-inner mt-6">
+                    <p class="text-lg font-medium text-gray-300">Estimated Total Price (Package + Add-ons):</p>
+                    <p class="text-3xl font-extrabold text-yellow-400 mt-1">
+                        <span id="total-price">₱0.00</span>
+                        <span class="text-base font-normal text-gray-400"> (Estimate only)</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- SECTION 3: Event & Contact Details (Re-added Type of Event) -->
+            <div class="space-y-6">
+                <h3 class="text-xl font-semibold text-white border-b border-gray-700 pb-3">3. Event & Contact Details</h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- NEW: Type of Event Field Re-added -->
+                    <div>
+                        <label for="event_type" class="block text-sm font-medium text-gray-300 mb-1">Specific Type of Event *</label>
+                        <select id="event_type" name="event_type" required
+                                class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-green-500 focus:border-green-500 appearance-none">
+                            <option value="None" disabled selected>Select an Event Type</option>
+                            <option value="Wedding">Wedding</option>
+                            <option value="Corporate Launch">Corporate Launch</option>
+                            <option value="Birthday Party">Birthday Party</option>
+                            <option value="Anniversary">Anniversary Celebration</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="guest_count" class="block text-sm font-medium text-gray-300 mb-1">Estimated Guest Count</label>
+                        <input type="number" id="guest_count" name="guest_count" min="1"
+                               class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:ring-green-500 focus:border-green-500"
+                               placeholder="Minimum 50 guests">
+                    </div>
                 </div>
 
-                <!-- Vision Details -->
-                <div class="form-group">
-                    <label for="details">Tell Us More About Your Vision</label>
-                    <textarea id="details" name="details" class="form-control" rows="6" placeholder="Describe the desired style, color palette, specific requirements, or mood you envision..." required></textarea>
+                <!-- Preferred Date -->
+                <div>
+                    <label for="preferred_dates" class="block text-sm font-medium text-gray-300 mb-1">Preferred Date(s)</label>
+                    <input type="text" id="preferred_dates" name="preferred_dates"
+                           class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:ring-green-500 focus:border-green-500"
+                           placeholder="e.g., June 15th 2026 or Q3 2026">
                 </div>
 
-                <!-- Submit Button -->
-                <button type="submit" class="button primary-btn" style="width: 100%; margin-top: 1rem;">
+                <!-- Vision Description -->
+                <div>
+                    <label for="vision_description" class="block text-sm font-medium text-gray-300 mb-1">Tell Us More About Your Vision</label>
+                    <textarea id="vision_description" name="vision_description" rows="3"
+                              class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:ring-green-500 focus:border-green-500"
+                              placeholder="Describe the desired style, color palette, specific requirements, or mood you envision..."></textarea>
+                </div>
+
+                <!-- Contact Fields -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="client_name" class="block text-sm font-medium text-gray-300 mb-1">Your Full Name *</label>
+                        <input type="text" id="client_name" name="client_name" required
+                               class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:ring-green-500 focus:border-green-500"
+                               placeholder="Juan Dela Cruz">
+                    </div>
+                    <div>
+                        <label for="client_email" class="block text-sm font-medium text-gray-300 mb-1">Email Address *</label>
+                        <input type="email" id="client_email" name="client_email" required
+                               class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:ring-green-500 focus:border-green-500"
+                               placeholder="juan@example.com">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="pt-6">
+                <button type="submit"
+                        class="w-full px-6 py-3 bg-green-600 text-white font-semibold rounded-lg shadow-lg hover:bg-green-700 transition duration-300 focus:outline-none focus:ring-4 focus:ring-green-500 focus:ring-opacity-50">
                     SUBMIT BOOKING REQUEST
                 </button>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
-</main>
-{% endblock %}
+</div>
+
+<script>
+    // Package data reflects the three planning services with high-level Peso pricing
+    const packages = {
+        "Essential": {
+            title: "The Essential: Day-of Coordination",
+            description: "Vendor confirmation, timeline creation, and on-site team management for 12 hours.",
+            basePrice: 85000, // ₱85,000
+        },
+        "Signature": {
+            title: "The Signature: Partial Planning",
+            description: "Includes all Essential features plus vendor sourcing, contract review, custom design consulting, and monthly planning meetings.",
+            basePrice: 180000, // ₱180,000
+        },
+        "Premium": {
+            title: "The Premium: Full-Service Planning",
+            description: "Includes all Signature features plus dedicated financial management, unlimited consultation, and full accommodation/travel coordination for guests.",
+            basePrice: 350000, // ₱350,000
+        },
+        "None": {
+            basePrice: 0,
+        }
+    };
+
+    let currentBasePrice = 0;
+
+    /**
+     * Updates the package details based on the selected event package.
+     */
+    function updatePackageDetails() {
+        const eventPackage = document.getElementById('event_package').value;
+        const packageDetails = document.getElementById('package-details');
+        const data = packages[eventPackage] || packages['None'];
+
+        currentBasePrice = data.basePrice;
+
+        if (eventPackage !== 'None') {
+            document.getElementById('package-title').textContent = data.title;
+            document.getElementById('package-description').textContent = data.description;
+            document.getElementById('base-price').textContent = formatCurrency(data.basePrice);
+            packageDetails.classList.remove('hidden');
+        } else {
+            packageDetails.classList.add('hidden');
+        }
+
+        // Ensure add-ons are reset and total is recalculated
+        resetAddons();
+        calculateTotal();
+    }
+
+    /**
+     * Calculates the total estimated price by summing the base price and selected add-ons.
+     */
+    function calculateTotal() {
+        let addonTotal = 0;
+        // Using querySelectorAll to find all checkboxes starting with 'addon_'
+        const checkboxes = document.querySelectorAll('input[type="checkbox"][name^="addon_"]');
+
+        checkboxes.forEach(checkbox => {
+            if (checkbox.checked) {
+                // Add the value (price) of the checked add-on
+                addonTotal += parseInt(checkbox.value);
+            }
+        });
+
+        const totalEstimated = currentBasePrice + addonTotal;
+        document.getElementById('total-price').textContent = formatCurrency(totalEstimated);
+    }
+
+    /**
+     * Unchecks all add-on boxes when the package selection changes.
+     */
+    function resetAddons() {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"][name^="addon_"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = false;
+        });
+    }
+
+    /**
+     * Formats a number as Philippine Peso (PHP) currency string.
+     */
+    function formatCurrency(number) {
+        // Use 'en-PH' locale and 'PHP' currency code for Philippine Peso formatting
+        return new Intl.NumberFormat('en-PH', {
+            style: 'currency',
+            currency: 'PHP',
+            minimumFractionDigits: 2
+        }).format(number);
+    }
+
+    // Initialize the total price on load
+    window.onload = function() {
+        // Trigger the update to correctly display the initial 'None' state and reset total
+        updatePackageDetails();
+    };
+</script>
+</body>
+</html>

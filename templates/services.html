@@ -1,79 +1,41 @@
 {% extends 'base.html' %}
 
-{% block title %}Services | Enova Hiraya{% endblock %}
+{% block title %}Our Services{% endblock %}
 
 {% block content %}
+<div class="container mx-auto px-4 py-12">
+    <h1 class="text-5xl font-extrabold text-center text-green-400 mb-4">Our Specialized Services</h1>
+    <p class="text-xl text-center text-gray-400 mb-12 max-w-3xl mx-auto">
+        We offer tailored solutions for every unforgettable moment, from elegant weddings to grand corporate galas.
+    </p>
 
-    
-    <!-- Hero Section for Services -->
-    <section class="hero-section small-hero">
-        <div class="hero-content">
-            <h1>Our Specialized Event Services</h1>
-            <p>From corporate gatherings to grand weddings, we provide end-to-end management solutions tailored to your unique vision.</p>
-        </div>
-    </section>
-    
-    <!-- Services Grid Section -->
-    <section class="content-card services-showcase">
-        <h2>Comprehensive Planning & Execution</h2>
-        <p class="section-description">Explore our core service offerings designed to take the stress out of your next event.</p>
-
-        <div class="service-grid">
-
-            <!-- Service Card 1: Corporate Events -->
-            <div class="service-card">
-                <div class="image-wrapper">
-                    <!-- Updated image path to use Flask static folder correctly -->
-                    <img src="{{ url_for('static', filename='image/Corporate_Wedding.jpg') }}" alt="A professional corporate conference setup" onerror="this.src='https://placehold.co/600x400/30304D/F0F0F5?text=Corporate+Events'" loading="lazy">
-                </div>
-                <div class="details">
-                    <h3><i class="fas fa-building service-icon"></i> Corporate Planning</h3>
-                    <p>We manage everything from large-scale conferences and product launches to intimate executive retreats. Includes venue sourcing, speaker coordination, and full technical setup.</p>
-                </div>
-            </div>
-
-            <!-- Service Card 2: Wedding Planning -->
-            <div class="service-card">
-                <div class="image-wrapper">
-                    <!-- Placeholder: Replace with image URL like 'uploaded:image_294708.jpg' -->
-                    <img src="https://placehold.co/600x400/30304D/F0F0F5?text=Wedding+Planning" alt="A beautiful wedding reception hall decorated with lights" onerror="this.src='https://placehold.co/600x400/30304D/F0F0F5?text=Wedding+Planning'" loading="lazy">
-                </div>
-                <div class="details">
-                    <h3><i class="fas fa-ring service-icon"></i> Dream Weddings</h3>
-                    <p>Full-service wedding management, including theme development, vendor negotiation, budgeting, RSVP tracking, and on-site coordination to ensure a flawless special day.</p>
-                </div>
-            </div>
-
-            <!-- Service Card 3: Social Gatherings & Parties -->
-            <div class="service-card">
-                <div class="image-wrapper">
-                    <!-- Placeholder: Replace with another relevant image URL -->
-                    <img src="https://placehold.co/600x400/30304D/F0F0F5?text=Social+Events" alt="A vibrant social event with food and music" onerror="this.src='https://placehold.co/600x400/30304D/F0F0F5?text=Social+Events'" loading="lazy">
-                </div>
-                <div class="details">
-                    <h3><i class="fas fa-champagne-glasses service-icon"></i> Social Events</h3>
-                    <p>Birthdays, anniversaries, holiday parties, and graduations. We handle décor, catering, entertainment bookings, and permits for any size of private celebration.</p>
-                </div>
-            </div>
-
-            <!-- Service Card 4: Logistics & Vendor Management -->
-            <div class="service-card">
-                <div class="image-wrapper">
-                    <!-- Placeholder: Replace with another relevant image URL -->
-                    <img src="https://placehold.co/600x400/30304D/F0F0F5?text=Logistics+Management" alt="A team setting up event logistics" onerror="this.src='https://placehold.co/600x400/30304D/F0F0F5?text=Logistics+Management'" loading="lazy">
-                </div>
-                <div class="details">
-                    <h3><i class="fas fa-truck-moving service-icon"></i> Logistics & Tech</h3>
-                    <p>Expert management of all technical and operational details, including sound, lighting, stage design, transportation schedules, and vendor contracts from start to finish.</p>
-                </div>
-            </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Service Card 1: Weddings -->
+        <div class="bg-gray-800 p-6 rounded-xl shadow-lg border border-gray-700 hover:shadow-green-500/30 transition duration-300">
+            <h2 class="text-2xl font-bold text-green-400 mb-3">Elegant Wedding Planning</h2>
+            <p class="text-gray-400 mb-4">
+                Full-service planning and coordination for a seamless, romantic celebration. We handle every detail, from vendor selection to honeymoon send-off.
+            </p>
+            <a href="#" class="text-sm font-semibold text-green-500 hover:text-green-300">Learn More &rarr;</a>
         </div>
 
-        <div class="text-center">
-            <a href="{{ url_for('contact') }}" class="cta-link"><i class="fas fa-chevron-circle-right"></i> Request A Custom Quote</a>
+        <!-- Service Card 2: Corporate -->
+        <div class="bg-gray-800 p-6 rounded-xl shadow-lg border border-gray-700 hover:shadow-green-500/30 transition duration-300">
+            <h2 class="text-2xl font-bold text-green-400 mb-3">Corporate & Gala Events</h2>
+            <p class="text-gray-400 mb-4">
+                High-stakes events, conferences, and team-building retreats with professional logistics and stunning decor.
+            </p>
+            <a href="#" class="text-sm font-semibold text-green-500 hover:text-green-300">Learn More &rarr;</a>
         </div>
-    </section>
-    
-    <!-- Tandaan: Ang footer at navigation ay nasa base.html na, kaya hindi na kailangan dito. -->
 
-{% endblock content %}
+        <!-- Service Card 3: Social Events -->
+        <div class="bg-gray-800 p-6 rounded-xl shadow-lg border border-gray-700 hover:shadow-green-500/30 transition duration-300">
+            <h2 class="text-2xl font-bold text-green-400 mb-3">Birthday & Social Gatherings</h2>
+            <p class="text-gray-400 mb-4">
+                Custom-themed parties, anniversaries, and milestones tailored to create fun, personalized experiences for all ages.
+            </p>
+            <a href="#" class="text-sm font-semibold text-green-500 hover:text-green-300">Learn More &rarr;</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

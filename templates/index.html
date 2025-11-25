@@ -1,82 +1,123 @@
 {% extends "base.html" %}
 
-{% block head %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-{% endblock %}
-
-{% block title %}Enova Hiraya Dashboard{% endblock %}
+{% block title %}Welcome to Enova Hiraya{% endblock %}
 
 {% block content %}
-<main class="page-content">
+<div class="page-container" style="padding: 40px 20px;">
 
-    <!-- Hero Section: Welcome & Call to Action -->
-    <section class="hero-section">
-        <div class="container">
-            <div class="hero-content">
-                <!-- Main Welcome Title -->
-                <h1> Welcome to Enova Hiraya!</h1>
+    <!-- Hero Section: Welcome to Event Pro! -->
+    <div class="hero-section text-center" style="margin-bottom: 5rem;">
+        <div class="hero-content">
+            <h1 style="font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 800; color: var(--color-primary-green);">
+                <i class="fas fa-home"></i> Welcome to Enova Hiraya!
+            </h1>
+            <h2 style="font-size: clamp(1.1rem, 2vw, 1.5rem); color: var(--color-text-light); margin: 10px 0 25px; max-width: 800px; margin-left: auto; margin-right: auto;">
+                Your vision, flawlessly executed We craft unforgettable moments with elegance and precision, turning complex planning into simple celebration.
+            </h2>
+            <a href="{{ url_for('booking') }}" class="button primary-btn" style="padding: 12px 30px; font-size: 1.1rem; border-radius: 8px;">
+                BOOK NOW & START PLANNING!
+            </a>
+        </div>
+    </div>
 
-                <div class="hero-subtext-wrapper">
-                    <p>
-                        "Your vision, flawlessly executed." We craft unforgettable moments with elegance and precision, turning complex planning into simple celebration.
+    <!-- START: NEW ABOUT ENOVAY HIRAYA SECTION -->
+    <div class="section-divider" style="border-top: 1px solid var(--color-primary-green); margin: 5rem 0 3rem;"></div>
+
+    <div class="about-section" style="max-width: 1200px; margin: 0 auto; padding: 2rem 0;">
+        <h2 style="font-size: clamp(1.8rem, 3vw, 2.5rem); text-align: center; color: var(--color-text-light); margin-bottom: 3rem;">
+            The Enova Hiraya Story & How We Work
+        </h2>
+
+        <!-- Two-Column Grid for Creator Info and Company Info -->
+        <div class="info-grid" style="display: grid; grid-template-columns: 1fr; gap: 3rem; text-align: left;">
+
+            <!-- Column 1: Creator Information (Your Info) -->
+            <div class="creator-info-card" style="background-color: rgba(30, 30, 30, 0.9); padding: 30px; border-radius: 12px; border-left: 5px solid var(--color-primary-green); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);">
+                <h3 style="color: var(--color-primary-green); font-size: 1.8rem; margin-bottom: 15px;">Meet the Creator: James Ken</h3>
+
+                <div style="display: flex; gap: 20px; align-items: flex-start; margin-bottom: 15px;">
+                    <!-- Placeholder for an image of the creator -->
+                    <img
+                        src="https://placehold.co/100x100/222222/FFFFFF?text=J+K"
+                        alt="Creator Photo"
+                        style="border-radius: 50%; width: 80px; height: 80px; object-fit: cover; border: 3px solid var(--color-text-light); flex-shrink: 0;"
+                    >
+                    <p style="color: var(--color-text-dim); font-size: 1.05rem;">
+                        Hello! I'm James Ken, the founder and driving force behind Enova Hiraya.
+                        My journey into event planning began with a simple belief: every milestone deserves to be magnificent and stress-free.
+                        I personally oversee the vision for this platform, ensuring that technology enhances, but never replaces, the human touch needed for perfect events.
                     </p>
-
-                    <!-- Directing to 'packages' as requested -->
-                    <a href="{{ url_for('packages') }}" class="cta-link">Book Now & Start Planning!</a>
                 </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- Recent Work / Feature Showcase -->
-    <section class="container dashboard-content">
-        <h2 class="dashboard-header">Our Specialized Services</h2>
-
-        <!-- The Grid of Example Events / Feature Cards -->
-        <div class="dashboard-grid">
-
-            <!-- Feature 1: Elegant Wedding -->
-            <div class="feature-card">
-                <i class="fas fa-ring"></i>
-                <h3>Elegant Wedding</h3>
-                <p>A beautiful, modern celebration with a touch of classic romance, meticulously managed from proposal to honeymoon send-off.</p>
+                <p style="color: var(--color-text-dim); font-size: 0.95rem; margin-top: 20px; border-top: 1px dashed #333; padding-top: 15px;">
+                    My Philosophy: Precision in planning, passion in execution, and complete transparency with our clients.
+                </p>
             </div>
 
-            <!-- Feature 2: Corporate Gala -->
-            <div class="feature-card">
-                <i class="fas fa-city"></i>
-                <h3>Corporate Gala</h3>
-                <p>A high-stakes, professional evening designed to impress partners and motivate teams, featuring seamless logistics and stunning decor.</p>
-            </div>
+            <!-- Column 2: Company Info and How It Works -->
+            <div class="company-info-card" style="background-color: rgba(30, 30, 30, 0.9); padding: 30px; border-radius: 12px; border-left: 5px solid #2196F3; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);">
+                <h3 style="color: #2196F3; font-size: 1.8rem; margin-bottom: 15px;">About Enova Hiraya</h3>
+                <p style="color: var(--color-text-dim); margin-bottom: 20px;">
+                    Enova Hiraya means "New Vision, Great Imagination." We are a modern event planning service dedicated to providing a seamless, digital-first experience for managing complex celebrations. We serve as your central hub for consultation, booking, scheduling, and project tracking.
+                </p>
 
-            <!-- Feature 3: Product Launch -->
-            <div class="feature-card">
-                <i class="fas fa-rocket"></i>
-                <h3>Product Launch</h3>
-                <p>A dynamic, high-energy event generating buzz for a new product, complete with media coordination and immersive branding experiences.</p>
-            </div>
-
-            <!-- Feature 4: Themed Birthday Party -->
-            <div class="feature-card">
-                <i class="fas fa-birthday-cake"></i>
-                <h3>Themed Birthday Party</h3>
-                <p>A custom-designed, memorable celebration tailored to the client's unique vision, ensuring fun for all ages.</p>
+                <h4 style="color: var(--color-text-light); font-size: 1.3rem; margin-top: 20px; margin-bottom: 10px;">How It Works:</h4>
+                <ol style="color: var(--color-text-dim); padding-left: 20px; font-size: 1.05rem;">
+                    <li style="margin-bottom: 8px;">Consultation & Booking: Use our simple 'Book Now' form to secure your initial planning session and share your event vision.</li>
+                    <li style="margin-bottom: 8px;">Digital Dashboard: Once booked, gain access to your personalized client dashboard to track budget, schedules, and vendor communications in real-time.</li>
+                    <li style="margin-bottom: 8px;">Flawless Execution: Our team takes the digital plan and transforms it into a stunning, real-world event, managed with precision and passion.</li>
+                </ol>
             </div>
 
         </div>
+    </div>
+    <!-- END: NEW ABOUT ENOVAY HIRAYA SECTION -->
 
-    </section>
+    <!-- Dynamic Upcoming Scheduled Events List -->
+    <div class="section-divider" style="border-top: 1px solid var(--color-primary-green); margin: 3rem 0 5rem;"></div>
+    <h2 style="font-size: clamp(1.8rem, 3vw, 2.5rem); text-align: center; color: var(--color-text-light); margin-bottom: 2rem;">Upcoming Scheduled Events</h2>
 
-    <!-- Upcoming Events Section -->
-    <section class="container upcoming-events-section">
-        <h2 class="dashboard-header">Upcoming Scheduled Events</h2>
-        
-        <div class="event-list">
-            <p>No events are currently scheduled. Please check back later for updates from the administrators.</p>
-        </div>
-    </section>
+    <div class="event-schedule-container" style="max-width: 900px; margin: 0 auto; padding: 20px; background-color: rgba(30, 30, 30, 0.9); border-radius: 12px;">
 
-</main>
+        {% if events %}
+            {% for event in events %}
+                <div class="event-item" style="border-bottom: 1px solid #444; padding: 15px 0;">
+                    <h3 style="color: var(--color-primary-green); font-size: 1.25rem; margin-bottom: 5px;">
+                        <i class="fas fa-calendar-check" style="margin-right: 10px;"></i>{{ event.title }}
+                    </h3>
+                    <p style="color: var(--color-text-dim); margin-left: 25px; margin-bottom: 5px;">
+                        Date: <strong>{{ event.date }}</strong> at <strong>{{ event.time }}</strong> - {{ event.location }}
+                    </p>
+                    <div style="margin-left: 25px; margin-top: 10px;">
+                        <a href="{{ url_for('event_detail', event_id=event.id) }}" class="btn link-btn small-btn">View Details</a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p style="color: var(--color-text-dim); text-align: center; font-style: italic; padding: 10px;">
+                No events are currently scheduled. Please check back later for updates from the administrators.
+            </p>
+        {% endif %}
+    </div>
+
+</div>
+
+<script>
+    // Adjusting grid layout for mobile screens
+    document.addEventListener('DOMContentLoaded', () => {
+        const infoGrid = document.querySelector('.info-grid');
+        const updateGrid = () => {
+            // Apply single column layout for screens smaller than 768px
+            if (window.innerWidth < 768) {
+                infoGrid.style.gridTemplateColumns = '1fr';
+            } else {
+                // Apply two-column layout for tablets and desktops
+                infoGrid.style.gridTemplateColumns = '1fr 1fr';
+            }
+        };
+
+        window.addEventListener('resize', updateGrid);
+        updateGrid(); // Run on load
+    });
+</script>
+
 {% endblock %}

@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Booking</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f7f9;
+        }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e2e8f0;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <!-- Main Container -->
+    <div id="app-container" class="w-full max-w-lg bg-white shadow-xl rounded-xl p-8 transition-all duration-300">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6 border-b pb-3 flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-indigo-500 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+            </svg>
+            Edit Booking
+        </h1>
+
+        <!-- Loading State -->
+        <div id="loading" class="text-center py-12 text-gray-500">
+            <div class="animate-spin inline-block w-8 h-8 border-4 border-indigo-500 border-t-transparent rounded-full mb-3"></div>
+            <p>Loading booking details...</p>
+        </div>
+
+        <!-- Form (Hidden initially) -->
+        <form id="edit-form" class="space-y-6 hidden">
+            <p class="text-sm text-gray-500">Booking ID: <span id="booking-id-display" class="font-mono text-indigo-600 font-semibold"></span></p>
+
+            <div>
+                <label for="customerName" class="block text-sm font-medium text-gray-700 mb-1">Customer Name</label>
+                <input type="text" id="customerName" name="customerName" required
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out"
+                    placeholder="e.g., Jane Doe">
+            </div>
+
+            <div>
+                <label for="service" class="block text-sm font-medium text-gray-700 mb-1">Service</label>
+                <select id="service" name="service" required
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out">
+                    <option value="Haircut">Haircut</option>
+                    <option value="Massage">Massage</option>
+                    <option value="Consultation">Consultation</option>
+                    <option value="Manicure">Manicure</option>
+                </select>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label for="date" class="block text-sm font-medium text-gray-700 mb-1">Date</label>
+                    <input type="date" id="date" name="date" required
+                        class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out">
+                </div>
+                <div>
+                    <label for="time" class="block text-sm font-medium text-gray-700 mb-1">Time</label>
+                    <input type="time" id="time" name="time" required
+                        class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out">
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 pt-4">
+                <button type="submit" id="update-btn"
+                    class="w-full sm:w-1/2 flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition ease-in-out duration-150 transform hover:scale-105">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M7.707 10.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V6h5a2 2 0 012 2v7a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2h5v5.586l-1.293-1.293z" />
+                    </svg>
+                    Update Booking
+                </button>
+
+                <button type="button" id="delete-btn"
+                    class="w-full sm:w-1/2 flex items-center justify-center px-4 py-3 border border-red-500 text-base font-medium rounded-lg shadow-sm text-red-600 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition ease-in-out duration-150 transform hover:scale-105">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                    </svg>
+                    Delete Booking
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Custom Message Box Modal -->
+    <div id="message-box" class="fixed inset-0 bg-gray-600 bg-opacity-75 hidden items-center justify-center p-4 transition-opacity duration-300 ease-out" role="dialog" aria-modal="true">
+        <div class="bg-white rounded-xl shadow-2xl p-6 w-full max-w-sm transform transition-transform duration-300 scale-95">
+            <h3 id="message-box-title" class="text-xl font-semibold mb-3 text-gray-800">Status</h3>
+            <p id="message-box-content" class="text-gray-600 mb-4"></p>
+            <button id="message-box-close" class="w-full px-4 py-2 text-white rounded-lg bg-indigo-600 hover:bg-indigo-700 transition duration-150">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <!-- Firebase SDK Imports (MUST be type="module") -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, updateDoc, deleteDoc, onSnapshot, setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Global variables provided by the environment
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        let app;
+        let db;
+        let auth;
+        let userId = null;
+        let isAuthReady = false;
+        let unsubscribe = null; // To hold the onSnapshot listener
+
+        // --- Utility Functions ---
+
+        /**
+         * Custom message box function instead of alert()
+         * @param {string} message The message to display.
+         * @param {string} type 'success', 'error', or 'info'.
+         */
+        function showMessageBox(message, type = 'info') {
+            const box = document.getElementById('message-box');
+            const title = document.getElementById('message-box-title');
+            const content = document.getElementById('message-box-content');
+            const closeBtn = document.getElementById('message-box-close');
+
+            title.textContent = type.charAt(0).toUpperCase() + type.slice(1);
+            content.textContent = message;
+
+            // Update styling based on type
+            closeBtn.className = 'w-full px-4 py-2 text-white rounded-lg transition duration-150';
+            if (type === 'success') {
+                title.classList.replace('text-gray-800', 'text-green-600');
+                closeBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+            } else if (type === 'error') {
+                title.classList.replace('text-gray-800', 'text-red-600');
+                closeBtn.classList.add('bg-red-600', 'hover:bg-red-700');
+            } else {
+                title.classList.replace('text-gray-800', 'text-indigo-600');
+                closeBtn.classList.add('bg-indigo-600', 'hover:bg-indigo-700');
+            }
+
+            // Show modal
+            box.classList.remove('hidden', 'opacity-0');
+            box.classList.add('flex', 'opacity-100');
+            closeBtn.onclick = () => {
+                box.classList.add('hidden', 'opacity-0');
+                box.classList.remove('flex', 'opacity-100');
+                // Optional: Redirect on delete success
+                if (message.includes("deleted successfully")) {
+                     window.location.href = window.location.pathname.split('?')[0].replace('edit_booking.html', 'index.html') || '/'; // Navigate away
+                }
+            };
+        }
+
+        /**
+         * Extracts the booking ID from the URL query parameters.
+         * @returns {string|null} The booking ID or null if not found.
+         */
+        function getBookingIdFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('id');
+        }
+
+        /**
+         * Populates the form fields with the booking data.
+         * @param {object} bookingData The data object from Firestore.
+         */
+        function populateForm(bookingData) {
+            document.getElementById('customerName').value = bookingData.customerName || '';
+            document.getElementById('service').value = bookingData.service || 'Haircut';
+            document.getElementById('date').value = bookingData.date || new Date().toISOString().split('T')[0];
+            document.getElementById('time').value = bookingData.time || '10:00';
+
+            document.getElementById('loading').classList.add('hidden');
+            document.getElementById('edit-form').classList.remove('hidden');
+        }
+
+        // --- Firestore Operations ---
+
+        /**
+         * Fetches a single booking document by ID in real-time.
+         * @param {string} bookingId The ID of the booking document.
+         */
+        function fetchBooking(bookingId) {
+            if (unsubscribe) unsubscribe(); // Clean up previous listener
+
+            const bookingRef = doc(db, 'artifacts', appId, 'public', 'data', 'bookings', bookingId);
+
+            // Set up real-time listener
+            unsubscribe = onSnapshot(bookingRef, (docSnap) => {
+                if (docSnap.exists()) {
+                    populateForm(docSnap.data());
+                } else {
+                    document.getElementById('loading').innerHTML = `<p class="text-red-500">Error: Booking with ID ${bookingId} not found.</p>`;
+                    document.getElementById('edit-form').classList.add('hidden');
+                    showMessageBox(`Booking ID ${bookingId} not found.`, 'error');
+                }
+            }, (error) => {
+                console.error("Error fetching document: ", error);
+                showMessageBox(`Error fetching booking: ${error.message}`, 'error');
+                document.getElementById('loading').innerHTML = `<p class="text-red-500">Error fetching booking: ${error.message}</p>`;
+            });
+        }
+
+        /**
+         * Handles the update of the booking.
+         * @param {string} bookingId The ID of the booking document.
+         */
+        async function handleUpdate(bookingId) {
+            const form = document.getElementById('edit-form');
+            const data = new FormData(form);
+            const updatedBooking = {
+                customerName: data.get('customerName'),
+                service: data.get('service'),
+                date: data.get('date'),
+                time: data.get('time'),
+                updatedAt: new Date().toISOString()
+            };
+
+            if (!db || !isAuthReady) {
+                showMessageBox("Database connection is not ready. Please wait.", 'error');
+                return;
+            }
+
+            try {
+                const bookingRef = doc(db, 'artifacts', appId, 'public', 'data', 'bookings', bookingId);
+                await updateDoc(bookingRef, updatedBooking);
+                showMessageBox("Booking updated successfully!", 'success');
+            } catch (error) {
+                console.error("Error updating document: ", error);
+                showMessageBox(`Failed to update booking: ${error.message}`, 'error');
+            }
+        }
+
+        /**
+         * Handles the deletion of the booking.
+         * @param {string} bookingId The ID of the booking document.
+         */
+        async function handleDelete(bookingId) {
+            if (!db || !isAuthReady) {
+                showMessageBox("Database connection is not ready. Please wait.", 'error');
+                return;
+            }
+
+            // Simple confirmation logic using the custom modal
+            if (!confirm("Are you sure you want to delete this booking?")) return;
+
+            try {
+                const bookingRef = doc(db, 'artifacts', appId, 'public', 'data', 'bookings', bookingId);
+                await deleteDoc(bookingRef);
+                // Note: The showMessageBox below will handle the redirect
+                showMessageBox("Booking deleted successfully! Redirecting...", 'success');
+            } catch (error) {
+                console.error("Error deleting document: ", error);
+                showMessageBox(`Failed to delete booking: ${error.message}`, 'error');
+            }
+        }
+
+        // --- Initialization ---
+
+        function init() {
+            // Check for required environment variables
+            if (!firebaseConfig.apiKey) {
+                console.error("Firebase configuration is missing. Cannot initialize Firestore.");
+                document.getElementById('loading').innerHTML = `<p class="text-red-500">FATAL ERROR: Firebase configuration not found.</p>`;
+                return;
+            }
+
+            try {
+                // Initialize Firebase App and Services
+                app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+                setLogLevel('debug'); // Enable debug logging for Firestore
+
+                const bookingId = getBookingIdFromUrl();
+                if (!bookingId) {
+                    document.getElementById('loading').innerHTML = `<p class="text-red-500">Error: No booking ID provided in URL.</p>`;
+                    return;
+                }
+                document.getElementById('booking-id-display').textContent = bookingId;
+
+                // 1. Handle Authentication
+                onAuthStateChanged(auth, async (user) => {
+                    if (!user) {
+                        // Attempt sign-in if not authenticated
+                        try {
+                            if (initialAuthToken) {
+                                await signInWithCustomToken(auth, initialAuthToken);
+                            } else {
+                                await signInAnonymously(auth);
+                            }
+                        } catch (e) {
+                            console.error("Authentication failed:", e);
+                            showMessageBox(`Authentication failed: ${e.message}`, 'error');
+                            isAuthReady = true; // Mark as ready even if failed to stop infinite loading
+                            return;
+                        }
+                    }
+
+                    // 2. Once authenticated, proceed
+                    userId = auth.currentUser?.uid || 'anonymous';
+                    isAuthReady = true;
+                    console.log(`Authenticated with userId: ${userId}`);
+
+                    // 3. Attach listeners and handlers
+                    fetchBooking(bookingId); // Start real-time fetch
+
+                    document.getElementById('edit-form').onsubmit = (e) => {
+                        e.preventDefault();
+                        handleUpdate(bookingId);
+                    };
+
+                    document.getElementById('delete-btn').onclick = () => {
+                        handleDelete(bookingId);
+                    };
+                });
+
+            } catch (error) {
+                console.error("Initialization error:", error);
+                document.getElementById('loading').innerHTML = `<p class="text-red-500">Initialization failed: ${error.message}</p>`;
+            }
+        }
+
+        // Simple mock for browser confirmation dialog (since real confirm() is blocked)
+        function confirm(message) {
+            return window.confirm(message);
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>

@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+
+{% block title %}Admin | Manage Bookings{% endblock %}
+
+{% block content %}
+    <div class="content-container" style="max-width: 1100px; margin: 50px auto; padding: 30px;">
+        <h1 class="page-title text-center">Booking Requests Management</h1>
+        <p class="subtitle text-center" style="margin-bottom: 30px; color: var(--color-text-dim);">Review, approve, or reject pending client bookings for scheduled events.</p>
+
+        <!-- Mock Booking Data Structure -->
+        {% set mock_bookings = [
+            {'id': 'BKG-001', 'client': 'Sarah Johnson', 'event_type': 'Corporate Launch', 'date': '2025-12-10', 'status': 'Pending'},
+            {'id': 'BKG-002', 'client': 'The Tech Hive Co.', 'event_type': 'Virtual Conference', 'date': '2025-12-15', 'status': 'Pending'},
+            {'id': 'BKG-003', 'client': 'Mark & Emily Wedding', 'event_type': 'Private Event', 'date': '2025-11-28', 'status': 'Approved'},
+            {'id': 'BKG-004', 'client': 'Green Energy Expo', 'event_type': 'Exhibition Booth', 'date': '2026-01-20', 'status': 'Rejected'}
+        ] %}
+
+        <div class="table-responsive">
+            <table class="booking-table w-full">
+                <thead>
+                    <tr>
+                        <th class="p-4 text-left">ID</th>
+                        <th class="p-4 text-left">Client Name</th>
+                        <th class="p-4 text-left">Event Type</th>
+                        <th class="p-4 text-left">Date</th>
+                        <th class="p-4 text-center">Status</th>
+                        <th class="p-4 text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for booking in mock_bookings %}
+                    <tr>
+                        <td data-label="ID">{{ booking.id }}</td>
+                        <td data-label="Client">{{ booking.client }}</td>
+                        <td data-label="Type">{{ booking.event_type }}</td>
+                        <td data-label="Date">{{ booking.date }}</td>
+                        <td data-label="Status" class="text-center">
+                            <span class="status-badge status-{{ booking.status | lower }}">{{ booking.status }}</span>
+                        </td>
+                        <td data-label="Actions" class="actions-cell">
+                            {% if booking.status == 'Pending' %}
+                                <!-- Replace # with actual action URLs (e.g., url_for('approve_booking', id=booking.id)) -->
+                                <a href="#" class="action-btn approve-btn" title="Approve"><i class="fas fa-check"></i></a>
+                                <a href="#" class="action-btn reject-btn" title="Reject"><i class="fas fa-times"></i></a>
+                            {% elif booking.status == 'Approved' %}
+                                <span class="text-green-500 font-bold">Confirmed</span>
+                            {% else %}
+                                <span class="text-red-500 font-bold">Closed</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="text-center mt-8">
+            <a href="{{ url_for('admin_dashboard') }}" class="btn secondary-btn" style="min-width: 250px;">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </a>
+        </div>
+
+        <style>
+            /* General Table Styling */
+            .booking-table {
+                border-collapse: collapse;
+                background-color: #1e1e1e; /* Darker background for the table */
+                border-radius: 12px;
+                overflow: hidden;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+                color: #f0f0f0;
+            }
+            .booking-table th {
+                background-color: #333; /* Header background */
+                color: var(--color-primary-green);
+                font-weight: 600;
+                text-transform: uppercase;
+                font-size: 0.9rem;
+                letter-spacing: 0.05em;
+            }
+            .booking-table td {
+                padding: 15px;
+                border-bottom: 1px solid #333; /* Separator lines */
+            }
+            .booking-table tr:last-child td {
+                border-bottom: none;
+            }
+            .booking-table tbody tr:hover {
+                background-color: #2a2a2a; /* Subtle row hover effect */
+            }
+
+            /* Status Badges */
+            .status-badge {
+                padding: 4px 10px;
+                border-radius: 6px;
+                font-size: 0.85rem;
+                font-weight: bold;
+                display: inline-block;
+            }
+            .status-pending {
+                background-color: #ffc107; /* Yellow */
+                color: #121212;
+            }
+            .status-approved {
+                background-color: var(--color-primary-green);
+                color: #121212;
+            }
+            .status-rejected {
+                background-color: #dc3545; /* Red */
+                color: white;
+            }
+
+            /* Action Buttons */
+            .actions-cell {
+                display: flex;
+                justify-content: center;
+                gap: 10px;
+            }
+            .action-btn {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 34px;
+                height: 34px;
+                border-radius: 50%;
+                color: white;
+                transition: transform 0.2s, background-color 0.2s;
+            }
+            .action-btn:hover {
+                transform: scale(1.1);
+            }
+            .approve-btn {
+                background-color: var(--color-primary-green);
+                color: #121212;
+            }
+            .approve-btn:hover {
+                background-color: #00e676;
+            }
+            .reject-btn {
+                background-color: #dc3545;
+            }
+            .reject-btn:hover {
+                background-color: #c82333;
+            }
+
+            /* Responsive Table (Mobile-first) */
+            @media (max-width: 768px) {
+                .booking-table thead {
+                    display: none; /* Hide header row */
+                }
+                .booking-table, .booking-table tbody, .booking-table tr, .booking-table td {
+                    display: block;
+                    width: 100%;
+                }
+                .booking-table tr {
+                    margin-bottom: 20px;
+                    border: 1px solid #333;
+                    border-radius: 8px;
+                    background-color: #1e1e1e;
+                }
+                .booking-table td {
+                    text-align: right;
+                    padding: 10px 15px;
+                    border: none;
+                    position: relative;
+                }
+                .booking-table td::before {
+                    content: attr(data-label);
+                    position: absolute;
+                    left: 15px;
+                    font-weight: bold;
+                    color: var(--color-primary-green);
+                    text-transform: uppercase;
+                    font-size: 0.85rem;
+                }
+                .actions-cell {
+                    justify-content: flex-end;
+                    padding-top: 15px;
+                }
+            }
+        </style>
+    </div>
+{% endblock %}

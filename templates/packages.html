@@ -1,164 +1,85 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
-<!-- Style block to add a global background image to the body -->
-<style>
-    /* IMPORTANT: This CSS targets the entire <body> element.
-    If you want this background on ALL pages, move this <style> block
-    to your core 'base.html' or main CSS file.
-    */
-    body {
-        /* *** REPLACE THIS URL WITH YOUR ACTUAL BACKGROUND IMAGE URL ***
-        I've used a placeholder that simulates a subtle, high-resolution background.
-        */
-        background-image: url('https://placehold.co/1920x1080/1c1c1c/FFFFFF/png?text=SUBTLE+BACKGROUND+IMAGE');
-        background-size: cover;
-        background-attachment: fixed; /* Keeps the image fixed when scrolling */
-        background-position: center;
-        background-repeat: no-repeat;
-        /* Optional: A subtle dark color overlay to aid readability */
-        background-color: #121212;
-    }
-
-    /* Making the main content slightly transparent and blurring the background
-    to ensure text is readable while the image shows through.
-    */
-    .content-card {
-        /* Use a semi-transparent dark background */
-        background-color: rgba(18, 18, 18, 0.95) !important;
-        /* Subtle blur effect for depth */
-        backdrop-filter: blur(5px);
-    }
-
-    /* Adjust the hero section for the same effect */
-    .hero-section.small-hero {
-        background-color: rgba(18, 18, 18, 0.9) !important;
-    }
-
-    /* --- STYLES TO MAKE CARDS SMALLER --- */
-    /* This targets the container holding the cards. By setting a max-width and
-    centering it, the cards inside will be forced to occupy less horizontal space.
-    */
-    .package-tier-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 25px;
-        /* Limiting the overall width of the grid container */
-        max-width: 1000px;
-        margin: 0 auto; /* Center the grid on the page */
-    }
-
-    /* Keep card styles but now they are constrained by the smaller grid width */
-    .package-card {
-        padding: 30px;
-        border-radius: 12px;
-        background-color: var(--color-surface); /* Assuming this is a slightly lighter dark color */
-        border: 2px solid var(--color-surface-dark);
-        transition: transform 0.3s, box-shadow 0.3s;
-    }
-    /* --- END STYLES --- */
-</style>
-
-{% block title %}Event Packages{% endblock %}
+{% block title %}Our Planning Packages{% endblock %}
 
 {% block content %}
-<!-- Page Header using the small-hero class for a clean banner -->
-<div class="hero-section small-hero">
-    <div class="hero-content">
-        <!-- Using the primary green color for emphasis -->
-        <h1><i class="fas fa-tags" style="color: var(--color-primary-green);"></i> Our Event Packages</h1>
-        <p>Choose the perfect tier that matches your vision and budget for a truly unforgettable event experience.</p>
+<div class="container mx-auto px-4 py-12">
+    <!-- Main container updated for dark theme -->
+    <div class="bg-gray-900 shadow-2xl rounded-xl p-8 md:p-10 border border-gray-700">
+        <h1 class="text-4xl font-extrabold text-green-400 mb-8 border-b border-gray-700 pb-2 text-center">Our Planning Packages</h1>
+        <p class="text-lg text-gray-400 mb-10 text-center">We offer tiered packages designed to provide the perfect level of support for your event.</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+
+            <!-- Package 1: Essential -->
+            <div class="bg-gray-800 p-6 rounded-xl shadow-lg border-2 border-gray-700 hover:border-green-500 transition duration-300">
+                <h2 class="text-2xl font-bold text-green-400 mb-3">The Essential</h2>
+                <p class="text-4xl font-extrabold text-white mb-4">Day-of Coordination</p>
+                <ul class="text-left text-gray-300 space-y-3 mb-8 list-none pl-0 text-sm">
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i> Vendor confirmation and timeline creation.
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i> On-site team management for 12 hours.
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i> Final walk-through coordination.
+                    </li>
+                </ul>
+                <a href="{{ url_for('booking') }}" class="block w-full py-3 bg-green-500 text-gray-900 font-semibold rounded-lg hover:bg-green-600 transition duration-200">
+                    Select Essential
+                </a>
+            </div>
+
+            <!-- Package 2: Signature (Recommended) - Featured Style -->
+            <div class="bg-gray-900 p-8 rounded-xl shadow-2xl border-4 border-green-500 transform scale-105 relative">
+                <span class="absolute top-0 right-0 -mt-4 -mr-4 px-4 py-1 bg-green-500 text-gray-900 text-xs font-bold uppercase rounded-full tracking-wider shadow-md">
+                    Recommended
+                </span>
+                <h2 class="text-2xl font-bold text-green-400 mb-3">The Signature</h2>
+                <p class="text-4xl font-extrabold text-white mb-4">Partial Planning</p>
+                <ul class="text-left text-gray-300 space-y-3 mb-8 list-none pl-0 text-sm">
+                    <li class="flex items-start font-semibold">
+                        <i class="fas fa-star text-yellow-400 mt-1 mr-2"></i> Includes all Essential features.
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i> Vendor sourcing and contract review.
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i> Custom design consulting and mood board creation.
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i> Monthly planning meetings.
+                    </li>
+                </ul>
+                <a href="{{ url_for('booking') }}" class="block w-full py-3 bg-green-500 text-gray-900 font-extrabold rounded-lg hover:bg-green-600 transition duration-200 shadow-xl">
+                    Select Signature
+                </a>
+            </div>
+
+            <!-- Package 3: Premium -->
+            <div class="bg-gray-800 p-6 rounded-xl shadow-lg border-2 border-gray-700 hover:border-green-500 transition duration-300">
+                <h2 class="text-2xl font-bold text-green-400 mb-3">The Premium</h2>
+                <p class="text-4xl font-extrabold text-white mb-4">Full-Service Planning</p>
+                <ul class="text-left text-gray-300 space-y-3 mb-8 list-none pl-0 text-sm">
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i> Includes all Signature features.
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i> Dedicated financial management and budgeting.
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i> Unlimited consultation and support.
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i> Accommodation and travel coordination for guests.
+                    </li>
+                </ul>
+                <a href="{{ url_for('booking') }}" class="block w-full py-3 bg-green-500 text-gray-900 font-semibold rounded-lg hover:bg-green-600 transition duration-200">
+                    Select Premium
+                </a>
+            </div>
+        </div>
     </div>
 </div>
-
-<section class="packages-showcase">
-    <!-- content-card holds the main section content, giving it a dark surface background -->
-    <div class="content-card">
-        <h2 class="text-center" style="margin-bottom: 2.5rem; color: var(--color-primary-green); font-weight: 800; letter-spacing: 0.05em;">Simple, Streamlined, Stellar Events</h2>
-
-        <!-- The core pricing grid -->
-        <div class="package-tier-grid">
-
-            <!-- ESSENTIAL SUPPORT TIER CARD (Bronze Equivalent) -->
-            <!-- We keep the "tier-bronze" style class for the border color, but the name is changed -->
-            <div class="package-card tier-bronze">
-                <h3 class="text-center" style="font-size: 1.8rem; color: #CD7F32;">Essential Support</h3>
-                <p class="text-center" style="color: var(--color-text-dim); margin-bottom: 1rem; font-style: italic;">Focused on coordination for smaller events.</p>
-
-                <!-- Price Box -->
-                <div class="price-box" style="text-align: center; margin-bottom: 1.5rem; padding: 10px; background-color: var(--color-surface-dark); border-radius: 6px;">
-                    <span style="font-size: 2.5rem; font-weight: 900; color: var(--color-text-light);">₱25,000</span>
-                    <p style="font-size: 0.9rem; color: var(--color-text-dim); margin: 0;">Starting Price</p>
-                </div>
-
-                <!-- Feature List -->
-                <ul>
-                    <li><i class="fas fa-check-circle"></i> Basic Vendor Vetting</li>
-                    <li><i class="fas fa-check-circle"></i> Timeline Planning</li>
-                    <li><i class="fas fa-check-circle"></i> Day-of Coordination</li>
-                    <!-- Use red X for excluded features -->
-                    <li><i class="fas fa-times-circle" style="color: var(--color-error);"></i> Budget Oversight</li>
-                    <li><i class="fas fa-times-circle" style="color: var(--color-error);"></i> Custom Design Concept</li>
-                </ul>
-                <!-- LINK CHANGED to 'booking' with package parameter -->
-                <a href="{{ url_for('booking') }}?package=Essential%20Support" class="button primary-btn small-btn" style="width: 100%;"><i class="fas fa-briefcase"></i> Book Essential</a>
-            </div>
-
-            <!-- SIGNATURE PLANNING TIER CARD (Silver Equivalent) - HIGHLIGHTED AS POPULAR -->
-            <!-- We keep the "tier-silver" style class for the border color -->
-            <div class="package-card tier-silver" style="transform: scale(1.05); box-shadow: 0 15px 30px rgba(76, 175, 80, 0.3); border-color: var(--color-primary-green);">
-                <p class="text-center" style="margin-bottom: 0.5rem; color: var(--color-primary-green); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;"> Most Popular </p>
-                <h3 class="text-center" style="font-size: 2.2rem; color: #C0C0C0;">Signature Planning</h3>
-                <p class="text-center" style="color: var(--color-text-dim); margin-bottom: 1rem; font-style: italic;">Comprehensive planning and full execution.</p>
-
-                <!-- Price Box - Highlighted -->
-                <div class="price-box" style="text-align: center; margin-bottom: 1.5rem; padding: 15px; background-color: var(--color-surface-dark); border-radius: 6px; border: 2px solid var(--color-primary-green);">
-                    <span style="font-size: 3rem; font-weight: 900; color: var(--color-primary-green);">₱55,000</span>
-                    <p style="font-size: 1rem; color: var(--color-text-dim); margin: 0;">Starting Price</p>
-                </div>
-
-                <!-- Feature List -->
-                <ul>
-                    <li><i class="fas fa-check-circle"></i> **Complete Vendor Management**</li>
-                    <li><i class="fas fa-check-circle"></i> Detailed Event Timeline</li>
-                    <li><i class="fas fa-check-circle"></i> Full On-Site Coordination</li>
-                    <li><i class="fas fa-check-circle"></i> Budget Oversight</li>
-                    <li><i class="fas fa-times-circle" style="color: var(--color-error);"></i> Custom Design Concept</li>
-                </ul>
-                <!-- LINK CHANGED to 'booking' with package parameter -->
-                <a href="{{ url_for('booking') }}?package=Signature%20Planning" class="button primary-btn" style="width: 100%;"><i class="fas fa-star"></i> Select Signature</a>
-            </div>
-
-            <!-- PREMIER EXPERIENCE TIER CARD (Gold Equivalent) -->
-            <!-- We keep the "tier-gold" style class for the border color -->
-            <div class="package-card tier-gold">
-                <h3 class="text-center" style="font-size: 1.8rem; color: #FFD700;">Premier Experience</h3>
-                <p class="text-center" style="color: var(--color-text-dim); margin-bottom: 1rem; font-style: italic;">The ultimate stress-free, fully styled event.</p>
-
-                <!-- Price Box -->
-                <div class="price-box" style="text-align: center; margin-bottom: 1.5rem; padding: 10px; background-color: var(--color-surface-dark); border-radius: 6px;">
-                    <span style="font-size: 2.5rem; font-weight: 900; color: var(--color-text-light);">₱90,000+</span>
-                    <p style="font-size: 0.9rem; color: var(--color-text-dim); margin: 0;">Starting Price</p>
-                </div>
-
-                <!-- Feature List -->
-                <ul>
-                    <li><i class="fas fa-check-circle"></i> **Full-Service Planning & Design**</li>
-                    <li><i class="fas fa-check-circle"></i> Dedicated Event Manager</li>
-                    <li><i class="fas fa-check-circle"></i> Premium Coordination & Execution</li>
-                    <li><i class="fas fa-check-circle"></i> Budget Management</li>
-                    <li><i class="fas fa-check-circle"></i> Custom Styling & Concept</li>
-                </ul>
-                <!-- LINK CHANGED to 'booking' with package parameter -->
-                <a href="{{ url_for('booking') }}?package=Premier%20Experience" class="button primary-btn small-btn" style="width: 100%;"><i class="fas fa-crown"></i> Go Premier</a>
-            </div>
-
-        </div>
-
-        <div class="text-center" style="margin-top: 4rem;">
-            <h4 style="color: var(--color-primary-green); font-size: 1.2rem; margin-bottom: 0.5rem;">The Perfect Fit Awaits</h4>
-            <p style="color: var(--color-text-dim); font-style: italic;">Need something in between or for an international event? <a href="{{ url_for('contact') }}" class="secondary-btn small-btn" style="margin-left: 10px; text-transform: none; padding: 5px 10px;">Contact us for a Custom Quote</a>.</p>
-        </div>
-
-    </div>
-</section>
 {% endblock %}
